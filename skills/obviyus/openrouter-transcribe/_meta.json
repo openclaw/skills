@@ -1,0 +1,11 @@
+{
+  "owner": "obviyus",
+  "slug": "openrouter-transcribe",
+  "displayName": "Transcribe audio files via OpenRouter using audio-capable models",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1767631754781,
+    "commit": null
+  },
+  "history": []
+}

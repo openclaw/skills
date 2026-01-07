@@ -1,0 +1,11 @@
+{
+  "owner": "jdrhyne",
+  "slug": "jira",
+  "displayName": "JIRA",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1767659435374,
+    "commit": null
+  },
+  "history": []
+}

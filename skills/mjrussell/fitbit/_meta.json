@@ -1,0 +1,11 @@
+{
+  "owner": "mjrussell",
+  "slug": "fitbit",
+  "displayName": "Fitbit",
+  "latest": {
+    "version": "0.1.0",
+    "publishedAt": 1767897090774,
+    "commit": null
+  },
+  "history": []
+}

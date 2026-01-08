@@ -31,6 +31,7 @@ Choose a track based on your goal:
 - Use async/await with `.task` and explicit loading/error states.
 - Maintain existing legacy patterns only when editing legacy files.
 - Follow the project's formatter and style guide.
+- **Sheets**: Prefer `.sheet(item:)` over `.sheet(isPresented:)` when state represents a selected model. Avoid `if let` inside a sheet body. Sheets should own their actions and call `dismiss()` internally instead of forwarding `onCancel`/`onConfirm` closures.
 
 ## Workflow for a new SwiftUI view
 
@@ -48,6 +49,44 @@ Use `references/components-index.md` as the entry point. Each component referenc
 - Minimal usage pattern with local conventions.
 - Pitfalls and performance notes.
 - Paths to existing examples in the current repo.
+
+## Sheet patterns
+
+### Item-driven sheet (preferred)
+
+```swift
+@State private var selectedItem: Item?
+
+.sheet(item: $selectedItem) { item in
+    EditItemSheet(item: item)
+}
+```
+
+### Sheet owns its actions
+
+```swift
+struct EditItemSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(Store.self) private var store
+
+    let item: Item
+    @State private var isSaving = false
+
+    var body: some View {
+        VStack {
+            Button(isSaving ? "Saving…" : "Save") {
+                Task { await save() }
+            }
+        }
+    }
+
+    private func save() async {
+        isSaving = true
+        await store.save(item)
+        dismiss()
+    }
+}
+```
 
 ## Adding a new component reference
 

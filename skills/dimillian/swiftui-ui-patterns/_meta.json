@@ -3,9 +3,15 @@
   "slug": "swiftui-ui-patterns",
   "displayName": "Swiftui Ui Patterns",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1767864167729,
-    "commit": "https://github.com/clawdbot/skills/commit/8123f170e0b000f6f5d8311c7f488f8f2abb677f"
+    "version": "1.0.1",
+    "publishedAt": 1767873746528,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1767864167729,
+      "commit": "https://github.com/clawdbot/skills/commit/8123f170e0b000f6f5d8311c7f488f8f2abb677f"
+    }
+  ]
 }

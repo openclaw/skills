@@ -1,0 +1,69 @@
+{
+  "name": "@clawdbot/skill-update",
+  "version": "1.0.0",
+  "description": "Comprehensive backup, update, and restore workflow for Clawdbot with dynamic workspace detection",
+  "type": "module",
+  "keywords": [
+    "clawdbot",
+    "skill",
+    "backup",
+    "restore",
+    "update",
+    "multi-agent",
+    "workspace",
+    "git"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clawdbot/clawdbot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/clawdbot/clawdbot/issues"
+  },
+  "homepage": "https://clawdhub.com",
+  "license": "MIT",
+  "author": {
+    "name": "Pascal Schott",
+    "github": "pasogott"
+  },
+  "files": [
+    "*.sh",
+    "*.md",
+    "*.json",
+    "!package.json"
+  ],
+  "scripts": {
+    "dryrun": "./backup-clawdbot-dryrun.sh",
+    "backup": "./backup-clawdbot-full.sh",
+    "restore": "./restore-clawdbot.sh",
+    "validate": "./validate-setup.sh",
+    "check": "./check-upstream.sh"
+  },
+  "clawdbot": {
+    "type": "skill",
+    "category": "system",
+    "tags": [
+      "backup",
+      "update",
+      "restore",
+      "multi-agent",
+      "maintenance"
+    ],
+    "requirements": {
+      "bash": ">=4.0",
+      "jq": ">=1.6",
+      "tar": "*",
+      "git": "*"
+    },
+    "features": {
+      "dynamicWorkspaces": true,
+      "multiAgent": true,
+      "dryRun": true,
+      "gitIntegration": true,
+      "validation": true
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

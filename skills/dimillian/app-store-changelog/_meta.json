@@ -3,9 +3,15 @@
   "slug": "app-store-changelog",
   "displayName": "App Store Changelog",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1767861991261,
-    "commit": "https://github.com/clawdbot/skills/commit/a016aa21c5e39a286764f402ad0ddcde00980afc"
+    "version": "1.0.1",
+    "publishedAt": 1767862955875,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1767861991261,
+      "commit": "https://github.com/clawdbot/skills/commit/a016aa21c5e39a286764f402ad0ddcde00980afc"
+    }
+  ]
 }

@@ -1,0 +1,11 @@
+{
+  "owner": "tobiasbischoff",
+  "slug": "bambu-cli",
+  "displayName": "Manage Bambu Labs 3D Printers thru your Agent",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1767889915984,
+    "commit": null
+  },
+  "history": []
+}

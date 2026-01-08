@@ -9,6 +9,7 @@ CONFIG_FILE="$HOME/.clawdbot/credentials/radarr/config.json"
 if [ -f "$CONFIG_FILE" ]; then
   RADARR_URL=$(jq -r '.url' "$CONFIG_FILE")
   RADARR_API_KEY=$(jq -r '.apiKey' "$CONFIG_FILE")
+  DEFAULT_QUALITY_PROFILE=$(jq -r '.defaultQualityProfile // empty' "$CONFIG_FILE")
 fi
 
 if [ -z "$RADARR_URL" ] || [ -z "$RADARR_API_KEY" ]; then
@@ -58,17 +59,32 @@ case "$cmd" in
     
   add)
     tmdbId="$1"
+    qualityProfileId="$2"
     searchFlag="true"
-    if [ "$2" = "--no-search" ]; then
-      searchFlag="false"
-    fi
+    
+    # Check for --no-search flag
+    for arg in "$@"; do
+      if [ "$arg" = "--no-search" ]; then
+        searchFlag="false"
+      fi
+    done
     
     # Get movie details from lookup
     movie=$(curl -s -H "$AUTH" "$API/movie/lookup/tmdb?tmdbId=$tmdbId")
     
-    # Get default root folder and quality profile
+    # Get default root folder
     rootFolder=$(curl -s -H "$AUTH" "$API/rootfolder" | jq -r '.[0].path')
-    qualityProfile=$(curl -s -H "$AUTH" "$API/qualityprofile" | jq -r '.[0].id')
+    
+    # Use provided quality profile ID, config default, or first available
+    if [ -z "$qualityProfileId" ] || [ "$qualityProfileId" = "--no-search" ]; then
+      if [ -n "$DEFAULT_QUALITY_PROFILE" ]; then
+        qualityProfile="$DEFAULT_QUALITY_PROFILE"
+      else
+        qualityProfile=$(curl -s -H "$AUTH" "$API/qualityprofile" | jq -r '.[0].id')
+      fi
+    else
+      qualityProfile="$qualityProfileId"
+    fi
     
     # Build add request
     addRequest=$(echo "$movie" | jq --arg rf "$rootFolder" --argjson qp "$qualityProfile" --argjson search "$searchFlag" '
@@ -232,7 +248,7 @@ case "$cmd" in
     echo "  search-json <query>         Search (JSON output)"
     echo "  exists <tmdbId>             Check if movie is in library"
     echo "  config                      Show root folders & quality profiles"
-    echo "  add <tmdbId> [--no-search]  Add a movie (searches by default)"
+    echo "  add <tmdbId> [profileId] [--no-search]  Add a movie (searches by default)"
     echo "  add-collection <tmdbId> [--no-search]  Add full collection"
     echo "  remove <tmdbId>             Remove a movie from library"
     echo "  collection-info <tmdbId>    Get collection details"

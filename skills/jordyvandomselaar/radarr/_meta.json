@@ -3,9 +3,15 @@
   "slug": "radarr",
   "displayName": "Radarr",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1767859241659,
-    "commit": "https://github.com/clawdbot/skills/commit/2b6c0c7295377fd1fd60d5f6c7b6d276ea0c4127"
+    "version": "1.2.0",
+    "publishedAt": 1767862856769,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1767859241659,
+      "commit": "https://github.com/clawdbot/skills/commit/2b6c0c7295377fd1fd60d5f6c7b6d276ea0c4127"
+    }
+  ]
 }

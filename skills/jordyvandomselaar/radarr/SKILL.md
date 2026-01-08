@@ -11,11 +11,15 @@ Add movies to your Radarr library with collection support.
 
 ## Setup
 
-Set environment variables:
-```bash
-export RADARR_URL="http://localhost:7878"  # Your Radarr URL
-export RADARR_API_KEY="your-api-key"       # Settings → General → API Key
+Create `~/.clawdbot/credentials/radarr/config.json`:
+```json
+{
+  "url": "http://localhost:7878",
+  "apiKey": "your-api-key",
+  "defaultQualityProfile": 1
+}
 ```
+- `defaultQualityProfile`: Quality profile ID (run `config` to see options)
 
 ## Workflow
 
@@ -28,6 +32,7 @@ export RADARR_API_KEY="your-api-key"       # Settings → General → API Key
 ## Important
 - **Always include TMDB links** when presenting search results to user
 - Format: `[Title (Year)](https://themoviedb.org/movie/ID)`
+- Uses `defaultQualityProfile` from config; can override per-add
 
 ## Commands
 

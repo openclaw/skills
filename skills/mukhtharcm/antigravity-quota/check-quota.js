@@ -97,6 +97,21 @@ function formatTime(isoString) {
   if (!isoString) return 'N/A';
   try {
     const date = new Date(isoString);
+    const now = new Date();
+    const hoursUntilReset = (date - now) / (1000 * 60 * 60);
+    
+    // If reset is more than 8 hours away, include the date
+    if (hoursUntilReset > 8) {
+      return date.toLocaleDateString('en-US', {
+        timeZone: timezone,
+        month: 'short',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true
+      });
+    }
+    
     return date.toLocaleTimeString('en-US', { 
       timeZone: timezone, 
       hour: 'numeric', 
@@ -114,7 +129,9 @@ function formatQuota(models) {
   for (const modelId of TARGET_MODELS) {
     const model = models[modelId];
     if (model?.quotaInfo) {
-      const pct = (model.quotaInfo.remainingFraction * 100).toFixed(1);
+      // If remainingFraction is missing/null, quota is exhausted (0%)
+      const fraction = model.quotaInfo.remainingFraction ?? 0;
+      const pct = (fraction * 100).toFixed(1);
       results.push({ 
         model: modelId, 
         quota: parseFloat(pct), 

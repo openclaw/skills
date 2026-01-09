@@ -1,6 +1,7 @@
 ---
 name: antigravity-quota
-description: Check Antigravity account quotas for Claude and Gemini models. Shows remaining quota and reset times.
+version: 1.1.0
+description: Check Antigravity account quotas for Claude and Gemini models. Shows remaining quota and reset times with ban detection.
 metadata: {"clawdbot":{"emoji":"📊","requires":{"bins":["node"]}}}
 ---
 

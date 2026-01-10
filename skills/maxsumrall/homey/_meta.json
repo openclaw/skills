@@ -1,0 +1,11 @@
+{
+  "owner": "maxsumrall",
+  "slug": "homey",
+  "displayName": "Homey",
+  "latest": {
+    "version": "0.1.0",
+    "publishedAt": 1768055614758,
+    "commit": null
+  },
+  "history": []
+}

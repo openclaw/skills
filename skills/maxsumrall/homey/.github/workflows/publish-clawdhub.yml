@@ -1,0 +1,52 @@
+name: publish-clawdhub
+
+on:
+  workflow_dispatch:
+    inputs:
+      slug:
+        description: "Override skill slug (defaults to SKILL.md frontmatter name)"
+        required: false
+      name:
+        description: "Override display name (default: Homey)"
+        required: false
+      tags:
+        description: "Comma-separated tags (default: latest)"
+        required: false
+      changelog:
+        description: "Changelog text (optional)"
+        required: false
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      # Pin for reproducibility. Update intentionally when you want to.
+      CLAWDHUB_CLI_VERSION: 0.1.0
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm test
+
+      # Install the official ClawdHub CLI (pinned).
+      - name: Install clawdhub CLI
+        run: npm i -g clawdhub@${CLAWDHUB_CLI_VERSION}
+
+      - name: Publish to ClawdHub
+        env:
+          CLAWDHUB_API_KEY: ${{ secrets.CLAWDHUB_API_KEY }}
+          CLAWDHUB_SLUG: ${{ inputs.slug }}
+          CLAWDHUB_NAME: ${{ inputs.name }}
+          CLAWDHUB_TAGS: ${{ inputs.tags }}
+          CLAWDHUB_CHANGELOG: ${{ inputs.changelog }}
+        run: ./scripts/publish-clawdhub.sh

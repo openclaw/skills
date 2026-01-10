@@ -1,0 +1,11 @@
+{
+  "owner": "thesethrose",
+  "slug": "hetzner",
+  "displayName": "Hetzner Cloud",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1768036807018,
+    "commit": null
+  },
+  "history": []
+}

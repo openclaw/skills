@@ -50,7 +50,7 @@ gemini --yolo \"[RESEARCH PROMPT]\"
 
 The research prompt should ask Gemini to cover:
 1. Overview & Core Concepts - what is this, terminology, why it matters
-2. Current State (2024-2025) - latest developments, major players
+2. Current State - latest developments, major players
 3. Technical Deep Dive - how it works, mechanisms, key techniques
 4. Practical Applications - real-world use cases, tools available
 5. Challenges & Open Problems - technical, ethical, barriers

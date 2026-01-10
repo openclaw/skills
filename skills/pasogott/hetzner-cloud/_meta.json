@@ -1,0 +1,11 @@
+{
+  "owner": "pasogott",
+  "slug": "hetzner-cloud",
+  "displayName": "Hetzner Cloud CLI",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1768074448605,
+    "commit": null
+  },
+  "history": []
+}

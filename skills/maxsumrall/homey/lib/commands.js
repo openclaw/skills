@@ -445,10 +445,35 @@ async function showStatus(options) {
 /**
  * Save token to ~/.homey/config.json
  */
+function validateTokenAsciiNoWhitespace(token, label) {
+  const t = String(token || '');
+  if (!t.trim()) throw cliError('INVALID_VALUE', `${label} token is required`);
+  if (/\s/.test(t)) {
+    throw cliError('INVALID_VALUE', `${label} token contains whitespace (did you paste the wrong thing?)`);
+  }
+  // Be conservative: HTTP Authorization headers must be ASCII-ish; reject obvious non-printable chars.
+  if (!/^[\x21-\x7E]+$/.test(t)) {
+    throw cliError('INVALID_VALUE', `${label} token contains non-ASCII / non-printable characters (paste again)`, {
+      hint: 'use --stdin or --prompt and paste only the token value',
+    });
+  }
+}
+
 async function authSetToken(token, options) {
   const t = String(token || '').trim();
   if (!t) {
     throw cliError('INVALID_VALUE', 'token is required');
+  }
+  validateTokenAsciiNoWhitespace(t, 'cloud');
+
+  // Homey Web App "local API key" is typically a colon-separated triple-part token.
+  // That token is NOT a cloud bearer token; using it in cloud mode yields confusing server errors.
+  const cloudParts = t.split(':');
+  if (cloudParts.length >= 3) {
+    throw cliError(
+      'INVALID_VALUE',
+      'this looks like a local Homey API key (colon-separated). Use: homeycli auth set-local (local/LAN) instead of set-token (cloud).'
+    );
   }
 
   config.saveToken(t);
@@ -483,6 +508,17 @@ async function authSetLocal(token, options) {
   const t = String(token || '').trim();
   if (!t) {
     throw cliError('INVALID_VALUE', 'token is required');
+  }
+
+  validateTokenAsciiNoWhitespace(t, 'local');
+
+  // Local keys are typically triple-part values separated by ':'.
+  const localParts = t.split(':');
+  if (localParts.length < 3) {
+    throw cliError(
+      'INVALID_VALUE',
+      'local token format looks wrong (expected a colon-separated API key from the Homey Web App). If you are hosting remotely, use: homeycli auth set-token (cloud) instead.'
+    );
   }
 
   config.saveLocalConfig({ address, token: t });

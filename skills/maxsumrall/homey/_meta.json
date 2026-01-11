@@ -3,11 +3,16 @@
   "slug": "homey",
   "displayName": "Homey",
   "latest": {
-    "version": "1.1.0",
-    "publishedAt": 1768152660254,
-    "commit": "https://github.com/clawdbot/skills/commit/de16013e95e4120535a0870bb51d28cb08c4942f"
+    "version": "1.1.1",
+    "publishedAt": 1768164348307,
+    "commit": null
   },
   "history": [
+    {
+      "version": "1.1.0",
+      "publishedAt": 1768152660254,
+      "commit": "https://github.com/clawdbot/skills/commit/de16013e95e4120535a0870bb51d28cb08c4942f"
+    },
     {
       "version": "1.0.1",
       "publishedAt": 1768133427978,

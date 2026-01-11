@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.1
+
+- Auth hardening: reject wrong token types early (local triple-part key vs cloud token) and validate token characters to avoid invalid HTTP header errors.
+
 ## 1.1.0
 
 - Add **local + cloud** connection modes with `HOMEY_MODE=auto|local|cloud`.

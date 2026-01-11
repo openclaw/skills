@@ -33,6 +33,8 @@ echo "CLOUD_TOKEN" | homeycli auth set-token --stdin
 # or interactive (hidden input): homeycli auth set-token --prompt
 ```
 
+Note: the colon-separated triple-part key from the Homey Web App is for **local mode** only.
+
 Check status:
 
 ```bash

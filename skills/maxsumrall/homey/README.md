@@ -44,6 +44,10 @@ Use this when you run the agent on a VPS / outside your home network.
 - Create a cloud token in Homey Developer Tools:
   https://tools.developer.homey.app/api/clients
 
+Important:
+- The **colon-separated triple-part key** from the Homey Web App is a **local** API key.
+  It will not work as a cloud token.
+
 (Advanced: you can also set up an OAuth client + flow in Developer Tools; the CLI currently supports token-based auth best.)
 
 ### 3. Configure

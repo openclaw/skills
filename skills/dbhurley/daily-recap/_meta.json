@@ -3,9 +3,15 @@
   "slug": "daily-recap",
   "displayName": "Daily Recap",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1768258708911,
-    "commit": "https://github.com/clawdbot/skills/commit/ce3ed71e3ed68b85e00243308f600e8f2bc3b9ae"
+    "version": "1.0.1",
+    "publishedAt": 1768259031434,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1768258708911,
+      "commit": "https://github.com/clawdbot/skills/commit/ce3ed71e3ed68b85e00243308f600e8f2bc3b9ae"
+    }
+  ]
 }

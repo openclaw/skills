@@ -1,7 +1,8 @@
 {
   "name": "daily-recap",
-  "version": "1.0.0",
-  "description": "Generate a daily recap image with your agent holding a posterboard of accomplishments",
+  "version": "1.0.1",
+  "summary": "Generate a daily recap image with your agent holding a posterboard of accomplishments",
+  "description": "A cron-driven skill that reviews your agent's daily memory files and accomplishments, then generates a custom image of your agent holding a posterboard with the day's wins. Includes weather-appropriate attire and time-of-day lighting based on current conditions.",
   "author": "dbhurley",
   "license": "MIT",
   "keywords": [
@@ -12,7 +13,7 @@
     "posterboard",
     "accomplishments",
     "cron",
-    "telegram"
+    "weather"
   ],
   "dependencies": {
     "skills": ["nano-banana-pro"]
@@ -23,8 +24,8 @@
         "description": "Location for weather lookup (e.g., 'Boston, MA')",
         "required": true
       },
-      "RECAP_TELEGRAM_ID": {
-        "description": "Telegram chat ID for delivery",
+      "RECAP_CHAT_ID": {
+        "description": "Chat ID for image delivery",
         "required": true
       },
       "RECAP_TIME": {

@@ -1,0 +1,11 @@
+{
+  "owner": "stopmoclay",
+  "slug": "supabase",
+  "displayName": "Supabase",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1768342853358,
+    "commit": null
+  },
+  "history": []
+}

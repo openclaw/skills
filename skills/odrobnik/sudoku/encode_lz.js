@@ -8,6 +8,7 @@ if (!jsonStr) {
 }
 
 // Compress to a URL-safe payload for SudokuPad /puzzle/ links.
-// This avoids '+', '/', '=' (which often break when passed through chat systems).
-const compressed = LZString.compressToEncodedURIComponent(jsonStr);
+// Use compressToBase64 to align with SudokuPad's expected decoding.
+// This produces '+', '/', '='.
+const compressed = LZString.compressToBase64(jsonStr);
 console.log(compressed);

@@ -1,0 +1,11 @@
+{
+  "owner": "kylehowells",
+  "slug": "parakeet-mlx",
+  "displayName": "Transcribe Audio with Parakeet MLX",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1768304799849,
+    "commit": null
+  },
+  "history": []
+}

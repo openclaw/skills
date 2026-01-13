@@ -219,7 +219,7 @@ echo "---"
 HTTP_CODE=$(curl -s --max-time 30 -w "%{http_code}" --compressed "${BASE_URL}?${PARAMS}" \
     -H "search-engine-environment: TjP" \
     -H "accept: application/json" \
-    -H "user-agent: skanetrafiken-agent-skill/1.0" \
+    -H "user-agent: skanetrafiken-agent-skill/1.1" \
     -o /tmp/skanetrafiken_response_$$.json)
 
 if [[ "$HTTP_CODE" -ne 200 ]]; then

@@ -49,6 +49,8 @@ is_coordinates() {
 
 # Search for a location and return best match
 # Returns: ID|TYPE|NAME or error
+# Note: For ADDRESS/POI types, returns coordinates as ID with LOCATION type
+#       because the Journey API only supports STOP_AREA and LOCATION types
 search_location() {
     local query="$1"
     local label="$2"  # "origin" or "destination"
@@ -69,7 +71,7 @@ search_location() {
         "https://www.skanetrafiken.se/gw-tps/api/v2/Points?name=${encoded}" \
         -H "search-engine-environment: TjP" \
         -H "accept: application/json" \
-        -H "user-agent: skanetrafiken-agent-skill/1.0" \
+        -H "user-agent: skanetrafiken-agent-skill/1.1" \
         -o /tmp/skanetrafiken_search_$$.json 2>/dev/null) || http_code="000"
 
     if [[ "$http_code" != "200" ]]; then
@@ -97,11 +99,13 @@ search_location() {
     fi
 
     # Get best match (first result)
-    local id name type area
+    local id name type area lat lon
     id=$(echo "$response" | jq -r '.points[0].id2')
     name=$(echo "$response" | jq -r '.points[0].name')
     type=$(echo "$response" | jq -r '.points[0].type')
     area=$(echo "$response" | jq -r '.points[0].area // "Skåne"')
+    lat=$(echo "$response" | jq -r '.points[0].lat // empty')
+    lon=$(echo "$response" | jq -r '.points[0].lon // empty')
 
     # If multiple matches, show alternatives
     if [[ "$count" -gt 1 ]]; then
@@ -113,8 +117,13 @@ search_location() {
         echo "" >&2
     fi
 
-    # Return result (use | delimiter)
-    echo "${id}|${type}|${name}, ${area}"
+    # For ADDRESS and POI types, use coordinates with LOCATION type
+    # The Journey API only supports STOP_AREA and LOCATION (coordinates)
+    if [[ "$type" == "ADDRESS" || "$type" == "POI" ]] && [[ -n "$lat" ]] && [[ -n "$lon" ]]; then
+        echo "${lat}#${lon}|LOCATION|${name}, ${area}"
+    else
+        echo "${id}|${type}|${name}, ${area}"
+    fi
 }
 
 # Main execution

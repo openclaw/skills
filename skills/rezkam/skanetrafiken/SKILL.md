@@ -1,11 +1,11 @@
 ---
 name: skanetrafiken
-description: Skåne public transport trip planner (Skånetrafiken). Use when asking about bus/train journeys, departures, schedules, or directions in Skåne, Sweden. Searches stops, plans trips with real-time delays, supports "travel now", "depart at", and "arrive by" modes.
+description: Skåne public transport trip planner (Skånetrafiken). Plans bus/train journeys with real-time delays. Supports stations, addresses, landmarks, and cross-border trips to Copenhagen.
 license: MIT
 compatibility: Requires curl, jq. Works with Claude Code and compatible agents.
 metadata:
   author: rezkam
-  version: "1.0.0"
+  version: "1.1.0"
   region: sweden
 ---
 
@@ -13,16 +13,7 @@ metadata:
 
 Plan public transport journeys in Skåne, Sweden with real-time departure information.
 
-**Use `trip.sh` for all journey planning - it handles everything in one call.**
-
-## Supported Locations
-
-- **Stations/Stops** - All bus and train stations in Skåne
-- **Addresses** - Street addresses in Skåne and Copenhagen
-- **GPS Coordinates** - Any location as lat#lon (e.g., "55.605#13.003")
-- **Copenhagen** - Cross-border trips to/from Denmark
-
-## Quick Start
+## Command
 
 ```bash
 ./trip.sh <from> <to> [datetime] [mode]
@@ -30,91 +21,148 @@ Plan public transport journeys in Skåne, Sweden with real-time departure inform
 
 | Argument | Description |
 |----------|-------------|
-| `from` | Origin - station name, address, or coordinates |
-| `to` | Destination - station name, address, or coordinates |
-| `datetime` | Optional: "18:30", "tomorrow 09:00", "2026-01-15 09:00" |
-| `mode` | Optional: "depart" (default) or "arrive" |
+| `from` | Origin location |
+| `to` | Destination location |
+| `datetime` | Optional: `"18:30"`, `"tomorrow 09:00"`, `"2026-01-15 09:00"` |
+| `mode` | Optional: `"depart"` (default) or `"arrive"` |
 
 ---
 
-## Examples
+## CRITICAL: Query Formatting Rules
 
-### Station to Station
+**The search API is sensitive to how you format location queries. Follow these rules strictly.**
+
+### DO: Landmarks and POIs
+
+Use the landmark name ONLY. Never append city names.
 
 ```bash
-# Travel now
+# CORRECT - landmark name only
+./trip.sh "Malmö C" "Emporia"
+./trip.sh "Triangeln" "Turning Torso"
+./trip.sh "Stortorget" "Malmö C"
+
+# WRONG - adding city breaks POI search
+./trip.sh "Malmö C" "Emporia, Malmö"      # Returns wrong location!
+./trip.sh "Triangeln, Malmö" "Malmö C"    # Unnecessary, may fail
+```
+
+### DO: Street Addresses
+
+Include city name for addresses to improve accuracy.
+
+```bash
+# CORRECT - address with city
+./trip.sh "Kalendegatan 12, Malmö" "Lund C"
+./trip.sh "Malmö C" "Stora Nygatan 25, Malmö"
+./trip.sh "Drottninggatan 5, Helsingborg" "Malmö C"
+
+# ACCEPTABLE - address without city (works if unambiguous)
+./trip.sh "Kalendegatan 12" "Malmö C"
+```
+
+### DO: Train Stations
+
+Use official station names. Add "C" for central stations.
+
+```bash
+# CORRECT - official names
 ./trip.sh "Malmö C" "Lund C"
+./trip.sh "Malmö Hyllie" "Helsingborg C"
+./trip.sh "Landskrona" "Malmö Triangeln"
 
-# Depart at 18:30
-./trip.sh "Malmö Hyllie" "Malmö C" "18:30"
-
-# Arrive by 09:00 tomorrow
-./trip.sh "Malmö C" "Lund C" "tomorrow 09:00" arrive
+# WRONG - incomplete names
+./trip.sh "Malmö" "Lund"                  # Ambiguous!
 ```
 
-### From Address to Station
+### DO: Copenhagen (Cross-border)
+
+Use Danish station names or search-friendly terms.
 
 ```bash
-# Address in Malmö to station
-./trip.sh "Kalendegatan 12C" "Malmö C" "09:00"
+# CORRECT
+./trip.sh "Malmö C" "København H"
+./trip.sh "Malmö C" "Nørreport"
+./trip.sh "Lund C" "Copenhagen Airport"
 
-# Full address with city
-./trip.sh "Kalendegatan 12C, Malmö" "Lund C"
+# ALSO WORKS
+./trip.sh "Malmö C" "Köpenhamn"
 ```
 
-### From GPS Coordinates
+### DO: GPS Coordinates
+
+Use `lat#lon` format directly.
 
 ```bash
-# Coordinates (lat#lon) to station
 ./trip.sh "55.605#13.003" "Malmö C"
-```
-
-### Cross-border to Copenhagen
-
-```bash
-# Malmö to Copenhagen Central
-./trip.sh "Malmö C" "København H" "18:00"
-
-# To Copenhagen address
-./trip.sh "Malmö C" "Amalienborg Slotsplads" "10:00"
-
-# From Lund to Copenhagen
-./trip.sh "Lund C" "København H" "tomorrow 09:00"
+./trip.sh "Malmö C" "55.572#12.973"
 ```
 
 ---
 
-## DateTime Formats (Swedish time)
+## DO vs DON'T Summary
+
+| Location Type | DO | DON'T |
+|--------------|-----|-------|
+| **Landmarks/POIs** | `"Emporia"` | `"Emporia, Malmö"` |
+| **Shopping centers** | `"Triangeln"` | `"Triangeln, Malmö"` |
+| **Attractions** | `"Turning Torso"` | `"Turning Torso, Malmö"` |
+| **Street addresses** | `"Storgatan 10, Malmö"` | `"Storgatan 10"` (ambiguous) |
+| **Central stations** | `"Malmö C"` | `"Malmö"` or `"Malmö Central"` |
+| **Other stations** | `"Malmö Hyllie"` | `"Hyllie station"` |
+
+---
+
+## Examples by Use Case
+
+### Travel Now
+
+```bash
+./trip.sh "Malmö C" "Lund C"
+./trip.sh "Västra Hamnen" "Emporia"
+```
+
+### Depart at Specific Time
+
+```bash
+./trip.sh "Malmö C" "København H" "18:30"
+./trip.sh "Möllevångstorget" "Malmö C" "tomorrow 08:00"
+```
+
+### Arrive by Specific Time
+
+```bash
+./trip.sh "Lund C" "Malmö C" "09:00" arrive
+./trip.sh "Storgatan 15, Malmö" "Emporia" "10:00" arrive
+```
+
+### Address to Landmark
+
+```bash
+./trip.sh "Regementsgatan 24, Malmö" "Emporia"
+./trip.sh "Södra Förstadsgatan 40, Malmö" "Triangeln"
+```
+
+---
+
+## DateTime Formats
+
+All times are Swedish local time (CET/CEST).
 
 | Format | Example | Meaning |
 |--------|---------|---------|
-| (empty) | | Travel now |
+| _(empty)_ | | Travel now |
 | `HH:MM` | `"18:30"` | Today at 18:30 |
 | `tomorrow HH:MM` | `"tomorrow 09:00"` | Tomorrow at 09:00 |
 | `YYYY-MM-DD HH:MM` | `"2026-01-15 09:00"` | Specific date |
 
 ---
 
-## Understanding Output
+## Output Format
 
-### Example Output
+### Journey Option
 
 ```
-Planning trip...
-
-Searching for origin: Malmö C
-  Found: Malmö C, Skåne
-
-Searching for destination: Lund C
-  Found: Lund C, Skåne
-
-═══════════════════════════════════════════════════════════════
-TRIP: Malmö C, Skåne → Lund C, Skåne
-TIME: tomorrow 09:00 (depart)
-═══════════════════════════════════════════════════════════════
-
-Found 11 journey option(s):
-
 ══════════════════════════════════════════════════════════════
 OPTION 1: Malmö C → Lund C
 ══════════════════════════════════════════════════════════════
@@ -125,8 +173,8 @@ Changes: 0
 
 LEGS:
   → ORESUND Öresundståg 1324
-    From: 09:04 Malmö C [Spår: Se skylt]
-    To:   09:16 Lund C [Spår: Se skylt]
+    From: 09:04 Malmö C [Spår 2b]
+    To:   09:16 Lund C [Spår 1]
     Direction: mot Helsingborg C
 ```
 
@@ -134,18 +182,17 @@ LEGS:
 
 | Type | Description |
 |------|-------------|
-| TRAIN | Pågatåg (regional train) |
-| ORESUND | Öresundståg (cross-border train) |
-| BUS | Local or regional bus |
-| TRAM | Tram/spårvagn |
-| WALK | Walking segment |
+| `TRAIN` | Pågatåg (regional train) |
+| `ORESUND` | Öresundståg (cross-border train) |
+| `BUS` | City or regional bus |
+| `WALK` | Walking segment |
 
 ### Status Indicators
 
-| Status | Meaning |
-|--------|---------|
-| (no indicator) | On time |
-| `[+X min late]` | Delayed X minutes |
+| Indicator | Meaning |
+|-----------|---------|
+| _(none)_ | On time |
+| `[+X min late]` | Delayed |
 | `[-X min early]` | Running early |
 | `[PASSED]` | Already departed |
 | `⚠️ AVVIKELSE` | Service disruption |
@@ -154,60 +201,28 @@ LEGS:
 
 ## Error Handling
 
-The script provides actionable error messages:
+### "No locations found"
 
-### Location Not Found
+The search term returned no results.
 
-```
-ERROR: No locations found for origin: 'Malmo'
-SUGGESTIONS:
-  - Check spelling (Swedish characters: å, ä, ö)
-  - Try a more specific name (e.g., 'Malmö C' instead of 'Malmö')
-  - For addresses, include city (e.g., 'Kalendegatan 12C, Malmö')
-  - For Copenhagen, try 'Köpenhamn' or specific station name
-```
-**Action**: Retry with corrected spelling or more specific name.
+**Fix**: Check spelling, use Swedish characters (å, ä, ö), try official names.
 
-### Multiple Matches
+### "NOTE: Found X matches"
 
-```
-NOTE: Found 18 matches for 'Malmö'. Using best match: Malmö C (STOP_AREA)
-OTHER OPTIONS:
-  - Malmö Hyllie (STOP_AREA) - Skåne
-  - Malmö Triangeln (STOP_AREA) - Skåne
-```
-**Action**: The best match is used automatically. If wrong, use a more specific name.
+Multiple locations matched. The best match is used automatically.
 
-### No Routes Found
+**Fix**: If wrong location was selected, use a more specific name.
 
-```
-No journeys found.
-Tips:
-  - Try a different time
-  - Check if service runs at this hour
-  - Try nearby stops
-```
-**Action**: Retry with different time or nearby stations.
+### "No journeys found"
+
+No routes available for this query.
+
+**Fix**: Try different time, check if service operates at that hour.
 
 ---
 
-## Tips
+## Technical Notes
 
-1. **Use station names directly** - No need to search first, just use names like "Malmö C", "Lund C"
-2. **Swedish characters matter** - Use å, ä, ö for Swedish place names
-3. **Be specific** - "Malmö C" works better than "Malmö"
-4. **Copenhagen names** - Use Danish spelling "København H" or search "Copenhagen"
-5. **Coordinates** - Use lat#lon format directly, e.g., "55.605#13.003"
-
----
-
-## Advanced: Low-level Scripts
-
-For advanced use cases, individual scripts are also available:
-
-| Script | Purpose |
-|--------|---------|
-| `search-location.sh <name>` | Search for location IDs |
-| `journey.sh <from-id> <type> <to-id> <type> [time] [mode]` | Plan with specific IDs |
-
-These are used internally by `trip.sh` and rarely needed directly.
+- The script converts addresses and POIs to GPS coordinates internally
+- Only `STOP_AREA` (stations) and `LOCATION` (coordinates) are sent to the journey API
+- Swedish timezone is used for all time parsing and display

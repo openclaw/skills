@@ -28,7 +28,7 @@ echo "---"
 HTTP_CODE=$(curl -s --max-time 30 -w "%{http_code}" --compressed "https://www.skanetrafiken.se/gw-tps/api/v2/Points?name=${ENCODED_QUERY}" \
     -H "search-engine-environment: TjP" \
     -H "accept: application/json" \
-    -H "user-agent: skanetrafiken-agent-skill/1.0" \
+    -H "user-agent: skanetrafiken-agent-skill/1.1" \
     -o /tmp/skanetrafiken_points_$$.json)
 
 if [[ "$HTTP_CODE" -ne 200 ]]; then

@@ -6,6 +6,10 @@ An [Agent Skills](https://agentskills.io) compatible skill for AI agents.
 
 ## Installation
 
+### Clawdhub
+
+Install from [clawdhub.com/rezkam/skanetrafiken](https://clawdhub.com/rezkam/skanetrafiken)
+
 ### Claude Code
 
 ```bash
@@ -15,20 +19,7 @@ git clone https://github.com/rezkam/skanetrafiken.git ~/.claude/skills/skanetraf
 ### Clawdbot
 
 ```bash
-git clone https://github.com/rezkam/skanetrafiken.git ~/clawd/skills/skanetrafiken
-```
-
-### Manual Installation
-
-Copy the skill directory to your agent's skills folder:
-
-```
-your-skills-directory/
-└── skanetrafiken/
-    ├── SKILL.md
-    ├── trip.sh
-    ├── journey.sh
-    └── search-location.sh
+git clone https://github.com/rezkam/skanetrafiken.git ~/clawdbot/skills/skanetrafiken
 ```
 
 ## Requirements
@@ -36,57 +27,42 @@ your-skills-directory/
 - `curl` - HTTP requests
 - `jq` - JSON processing
 
-## Quick Start
-
-```bash
-./trip.sh "Malmö C" "Lund C"
-./trip.sh "Kalendegatan 12C" "Malmö C" "09:00"
-./trip.sh "Malmö C" "København H" "tomorrow 18:00"
-```
-
 ## Usage
 
 ```bash
 ./trip.sh <from> <to> [datetime] [mode]
 ```
 
-| Argument | Description |
-|----------|-------------|
-| `from` | Origin - station name, address, or coordinates (lat#lon) |
-| `to` | Destination - station name, address, or coordinates |
-| `datetime` | Optional: "18:30", "tomorrow 09:00", "2026-01-15 09:00" |
-| `mode` | Optional: "depart" (default) or "arrive" |
+## Quick Examples
 
-## Supported Locations
+```bash
+./trip.sh "Malmö C" "Lund C"
+./trip.sh "Kalendegatan 12, Malmö" "Emporia" "09:00"
+./trip.sh "Malmö C" "København H" "tomorrow 18:00" arrive
+```
 
-- **Stations** - All bus/train stations in Skåne
-- **Addresses** - Street addresses in Skåne and Copenhagen
-- **Coordinates** - GPS as lat#lon (e.g., "55.605#13.003")
-- **Copenhagen** - Cross-border trips to/from Denmark
+## Query Formatting (Important)
+
+| Location Type | Correct | Wrong |
+|--------------|---------|-------|
+| Landmarks/POIs | `"Emporia"` | `"Emporia, Malmö"` |
+| Street addresses | `"Storgatan 10, Malmö"` | `"Storgatan 10"` |
+| Central stations | `"Malmö C"` | `"Malmö"` |
+
+**Key rule**: Never append city names to landmarks or POIs - it returns wrong locations.
 
 ## Features
 
-- Single-call trip planning (no IDs needed)
+- Single-call trip planning
 - Real-time delay information
-- Three time modes: now, depart at, arrive by
+- Three modes: travel now, depart at, arrive by
 - Platform/track information
 - Disruption alerts
-- Cross-border support (Copenhagen)
-
-## Skill Structure
-
-```
-skanetrafiken/
-├── SKILL.md              # Skill definition (agentskills.io format)
-├── README.md             # This file
-├── trip.sh               # Main script - single-call trip planning
-├── journey.sh            # Low-level journey planning with IDs
-└── search-location.sh    # Location search utility
-```
+- Cross-border Copenhagen support
 
 ## Documentation
 
-See [SKILL.md](SKILL.md) for detailed usage instructions and examples.
+See [SKILL.md](SKILL.md) for complete usage guide and examples.
 
 ## License
 

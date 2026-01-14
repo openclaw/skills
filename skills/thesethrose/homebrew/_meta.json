@@ -1,0 +1,11 @@
+{
+  "owner": "thesethrose",
+  "slug": "homebrew",
+  "displayName": "Homebrew Package Manager",
+  "latest": {
+    "version": "1.0.1",
+    "publishedAt": 1768363325998,
+    "commit": null
+  },
+  "history": []
+}

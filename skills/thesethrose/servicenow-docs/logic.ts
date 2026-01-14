@@ -130,23 +130,78 @@ async function getArticle(url: string): Promise<string> {
 
 // List available documentation versions
 async function listVersions(): Promise<string> {
-  // Common ServiceNow versions
+  // ServiceNow versions (ordered by release date, newest first)
   const versions = [
-    { name: 'Washington DC', code: 'washingtondc', status: 'Latest' },
-    { name: 'Zurich', code: 'zurich', status: 'Previous' },
-    { name: 'Yokohama', code: 'yokohama', status: 'Older' },
+    { name: 'Zurich', code: 'zurich', status: 'Latest' },
+    { name: 'Yokohama', code: 'yokohama', status: 'Previous' },
+    { name: 'Washington DC', code: 'washingtondc', status: 'Older' },
     { name: 'Xanadu', code: 'xanadu', status: 'Legacy' },
   ];
 
   let output = `📚 **ServiceNow Documentation Versions**\n`;
   output += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-  versions.forEach((v, i) => {
-    const status = v.status === 'Latest' ? '✅' : v.status === 'Previous' ? '📗' : '📙';
-    output += `${status} ${v.name} (${v.code})\n`;
+  versions.forEach((v) => {
+    const icon = v.status === 'Latest' ? '✅' : v.status === 'Previous' ? '📗' : '📙';
+    output += `${icon} ${v.name} (${v.code})\n`;
   });
 
   output += `\n_Search results default to latest version unless specified._`;
+
+  return output;
+}
+
+// Get the latest release notes (searches all versions and returns most recent)
+async function getLatestReleaseNotes(): Promise<string> {
+  const versions = ['zurich', 'yokohama', 'washingtondc'];
+  const versionNames: Record<string, string> = {
+    'zurich': 'Zurich',
+    'yokohama': 'Yokohama',
+    'washingtondc': 'Washington DC'
+  };
+
+  let latestResult: SearchResult | null = null;
+  let latestVersion = '';
+
+  // Search release notes for each version
+  for (const version of versions) {
+    try {
+      const url = `${ZOOMIN_API}?q=release%20notes%20${version}&limit=3`;
+      const response = await fetch(url);
+      if (!response.ok) continue;
+
+      const data: SearchResponse = await response.json();
+      const results = data.SearchResults || [];
+
+      for (const result of results) {
+        const resultDate = new Date(result.updatedOn);
+        if (!latestResult || resultDate > new Date(latestResult.updatedOn)) {
+          latestResult = result;
+          latestVersion = versionNames[version];
+        }
+      }
+    } catch (error) {
+      console.error(`Error checking ${version}:`, error);
+    }
+  }
+
+  if (!latestResult) {
+    return 'Error: Could not find release notes for any version';
+  }
+
+  const date = new Date(latestResult.updatedOn).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  let output = `📦 **Latest ServiceNow Release Notes**\n`;
+  output += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
+  output += `🎯 **${latestVersion}** (Latest Release)\n\n`;
+  output += `📄 ${latestResult.title}\n`;
+  output += `${latestResult.snippet}\n\n`;
+  output += `🔗 ${latestResult.link}\n`;
+  output += `📅 Updated: ${date}`;
 
   return output;
 }
@@ -185,4 +240,11 @@ export const servicenow_list_versions: ToolDef = {
   execute: async () => listVersions(),
 };
 
-export const tools = [servicenow_search, servicenow_get_article, servicenow_list_versions];
+export const servicenow_latest_release: ToolDef = {
+  name: 'servicenow_latest_release',
+  description: 'Get release notes for the latest ServiceNow version (automatically finds Zurich, Yokohama, or Washington DC)',
+  schema: z.object({}),
+  execute: async () => getLatestReleaseNotes(),
+};
+
+export const tools = [servicenow_search, servicenow_get_article, servicenow_list_versions, servicenow_latest_release];

@@ -1,13 +1,18 @@
 {
   "owner": "bjesuiter",
   "slug": "prd",
-  "displayName": "PRD",
+  "displayName": "Prd",
   "latest": {
-    "version": "2.0.4",
-    "publishedAt": 1768135721147,
-    "commit": "https://github.com/clawdbot/skills/commit/8c8143525d68dc962b5153bc405e8685b3b483f3"
+    "version": "2.0.5",
+    "publishedAt": 1768388387876,
+    "commit": null
   },
   "history": [
+    {
+      "version": "2.0.4",
+      "publishedAt": 1768135721147,
+      "commit": "https://github.com/clawdbot/skills/commit/8c8143525d68dc962b5153bc405e8685b3b483f3"
+    },
     {
       "version": "2.0.0",
       "publishedAt": 1768134224171,

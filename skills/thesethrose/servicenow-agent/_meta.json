@@ -1,0 +1,11 @@
+{
+  "owner": "thesethrose",
+  "slug": "servicenow-agent",
+  "displayName": "ServiceNow Agent",
+  "latest": {
+    "version": "0.1.0",
+    "publishedAt": 1768511602008,
+    "commit": null
+  },
+  "history": []
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "name": "recent-incidents",
+    "table": "incident",
+    "sysparm_limit": 5,
+    "sysparm_fields": "number,short_description,priority,sys_id"
+  },
+  {
+    "name": "p1-active",
+    "table": "incident",
+    "sysparm_query": "active=true^priority=1",
+    "sysparm_limit": 10,
+    "sysparm_fields": "number,short_description,priority,opened_at,sys_id"
+  }
+]

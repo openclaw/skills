@@ -1,0 +1,11 @@
+{
+  "owner": "snopoke",
+  "slug": "tailscale-serve",
+  "displayName": "Tailscale Serve",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1768481186279,
+    "commit": null
+  },
+  "history": []
+}

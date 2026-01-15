@@ -1,11 +1,17 @@
 {
   "owner": "thesethrose",
   "slug": "kraken",
-  "displayName": "Kraken Crypto",
+  "displayName": "Kraken",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1768035036294,
-    "commit": "https://github.com/clawdbot/skills/commit/9839c27116345fb9f601ce18b1f1b23d16e64574"
+    "version": "1.1.2",
+    "publishedAt": 1768440198595,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1768035036294,
+      "commit": "https://github.com/clawdbot/skills/commit/9839c27116345fb9f601ce18b1f1b23d16e64574"
+    }
+  ]
 }

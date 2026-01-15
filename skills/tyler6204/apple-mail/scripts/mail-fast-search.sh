@@ -10,8 +10,7 @@ LIMIT="${2:-20}"
 
 # CRITICAL SAFETY CHECK: Mail.app MUST be quit to avoid WAL locking conflicts
 # Direct SQLite access while Mail.app is running can corrupt the Envelope Index database
-# Note: pgrep can catch background helper processes, so we use osascript to check the actual app
-if osascript -e 'tell application "System Events" to (name of processes) contains "Mail"' 2>/dev/null | grep -q true; then
+if pgrep -x "Mail" >/dev/null 2>&1; then
   echo "╔══════════════════════════════════════════════════════════════════════════════╗" >&2
   echo "║  ⛔ ERROR: Mail.app is running - CANNOT safely access database              ║" >&2
   echo "║                                                                              ║" >&2

@@ -59,6 +59,7 @@ uv run {baseDir}/scripts/plan_event.py "date night" \
 - `--preferences`: Comma-separated (e.g., "vegetarian, outdoor seating, live music")
 - `--start-time`: When to start (default: inferred from event type)
 - `--output`: text|json (default: text)
+- `--date`: Target date in YYYY-MM-DD format for day-specific checks (default: today)
 
 ## Output Format
 
@@ -71,7 +72,17 @@ uv run {baseDir}/scripts/plan_event.py "date night" \
 - **API limits**: Google Places API has usage quotas (check your billing)
 - **Real-time data**: Venue hours may change; always confirm before going
 - **Budget estimates**: Based on Google's price level (0-4), not exact costs
-- **Travel times**: Estimated via distance; traffic not considered
+- **Travel times**: Uses Google Directions API when available; falls back to distance-based estimates with 30% buffer
+- **Opening hours**: Places without verified hours will show warnings; do not assume availability
+- **Event venues**: Cultural centers, theaters, and event spaces may have variable hours depending on scheduled events
+
+## API Requirements
+
+The event planner uses:
+- **Google Places API (New)**: Required for venue search
+- **Google Directions API**: Optional but recommended for accurate travel times
+
+Both APIs can use the same `GOOGLE_PLACES_API_KEY` if enabled in Google Cloud Console.
 
 ## Error Handling
 

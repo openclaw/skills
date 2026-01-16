@@ -44,7 +44,8 @@ class Venue:
     price_level: int
     place_id: str
     types: list[str]
-    open_now: bool
+    open_now: bool | None  # None means unknown
+    hours_known: bool
     user_ratings_total: int
 
 
@@ -62,6 +63,8 @@ class ItineraryItem:
     duration_minutes: int
     departure_time: str
     travel_from_previous_minutes: int
+    travel_distance_km: float = 0.0  # Walking distance in km
+    travel_time_source: str = ""  # 'directions_api' or 'estimated'
 
 
 @dataclass
@@ -105,8 +108,22 @@ EVENT_TEMPLATES = {
     ],
 }
 
+# Venue types with variable hours or event-dependent operation
+EVENT_DEPENDENT_TYPES = {
+    "cultural_center",
+    "performing_arts_theater",
+    "event_venue",
+    "community_center",
+    "concert_hall",
+    "theater",
+    "night_club",
+    "movie_theater",
+    "amusement_park",
+}
+
 # Google Places API configuration
 BASE_URL = "https://places.googleapis.com/v1"
+DIRECTIONS_URL = "https://maps.googleapis.com/maps/api/directions/json"
 API_KEY = os.environ.get("GOOGLE_PLACES_API_KEY", "")
 
 
@@ -208,6 +225,22 @@ def resolve_location(location: str) -> Coordinates | None:
     )
 
 
+def search_venues_with_fallback(query: str, location: Coordinates, filters: dict) -> list[Venue]:
+    """Search with expanding radius if too few results."""
+    venues = search_venues(query, location, filters, radius=5000)
+
+    if len(venues) < 3:
+        # Try larger radius
+        venues = search_venues(query, location, filters, radius=10000)
+
+    if len(venues) < 3:
+        # Try without min_rating filter
+        relaxed = {k: v for k, v in filters.items() if k != "min_rating"}
+        venues = search_venues(query, location, relaxed, radius=10000)
+
+    return venues
+
+
 def search_venues(query: str, location: Coordinates, filters: dict, radius: int = 5000) -> list[Venue]:
     """Search for venues near a location."""
     body = {
@@ -252,8 +285,14 @@ def search_venues(query: str, location: Coordinates, filters: dict, radius: int 
         }
         price_int = price_map.get(price_level, 2)
 
-        # Check open status
-        open_now = place.get("currentOpeningHours", {}).get("openNow", True)
+        # Check open status - don't assume open if unknown
+        current_hours = place.get("currentOpeningHours")
+        if current_hours is not None:
+            open_now = current_hours.get("openNow")  # May still be None if not present
+            hours_known = True
+        else:
+            open_now = None
+            hours_known = False
 
         # Apply filters
         min_rating = filters.get("min_rating", 0.0)
@@ -269,6 +308,7 @@ def search_venues(query: str, location: Coordinates, filters: dict, radius: int 
             place_id=place_id,
             types=types,
             open_now=open_now,
+            hours_known=hours_known,
             user_ratings_total=user_rating_count
         )
         venues.append(venue)
@@ -291,11 +331,43 @@ def calculate_distance(coord1: Coordinates, coord2: Coordinates) -> float:
     return R * c
 
 
-def calculate_travel_time(origin: Coordinates, destination: Coordinates) -> int:
-    """Calculate travel time in minutes (walking speed ~3mph)."""
-    distance = calculate_distance(origin, destination)
-    # 3 mph walking = 20 minutes per mile
-    return int(distance * 20)
+def get_directions_info(origin: Coordinates, dest: Coordinates, mode: str = "walking") -> tuple[int, float] | None:
+    """Get travel time (minutes) and distance (km) via Google Directions API."""
+    params = {
+        "origin": f"{origin.lat},{origin.lng}",
+        "destination": f"{dest.lat},{dest.lng}",
+        "mode": mode,
+        "key": API_KEY,
+    }
+    try:
+        resp = requests.get(DIRECTIONS_URL, params=params, timeout=10)
+        if resp.status_code == 200:
+            data = resp.json()
+            if data.get("status") == "OK":
+                leg = data["routes"][0]["legs"][0]
+                duration_min = leg["duration"]["value"] // 60
+                distance_km = leg["distance"]["value"] / 1000
+                return (duration_min, distance_km)
+    except Exception as e:
+        print(f"Directions API error: {e}", file=sys.stderr)
+    return None
+
+
+def calculate_travel_time(origin: Coordinates, destination: Coordinates) -> tuple[int, float, str]:
+    """Calculate travel time and distance using Directions API with Haversine fallback.
+
+    Returns (minutes, distance_km, source) where source is 'directions_api' or 'estimated'.
+    """
+    # Try Directions API first
+    result = get_directions_info(origin, destination)
+    if result is not None:
+        return (result[0], result[1], "directions_api")
+
+    # Fallback: Haversine with 30% buffer for realistic routes
+    distance_miles = calculate_distance(origin, destination)
+    distance_km = distance_miles * 1.609
+    haversine_time = int(distance_miles * 20 * 1.3)  # 3mph + 30% buffer
+    return (haversine_time, distance_km * 1.3, "estimated")
 
 
 def select_best_venues(venues: list[Venue], origin: Coordinates, budget: BudgetConstraints, count: int = 1) -> list[Venue]:
@@ -328,6 +400,25 @@ def select_best_venues(venues: list[Venue], origin: Coordinates, budget: BudgetC
     scores.sort(key=lambda x: x[0], reverse=True)
 
     return [venue for _, venue in scores[:count]]
+
+
+def check_venue_warnings(venue: Venue) -> list[str]:
+    """Generate warnings for venues with variable availability."""
+    warnings = []
+
+    # Event-dependent venues
+    venue_types = set(venue.types or [])
+    event_types = venue_types & EVENT_DEPENDENT_TYPES
+    if event_types:
+        warnings.append(f"{venue.name} may have variable hours - check schedule before visiting")
+
+    # Unknown opening hours
+    if not venue.hours_known:
+        warnings.append(f"Opening hours for {venue.name} could not be verified")
+    elif venue.open_now is False:
+        warnings.append(f"{venue.name} appears to be currently closed")
+
+    return warnings
 
 
 def generate_google_maps_link(start_location: str, venues: list[Venue]) -> str:
@@ -404,12 +495,19 @@ def generate_itinerary(event_type: str, location: str, party_size: int, budget_s
     prev_location = None
 
     for i, venue in enumerate(venues):
-        # Travel time from previous
+        # Check venue-specific warnings
+        venue_warnings = check_venue_warnings(venue)
+        warnings.extend(venue_warnings)
+
+        # Travel time and distance from previous
         travel_time = 0
+        travel_distance_km = 0.0
+        travel_source = ""
         if prev_location:
-            travel_time = calculate_travel_time(prev_location, venue.location)
+            travel_time, travel_distance_km, travel_source = calculate_travel_time(prev_location, venue.location)
             if travel_time > 20:
-                warnings.append(f"Long walk to {venue.name}: {travel_time} minutes")
+                source_note = " (estimated)" if travel_source == "estimated" else ""
+                warnings.append(f"Long walk to {venue.name}: {travel_time} minutes{source_note}")
 
         # Arrival time
         if i > 0:
@@ -428,7 +526,9 @@ def generate_itinerary(event_type: str, location: str, party_size: int, budget_s
             arrival_time=arrival_time,
             duration_minutes=duration,
             departure_time=departure_time,
-            travel_from_previous_minutes=travel_time
+            travel_from_previous_minutes=travel_time,
+            travel_distance_km=travel_distance_km,
+            travel_time_source=travel_source
         )
         items.append(item)
 
@@ -494,23 +594,22 @@ def format_output_text(itinerary: Itinerary) -> str:
         )
 
         # Travel row (if not last)
-        if i < len(itinerary.items) - 1 and item.travel_from_previous_minutes > 0:
-            next_travel = itinerary.items[i+1].travel_from_previous_minutes
+        if i < len(itinerary.items) - 1:
+            next_item = itinerary.items[i+1]
+            next_travel = next_item.travel_from_previous_minutes
             if next_travel > 0:
-                distance = calculate_distance(venue.location, itinerary.items[i+1].venue.location)
+                distance_km = next_item.travel_distance_km
+                source_note = " ~" if next_item.travel_time_source == "estimated" else ""
                 lines.append(
-                    f"| *Walk {next_travel} min* | - | - | - | - | {distance:.1f} mi |"
+                    f"| *Walk {next_travel} min{source_note}* | - | - | - | - | {distance_km:.1f} km |"
                 )
 
     # Total walking distance
-    total_distance = sum(
-        calculate_distance(itinerary.items[i].venue.location, itinerary.items[i+1].venue.location)
-        for i in range(len(itinerary.items) - 1)
-    )
+    total_distance_km = sum(item.travel_distance_km for item in itinerary.items)
 
     lines.extend([
         "",
-        f"**Total Walking**: {total_distance:.1f} mi",
+        f"**Total Walking**: {total_distance_km:.1f} km",
         f"**Estimated Cost**: {itinerary.total_cost_estimate}",
         "",
         f"🗺️ **[View Route on Google Maps]({itinerary.map_link})**",
@@ -548,12 +647,15 @@ def format_output_json(itinerary: Itinerary) -> str:
                 "place_id": item.venue.place_id,
                 "types": item.venue.types,
                 "open_now": item.venue.open_now,
+                "hours_known": item.venue.hours_known,
                 "user_ratings_total": item.venue.user_ratings_total,
             },
             "arrival_time": item.arrival_time,
             "duration_minutes": item.duration_minutes,
             "departure_time": item.departure_time,
             "travel_from_previous_minutes": item.travel_from_previous_minutes,
+            "travel_distance_km": item.travel_distance_km,
+            "travel_time_source": item.travel_time_source,
         })
 
     output = {
@@ -615,6 +717,10 @@ def main():
         default="text",
         help="Output format (default: text)"
     )
+    parser.add_argument(
+        "--date",
+        help="Target date in YYYY-MM-DD format for day-specific checks (default: today)"
+    )
 
     args = parser.parse_args()
 
@@ -639,22 +745,36 @@ def main():
     # Get event template
     template = EVENT_TEMPLATES.get(args.event_type, EVENT_TEMPLATES["dinner"])
 
-    # Search for venues for each template item
+    # Search for venues for each template item (with deduplication)
     all_venues = []
+    selected_place_ids: set[str] = set()
 
     for template_item in template:
         query = template_item["query"]
         filters = template_item["filters"]
 
         print(f"Searching for: {query}", file=sys.stderr)
-        venues = search_venues(query, coords, filters)
+        venues = search_venues_with_fallback(query, coords, filters)
 
-        if venues:
-            # Select best venue
-            best = select_best_venues(venues, coords, budget, count=1)
+        # Filter out already-selected venues
+        available = [v for v in venues if v.place_id not in selected_place_ids]
+
+        if available:
+            # Select best venue from available
+            best = select_best_venues(available, coords, budget, count=1)
             if best:
-                all_venues.extend(best)
+                all_venues.append(best[0])
+                selected_place_ids.add(best[0].place_id)
                 print(f"  Found: {best[0].name} ({best[0].rating}⭐, {best[0].price_level})", file=sys.stderr)
+        elif venues:
+            # All filtered out - use best if not already selected
+            best = select_best_venues(venues, coords, budget, count=1)
+            if best and best[0].place_id not in selected_place_ids:
+                all_venues.append(best[0])
+                selected_place_ids.add(best[0].place_id)
+                print(f"  Found (fallback): {best[0].name} ({best[0].rating}⭐)", file=sys.stderr)
+            else:
+                print(f"  No unique venues available for: {query}", file=sys.stderr)
         else:
             print(f"  No venues found for: {query}", file=sys.stderr)
 

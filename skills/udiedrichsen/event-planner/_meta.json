@@ -3,9 +3,15 @@
   "slug": "event-planner",
   "displayName": "Event Planner",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1768391881592,
-    "commit": "https://github.com/clawdbot/skills/commit/3b8b824f6b384dd9c26e2e7385bd64a9384eae04"
+    "version": "1.1.0",
+    "publishedAt": 1768555855984,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1768391881592,
+      "commit": "https://github.com/clawdbot/skills/commit/3b8b824f6b384dd9c26e2e7385bd64a9384eae04"
+    }
+  ]
 }

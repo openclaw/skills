@@ -85,6 +85,8 @@ Each email is summarized using the Gemini CLI (`gemini`):
 - The summary is medium-to-long length natural language (not scraped content)
 - Falls back to cleaned body text if Gemini is unavailable
 
+**Important:** The email body is passed as part of the prompt (not via stdin) because the gemini CLI doesn't handle piped input with prompts correctly.
+
 **Example output:**
 ```
 🔴 **William Ryan: Invitation to team meeting**
@@ -97,6 +99,13 @@ Each email is summarized using the Gemini CLI (`gemini`):
 - 🟢 Green dot = Read email
 
 All emails show one of these markers for visual consistency.
+
+## Formatting Notes
+
+**Subject and Summary Cleanup:**
+- Extra quotes are automatically stripped from subject lines (e.g., `""Agent Skills""` → `Agent Skills`)
+- Summaries from Gemini are also cleaned of leading/trailing quotes
+- This ensures clean, readable output in Telegram/other channels
 
 ## Cron Schedule
 

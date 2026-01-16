@@ -3,11 +3,16 @@
   "slug": "morning-email-rollup",
   "displayName": "Morning Email Rollup",
   "latest": {
-    "version": "2.0.0",
-    "publishedAt": 1768552309561,
-    "commit": "https://github.com/clawdbot/skills/commit/538e20a0f9cb42984c3c8ad97c769bca8a88b061"
+    "version": "2.1.0",
+    "publishedAt": 1768589827150,
+    "commit": null
   },
   "history": [
+    {
+      "version": "2.0.0",
+      "publishedAt": 1768552309561,
+      "commit": "https://github.com/clawdbot/skills/commit/538e20a0f9cb42984c3c8ad97c769bca8a88b061"
+    },
     {
       "version": "1.0.3",
       "publishedAt": 1768526523340,

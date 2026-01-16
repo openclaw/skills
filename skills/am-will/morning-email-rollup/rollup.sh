@@ -1,7 +1,8 @@
 #!/bin/bash
 # Morning Email Rollup - Important emails from the last 24 hours
 
-set -uo pipefail
+# Temporarily disable strict mode for debugging
+# set -uo pipefail
 
 GOG_ACCOUNT="${GOG_ACCOUNT:-your-email@gmail.com}"
 MAX_EMAILS="${MAX_EMAILS:-10}"  # Default to 10, can be overridden via environment variable
@@ -28,7 +29,9 @@ if command -v gog &> /dev/null; then
     CALENDAR_EVENTS=$(gog calendar events primary --from "$TODAY" --to "$TOMORROW" --account "$GOG_ACCOUNT" 2>/dev/null)
 
     # Check if there are events (more than just the header line)
-    EVENT_COUNT=$(echo "$CALENDAR_EVENTS" | tail -n +2 | grep -c . || echo "0")
+    EVENT_COUNT=$(echo "$CALENDAR_EVENTS" | tail -n +2 | grep -c . 2>/dev/null || echo "0")
+    # Ensure EVENT_COUNT is a clean number
+    EVENT_COUNT=$(echo "$EVENT_COUNT" | tr -cd '0-9')
 
     if [[ "$EVENT_COUNT" -gt 0 ]]; then
         echo "📅 **$EVENT_COUNT calendar event(s) today**"
@@ -95,12 +98,15 @@ summarize_email() {
     fi
 
     # Use gemini to get a 1-sentence summary
-    # Filter out "Loaded cached credentials" line
+    # Pass body as part of the prompt (piping doesn't work with prompts)
+    # IMPORTANT: Redirect stdin to /dev/null to prevent consuming the while loop's input
     local summary
-    summary=$(echo "$body" | gemini --model gemini-2.0-flash "Summarize this email in exactly 1 sentence of natural language. Make it medium to long length. Don't use quotes:" 2>&1 | grep -v "Loaded cached" | tail -1)
+    summary=$(gemini --model gemini-2.0-flash "Summarize this email in exactly 1 sentence of natural language. Make it medium to long length. Don't use quotes:
 
-    # Clean up the summary (remove any newlines, extra spaces)
-    summary=$(echo "$summary" | tr -s ' ' | sed 's/^ *//' | sed 's/ *$//' | head -1)
+$body" </dev/null 2>&1 | grep -v "Loaded cached" | tail -1)
+
+    # Clean up the summary (remove any quotes, newlines, extra spaces)
+    summary=$(echo "$summary" | sed 's/^["'\'']//' | sed 's/["'\'']$//' | tr -s ' ' | sed 's/^ *//' | sed 's/ *$//' | head -1)
 
     # If gemini failed or returned empty, return cleaned body snippet
     if [[ -z "$summary" ]] || [[ ${#summary} -lt 10 ]]; then
@@ -112,7 +118,12 @@ summarize_email() {
 
 # Process up to MAX_EMAILS
 email_counter=0
-echo "$IMPORTANT_EMAILS" | jq -r '.threads[] | "\(.id)"' | while IFS= read -r thread_id; do
+# Use a temporary file for the thread IDs to avoid subshell issues
+THREAD_IDS=$(echo "$IMPORTANT_EMAILS" | jq -r '.threads[] | "\(.id)"')
+# Use a temp file to avoid <<< issues
+TEMP_THREAD_IDS=$(mktemp)
+echo "$THREAD_IDS" > "$TEMP_THREAD_IDS"
+while IFS= read -r thread_id; do
     [[ -z "$thread_id" ]] && continue
 
     # Limit to MAX_EMAILS
@@ -121,16 +132,28 @@ echo "$IMPORTANT_EMAILS" | jq -r '.threads[] | "\(.id)"' | while IFS= read -r th
     fi
     email_counter=$((email_counter + 1))
 
+    # Skip thread_id if it's not an actual ID (jq output validation)
+    if [[ "$thread_id" =~ ^[a-f0-9]{12,}$ ]]; then
+        # Continue processing
+        :
+    else
+        continue
+    fi
+
     # Get email details
-    email_data=$(gog gmail get "$thread_id" --account "$GOG_ACCOUNT" 2>/dev/null)
+    email_data=$(gog gmail get "$thread_id" --account "$GOG_ACCOUNT" 2>/dev/null) || true
 
     if [[ -z "$email_data" ]]; then
+        echo "DEBUG: No email data for thread_id=$thread_id" >&2
         continue
     fi
 
     # Extract fields
     from=$(echo "$email_data" | grep "^from" | cut -f2-)
     subject=$(echo "$email_data" | grep "^subject" | cut -f2-)
+
+    # Clean subject - remove extra quotes and trim whitespace
+    subject=$(echo "$subject" | sed 's/^["'\'']//' | sed 's/["'\'']$//' | sed 's/^ *//' | sed 's/ *$//')
 
     # Get sender name only (strip email address)
     sender_name=$(echo "$from" | sed 's/<.*>//' | sed 's/^[[:space:]]*//' | sed 's/[[:space:]]*$//')
@@ -158,7 +181,7 @@ echo "$IMPORTANT_EMAILS" | jq -r '.threads[] | "\(.id)"' | while IFS= read -r th
         head -c 5000)
 
     # Get AI summary
-    summary=$(summarize_email "$cleaned_body")
+    summary=$(summarize_email "$cleaned_body") || true
 
     # Check read/unread status
     labels=$(echo "$email_data" | grep "^label_ids" | cut -f2-)
@@ -172,7 +195,10 @@ echo "$IMPORTANT_EMAILS" | jq -r '.threads[] | "\(.id)"' | while IFS= read -r th
     echo "   $summary"
     echo ""
 
-done
+done < "$TEMP_THREAD_IDS"
+
+# Clean up temp file
+rm -f "$TEMP_THREAD_IDS"
 
 log "✅ Rollup complete: $EMAIL_COUNT emails"
 echo ""

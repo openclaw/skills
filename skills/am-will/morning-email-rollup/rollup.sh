@@ -39,15 +39,18 @@ if command -v gog &> /dev/null; then
             
             # Parse gog output: ID START END SUMMARY
             start_full=$(echo "$line" | awk '{print $2}')
+            end_full=$(echo "$line" | awk '{print $3}')
             title=$(echo "$line" | awk '{$1=$2=$3=""; print $0}' | sed 's/^[[:space:]]*//')
             
             # Extract time from ISO format (e.g., 2026-01-15T05:00:00-07:00)
             start_time=$(echo "$start_full" | cut -d'T' -f2 | cut -d'-' -f1 | cut -d'+' -f1 | cut -d':' -f1-2)
+            end_time=$(echo "$end_full" | cut -d'T' -f2 | cut -d'-' -f1 | cut -d'+' -f1 | cut -d':' -f1-2)
             
             # Convert to 12-hour format
             start_12h=$(date -d "$start_time" '+%I:%M %p' 2>/dev/null | sed 's/^0//' | sed 's/:00//')
+            end_12h=$(date -d "$end_time" '+%I:%M %p' 2>/dev/null | sed 's/^0//' | sed 's/:00//')
             
-            echo "• $title - $start_12h"
+            echo "• $title - $start_12h to $end_12h"
         done
         echo ""
         log "📅 Calendar events listed ($EVENT_COUNT events)"

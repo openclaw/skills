@@ -1,0 +1,6 @@
+exception_type,reason,source_a_id,source_b_id,pay_number,name,field,source_a_value,source_b_value
+MISSING_IN_A,No match found in source A,,,,,,,
+MISSING_IN_B,No match found in source B,,,,,,,
+MISMATCH,Field differs across sources,,,,,,,
+DUPLICATE_KEY,Key appears more than once in a source,,,,,,,
+INVALID_KEY,Key missing or invalid,,,,,,,

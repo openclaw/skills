@@ -1,0 +1,11 @@
+{
+  "owner": "chris-clem",
+  "slug": "dexcom",
+  "displayName": "Dexcom CGM",
+  "latest": {
+    "version": "1.0.4",
+    "publishedAt": 1768731960533,
+    "commit": null
+  },
+  "history": []
+}

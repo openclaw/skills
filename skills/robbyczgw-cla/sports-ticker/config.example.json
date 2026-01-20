@@ -1,0 +1,27 @@
+{
+  "teams": [
+    {
+      "name": "Tottenham Hotspur",
+      "short_name": "Spurs",
+      "emoji": "🐓",
+      "espn_id": "367",
+      "espn_leagues": ["eng.1", "uefa.champions"],
+      "enabled": true
+    },
+    {
+      "name": "Grazer AK",
+      "short_name": "GAK",
+      "emoji": "🔴⚫",
+      "espn_id": "21846",
+      "espn_leagues": ["aut.1"],
+      "enabled": true
+    }
+  ],
+  "alerts": {
+    "goals": true,
+    "red_cards": true,
+    "halftime": true,
+    "fulltime": true,
+    "kickoff": true
+  }
+}

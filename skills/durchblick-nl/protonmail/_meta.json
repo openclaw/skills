@@ -1,0 +1,11 @@
+{
+  "owner": "durchblick-nl",
+  "slug": "protonmail",
+  "displayName": "ProtonMail",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1768890874197,
+    "commit": null
+  },
+  "history": []
+}

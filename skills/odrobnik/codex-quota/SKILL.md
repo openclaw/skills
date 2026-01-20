@@ -22,6 +22,7 @@ codex-quota
 ```bash
 codex-quota              # Show current quota (cached from latest session)
 codex-quota --fresh      # Ping Codex first for live data
+codex-quota --all        # Update all accounts, save to /tmp/codex-quota-all.json
 codex-quota --json       # Output as JSON
 codex-quota --help       # Show help
 ```

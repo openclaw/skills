@@ -327,19 +327,140 @@ issue_details() {
   local issue="$1"
   local resp
   resp=$(api GET "/rest/api/3/issue/${issue}?fields=key,summary,status,assignee,priority,reporter,components,fixVersions")
-  echo "$resp" | jq -r '
-    {
-      key,
-      summary: .fields.summary,
-      status: .fields.status.name,
-      priority: .fields.priority.name,
-      assignee: (.fields.assignee.displayName // "Unassigned"),
-      reporter: (.fields.reporter.displayName // "Unknown"),
-      components: (.fields.components | map(.name) | join(", ")),
-      fixVersions: (.fields.fixVersions | map(.name) | join(", "))
-    } |
-    "\(.key): \(.summary)\nStatus: \(.status) | Priority: \(.priority)\nAssignee: \(.assignee) | Reporter: \(.reporter)\nComponents: \(.components // \"-\") | FixVersions: \(.fixVersions // \"-\")"
-  '
+  if echo "$resp" | jq -e '.errorMessages? // [] | length > 0' >/dev/null 2>&1; then
+    echo "$resp" | jq -r '.errorMessages[]'
+    return
+  fi
+  local line
+  line=$(echo "$resp" | jq -r '[
+    .key,
+    (.fields.summary // "Unknown"),
+    (.fields.status.name // "Unknown"),
+    (.fields.priority.name // "None"),
+    (.fields.assignee.displayName // "Unassigned"),
+    (.fields.reporter.displayName // "Unknown"),
+    (((.fields.components // []) | map(.name) | join(", ")) // "-"),
+    (((.fields.fixVersions // []) | map(.name) | join(", ")) // "-")
+  ] | @tsv')
+  IFS=$'\t' read -r key summary status priority assignee reporter components fix <<<"$line"
+  printf "%s: %s\n" "$key" "$summary"
+  printf "Status: %s | Priority: %s\n" "$status" "$priority"
+  printf "Assignee: %s | Reporter: %s\n" "$assignee" "$reporter"
+  printf "Components: %s | FixVersions: %s\n" "$components" "$fix"
+}
+
+fetch_issue_worklogs() {
+  local issue="$1"
+  local out_file="$2"
+  : >"$out_file"
+  local start=0
+  local total=0
+  local max=100
+  while :; do
+    local resp
+    resp=$(api GET "/rest/api/3/issue/${issue}/worklog?startAt=${start}&maxResults=${max}")
+    echo "$resp" | jq -c '.worklogs[]?' >>"$out_file"
+    total=$(echo "$resp" | jq -r '.total // 0')
+    local fetched
+    fetched=$(echo "$resp" | jq -r '(.worklogs | length) // 0')
+    if [[ $fetched -eq 0 ]]; then
+      break
+    fi
+    start=$((start + fetched))
+    if [[ $start -ge $total ]]; then
+      break
+    fi
+  done
+}
+
+hours_for_issue() {
+  local issue="$1"
+  local user_filter="${2:-}"
+  local account=""
+  if [[ -n "$user_filter" ]]; then
+    account=$(find_account_id "$user_filter" || true)
+  fi
+
+  local tmp_logs tmp_issue_details tmp_issue_map
+  tmp_logs=$(mktemp)
+  tmp_issue_details=$(mktemp)
+  tmp_issue_map=$(mktemp)
+
+  fetch_issue_worklogs "$issue" "$tmp_logs"
+  if [[ ! -s "$tmp_logs" ]]; then
+    echo "{\"issue\":\"${issue}\",\"totalHours\":0,\"users\":[]}"
+    rm -f "$tmp_logs" "$tmp_issue_details" "$tmp_issue_map"
+    return 0
+  fi
+
+  # ensure we can map issue id to key (handles case-insensitive key input)
+  api GET "/rest/api/3/issue/${issue}?fields=key,summary" \
+    | jq -c '{key, summary: .fields.summary}' >"$tmp_issue_details"
+  jq -s 'map({key, summary}) | (.[0] // {})' "$tmp_issue_details" >"$tmp_issue_map"
+
+  local issue_meta
+  issue_meta=$(cat "$tmp_issue_map")
+  local issue_key issue_summary
+  issue_key=$(echo "$issue_meta" | jq -r '.key // "'"$issue"'"')
+  issue_summary=$(echo "$issue_meta" | jq -r '.summary // "Unknown"')
+
+  python3 - "$issue_key" "$issue_summary" "$user_filter" "$account" "$tmp_logs" <<'PY'
+import json, re, sys
+from datetime import datetime
+
+issue_key, issue_summary, user_filter, account_filter, path = sys.argv[1:]
+user_filter = (user_filter or "").lower()
+account_filter = account_filter or ""
+
+users = {}
+total_seconds = 0
+
+with open(path) as fh:
+    for line in fh:
+        line = line.strip()
+        if not line:
+            continue
+        log = json.loads(line)
+        author = log.get("author") or {}
+        email = author.get("emailAddress") or "unknown"
+        display = author.get("displayName") or email
+        account_id = author.get("accountId") or ""
+        if user_filter or account_filter:
+            matches_text = False
+            if user_filter:
+                if user_filter in email.lower() or user_filter in display.lower():
+                    matches_text = True
+            matches_acct = account_filter and account_id == account_filter
+            if not (matches_text or matches_acct):
+                continue
+        seconds = int(log.get("timeSpentSeconds") or 0)
+        total_seconds += seconds
+        if email not in users:
+            users[email] = {"email": email, "displayName": display, "seconds": 0}
+        users[email]["seconds"] += seconds
+
+result = {
+    "issue": issue_key,
+    "summary": issue_summary,
+    "totalHours": round(total_seconds / 3600, 2),
+    "users": sorted(
+        [
+            {
+                "email": v["email"],
+                "displayName": v["displayName"],
+                "hours": round(v["seconds"] / 3600, 2),
+            }
+            for v in users.values()
+        ],
+        key=lambda x: x["hours"],
+        reverse=True,
+    ),
+}
+
+print(json.dumps(result))
+PY
+
+  rm -f "$tmp_logs" "$tmp_issue_details" "$tmp_issue_map"
 }
 
 comment_issue() {
@@ -695,6 +816,15 @@ case "$cmd" in
     fi
     hours_for_day "$day" "$user_filter"
     ;;
+  hours-issue|issue-hours|hours-task|task-hours)
+    issue="${1:-}"
+    user_filter="${2:-}"
+    if [[ -z "$issue" ]]; then
+      echo "Usage: jira.sh hours-issue ABC-123 [name|email]" >&2
+      exit 1
+    fi
+    hours_for_issue "$issue" "$user_filter"
+    ;;
   help|*)
     cat <<'EOF'
 Jira CLI - worklogs and issues
@@ -713,6 +843,7 @@ Commands:
   my [max]                    Open issues assigned to you
   hours <start> <end>         Your logged hours by issue (JSON)
   hours-day <day> [user]      Logged hours for a day (JSON, optional name/email filter)
+  hours-issue <ABC-123> [user] Logged hours for an issue (JSON, optional name/email filter)
 EOF
     ;;
 esac

@@ -1,0 +1,88 @@
+{
+  "name": "@clawdbot/smart-followups",
+  "version": "1.0.0",
+  "description": "Clawdbot skill: Say 'followups' to get 3 contextual suggestions (Quick, Deep Dive, Related) as buttons or text",
+  "main": "handler.js",
+  "bin": {
+    "followups-cli": "./cli/followups-cli.js"
+  },
+  "scripts": {
+    "test": "node cli/followups-cli.js --help && echo 'CLI OK'",
+    "demo": "echo '[{\"user\":\"What is Docker?\",\"assistant\":\"Docker is a containerization platform.\"}]' | node cli/followups-cli.js --mode text"
+  },
+  "keywords": [
+    "clawdbot",
+    "skill",
+    "follow-up",
+    "suggestions",
+    "ai",
+    "conversation",
+    "telegram",
+    "discord",
+    "slack",
+    "signal",
+    "whatsapp",
+    "imessage",
+    "chat"
+  ],
+  "author": "Robby <robby@clawdbot.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/robbyczgw-cla/smart-followups.git"
+  },
+  "homepage": "https://clawdhub.com/skills/smart-followups",
+  "bugs": {
+    "url": "https://github.com/robbyczgw-cla/smart-followups/issues"
+  },
+  "clawdbot": {
+    "skill": true,
+    "handler": "handler.js",
+    "cli": "cli/followups-cli.js",
+    "triggers": ["followups", "follow-ups", "suggestions", "what should I ask"],
+    "capabilities": [
+      "inline-buttons",
+      "text-fallback"
+    ],
+    "channels": {
+      "telegram": "buttons",
+      "discord": "buttons",
+      "slack": "buttons",
+      "signal": "text",
+      "whatsapp": "text",
+      "imessage": "text",
+      "sms": "text",
+      "matrix": "text",
+      "email": "text"
+    },
+    "config": {
+      "provider": {
+        "type": "string",
+        "default": "clawdbot",
+        "enum": ["clawdbot", "openrouter", "anthropic"],
+        "description": "Authentication provider"
+      },
+      "model": {
+        "type": "string",
+        "default": null,
+        "description": "Model override (null = inherit from session)"
+      },
+      "apiKey": {
+        "type": "string",
+        "description": "API key for openrouter/anthropic providers"
+      }
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "handler.js",
+    "cli/",
+    "README.md",
+    "SKILL.md",
+    "CHANNELS.md",
+    "FAQ.md",
+    "LICENSE"
+  ]
+}

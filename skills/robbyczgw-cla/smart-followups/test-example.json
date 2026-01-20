@@ -1,0 +1,10 @@
+[
+  {
+    "user": "What is Docker?",
+    "assistant": "Docker is a containerization platform that packages applications with their dependencies into lightweight, portable containers. It uses OS-level virtualization to deploy software in packages called containers, which are isolated from one another and bundle their own software, libraries and configuration files."
+  },
+  {
+    "user": "How is it different from virtual machines?",
+    "assistant": "Key differences: 1) Containers share the host OS kernel while VMs include a full OS copy, 2) Containers are more lightweight (MBs vs GBs), 3) Containers start in seconds while VMs take minutes, 4) VMs provide stronger isolation through hypervisor, 5) Containers are better for microservices, VMs better for running different operating systems."
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "name": "whatsapp-video",
+  "version": "1.0.0",
+  "description": "Create animated WhatsApp-style chat videos with iPhone frame, auto-scroll, and large fonts",
+  "author": "danpeguine",
+  "repository": "https://github.com/danpeguine/whatsapp-video-skill",
+  "dependencies": {
+    "skills": [
+      "remotion-dev/skills"
+    ]
+  },
+  "defaults": {
+    "aspectRatio": "4:5",
+    "dimensions": "1080x1350",
+    "fps": 30,
+    "intro": false,
+    "outro": false,
+    "autoScroll": true,
+    "fontScale": 2
+  },
+  "platforms": ["x", "tiktok", "instagram", "youtube-shorts"],
+  "aspectRatios": ["4:5", "9:16", "1:1", "16:9"],
+  "features": [
+    "iphone-frame",
+    "dark-mode",
+    "auto-scroll", 
+    "typing-indicator",
+    "read-receipts",
+    "link-previews",
+    "sound-effects",
+    "spring-animations"
+  ],
+  "tags": ["video", "whatsapp", "remotion", "social-media", "animation", "chat"]
+}

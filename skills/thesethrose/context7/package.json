@@ -1,0 +1,20 @@
+{
+  "name": "context7-cli",
+  "version": "1.0.0",
+  "description": "Context7 MCP CLI for querying documentation",
+  "type": "module",
+  "scripts": {
+    "query": "tsx query.ts",
+    "read": "tsx read.ts",
+    "explore": "tsx explore.ts"
+  },
+  "dependencies": {
+    "mcp-client": "^1.13.1",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "tsx": "^4.6.0",
+    "typescript": "^5.3.0"
+  }
+}

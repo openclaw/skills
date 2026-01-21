@@ -1,0 +1,33 @@
+# Extract timestamp
+(if .timestamp then 
+    (.timestamp | split("T")[1] | split(".")[0] | .[0:5])
+else 
+    "00:00"
+end) as $time |
+
+# Get text content
+([.message.content[]? | select(.type == "text") | .text] | join("\n\n")) as $text_content |
+
+# Only output if there's actual text content AND it's not a system message
+if ($text_content | length) > 0 and ($text_content | startswith("System:") | not) then
+    if .message.role == "user" then
+        # Get text content, replace paragraph breaks with <br><br>, then add > to all lines
+        ($text_content |
+         gsub("\n\n"; "<br><br>") |  # Paragraph breaks
+         gsub("\n"; "\n> ")) as $formatted |  # Line breaks
+        # User message in blue callout
+        "> [!quote] 🐉 User · " + $time + "\n> " + $formatted + "\n"
+        
+    elif .message.role == "assistant" then
+        # Get text content, replace paragraph breaks with <br><br>, then add > to all lines
+        ($text_content |
+         gsub("\n\n"; "<br><br>") |  # Paragraph breaks
+         gsub("\n"; "\n> ")) as $formatted |  # Line breaks
+        # Zoidbot message in green callout
+        "> [!check] 🦞 Zoidbot · " + $time + "\n> " + $formatted + "\n"
+    else
+        empty
+    end
+else
+    empty
+end

@@ -1,0 +1,19 @@
+# Obsidian Conversation Backup - Configuration
+# Copy this file to 'config' and edit the paths
+
+# Where to save markdown snapshots
+VAULT_DIR="/root/ObsidianVault/Clawd Markdowns"
+
+# Where Clawdbot session files are stored
+SESSION_DIR="/root/.clawdbot/agents/main/sessions"
+
+# Where to store tracking files (.last_save_line_count, etc.)
+TRACKING_DIR="/root/clawd"
+
+# Telegram bot token (for warning notifications)
+# Leave empty if not using Telegram warnings
+BOT_TOKEN=""
+
+# Your Telegram chat ID (for warnings)
+# Leave empty if not using Telegram warnings
+CHAT_ID="440263016"

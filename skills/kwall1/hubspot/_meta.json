@@ -1,0 +1,11 @@
+{
+  "owner": "kwall1",
+  "slug": "hubspot",
+  "displayName": "HubSpot",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769037980589,
+    "commit": null
+  },
+  "history": []
+}

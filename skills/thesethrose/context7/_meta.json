@@ -1,11 +1,17 @@
 {
   "owner": "thesethrose",
   "slug": "context7",
-  "displayName": "Context7 Documentation",
+  "displayName": "Context7 MCP",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1768362931439,
-    "commit": "https://github.com/clawdbot/skills/commit/a4717042ce11805690652622250f818684e67523"
+    "version": "1.0.3",
+    "publishedAt": 1769015493568,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1768362931439,
+      "commit": "https://github.com/clawdbot/skills/commit/a4717042ce11805690652622250f818684e67523"
+    }
+  ]
 }

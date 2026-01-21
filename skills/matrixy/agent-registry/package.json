@@ -1,0 +1,24 @@
+{
+  "name": "@claude-code/agent-registry",
+  "version": "1.0.0",
+  "description": "Lazy-loading system for Claude Code agents - reduce token overhead by 70-90%",
+  "keywords": [
+    "claude-code",
+    "agents",
+    "ai",
+    "cli",
+    "skills"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MaTriXy/Agent-Registry.git"
+  },
+  "author": "Yossi Elkrief",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "scripts": {
+    "postinstall": "echo '\n✓ Agent Registry installed! Run: python3 scripts/init_registry.py\n'"
+  }
+}

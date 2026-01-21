@@ -1,0 +1,11 @@
+{
+  "owner": "matrixy",
+  "slug": "agent-registry",
+  "displayName": "Agent Registry",
+  "latest": {
+    "version": "0.1.0",
+    "publishedAt": 1769032962117,
+    "commit": null
+  },
+  "history": []
+}

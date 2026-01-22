@@ -63,7 +63,9 @@ class KreaAPI:
         self.token = f"{key_id}:{secret}"
         self.headers = {
             "Authorization": f"Bearer {self.token}",
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "User-Agent": "Mozilla/5.0 (compatible; Klawf/1.0; +https://clawdhub.com/FossilizedCarlos/krea-api)"
         }
     
     def _get_config(self, key: str) -> Optional[str]:
@@ -139,8 +141,12 @@ class KreaAPI:
         """Get the status and result of a job."""
         url = f"{self.BASE_URL}/jobs/{job_id}"
         req = urllib.request.Request(url, method="GET")
-        req.add_header("Authorization", f"Bearer {self.token}")
-        
+        for k, v in self.headers.items():
+            # Content-Type is harmless on GET but unnecessary.
+            if k.lower() == "content-type":
+                continue
+            req.add_header(k, v)
+
         with urllib.request.urlopen(req, timeout=60) as response:
             return json.loads(response.read().decode())
     
@@ -178,24 +184,27 @@ class KreaAPI:
 
 def main():
     parser = argparse.ArgumentParser(description="Generate images with Krea.ai API")
-    parser.add_argument("--prompt", required=True, help="Image description")
+    parser.add_argument("--prompt", help="Image description")
     parser.add_argument("--model", default="flux", help="Model name (default: flux)")
     parser.add_argument("--width", type=int, default=1024, help="Image width")
     parser.add_argument("--height", type=int, default=1024, help="Image height")
     parser.add_argument("--key-id", help="API key ID")
     parser.add_argument("--secret", help="API secret")
     parser.add_argument("--list-models", action="store_true", help="List available models")
-    
+
     args = parser.parse_args()
-    
+
     if args.list_models:
         print("Available models:")
         for name in KreaAPI.IMAGE_MODELS:
             print(f"  - {name}")
         return
-    
+
+    if not args.prompt:
+        parser.error("--prompt is required unless --list-models is set")
+
     api = KreaAPI(key_id=args.key_id, secret=args.secret)
-    
+
     print(f"Generating '{args.prompt[:50]}...' with {args.model}...")
     urls = api.generate_and_wait(
         prompt=args.prompt,
@@ -203,7 +212,7 @@ def main():
         width=args.width,
         height=args.height
     )
-    
+
     print("\nGenerated images:")
     for url in urls:
         print(f"  {url}")

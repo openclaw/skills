@@ -26,7 +26,7 @@ clawdbot config set skill.krea_api.secret YOUR_SECRET
 clawdhub login
 
 # Publish this skill folder
-clawdhub publish /Users/fossilizedcarlos/clawd/skills/krea-api
+clawdhub publish /Users/fossilizedcarlos/clawd/skills/krea-api --slug krea-api --name "Krea.ai API" --version 0.1.0 --changelog "Initial release"
 ```
 
 ## Requirements

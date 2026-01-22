@@ -3,11 +3,16 @@
   "slug": "llmwhisperer",
   "displayName": "LLMWhisperer",
   "latest": {
-    "version": "0.0.6",
-    "publishedAt": 1769062605206,
-    "commit": "https://github.com/clawdbot/skills/commit/2bc3c6202ded85a21992897179d59eddc4b75ccd"
+    "version": "0.0.7",
+    "publishedAt": 1769089648547,
+    "commit": null
   },
   "history": [
+    {
+      "version": "0.0.6",
+      "publishedAt": 1769062605206,
+      "commit": "https://github.com/clawdbot/skills/commit/2bc3c6202ded85a21992897179d59eddc4b75ccd"
+    },
     {
       "version": "0.0.3",
       "publishedAt": 1769037175121,

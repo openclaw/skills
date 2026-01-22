@@ -25,7 +25,37 @@ Get a free API key at [unstract.com/llmwhisperer](https://unstract.com/llmwhispe
 llmwhisperer <file>
 ```
 
-The script is located at `~/.clawdbot/skills/llmwhisperer/scripts/llmwhisperer`.
+## Script Source
+
+The executable script is located at `scripts/llmwhisperer`.
+
+```bash
+#!/bin/bash
+# Extract text using LLMWhisperer API
+
+if [ -z "$LLMWHISPERER_API_KEY" ]; then
+  if [ -f ~/.clawdbot/.env ]; then
+    # shellcheck disable=SC2046
+    export $(grep -v '^#' ~/.clawdbot/.env | grep 'LLMWHISPERER_API_KEY' | xargs)
+  fi
+fi
+
+if [ -z "$LLMWHISPERER_API_KEY" ]; then
+  echo "Error: LLMWHISPERER_API_KEY not found in env or ~/.clawdbot/.env"
+  exit 1
+fi
+
+FILE="$1"
+if [ -z "$FILE" ]; then
+  echo "Usage: $0 <file>"
+  exit 1
+fi
+
+curl -s -X POST "https://llmwhisperer-api.us-central.unstract.com/api/v2/whisper?mode=high_quality&output_mode=layout_preserving" \
+  -H "Content-Type: application/octet-stream" \
+  -H "unstract-key: $LLMWHISPERER_API_KEY" \
+  --data-binary "@$FILE"
+```
 
 ## Examples
 

@@ -188,15 +188,15 @@ Follows GitHub's documentation best practices:
 - Title + subtitle
 - **The problem:** (explains pain point)
 - **This tool:** (how it solves it)
-- 📋 Requirements
-- ⚡ What It Does (outcome first)
-- 🚀 Installation
-- 🔧 How It Works (result → process)
+- ⚡ **What It Does** (value proposition first)
+- 🛠️ **Getting Ready** (OS + Homebrew installs + external tools)
+- 🚀 **Installation** (the skill itself + verification)
+- 🔧 **How It Works** (result → process)
 
 ### Optional Sections (collapsible)
 - Configuration options
-- Advanced usage
 - Troubleshooting
+- For Developers
 - For Developers
 
 **Key features:**

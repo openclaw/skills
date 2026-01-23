@@ -1,0 +1,11 @@
+{
+  "owner": "jmagar",
+  "slug": "unifi",
+  "displayName": "UniFi Network Monitor",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769150816231,
+    "commit": null
+  },
+  "history": []
+}

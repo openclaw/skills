@@ -1,0 +1,11 @@
+{
+  "owner": "jmagar",
+  "slug": "prowlarr",
+  "displayName": "Prowlarr",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769203129451,
+    "commit": null
+  },
+  "history": []
+}

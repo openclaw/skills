@@ -212,8 +212,13 @@ import json
 import os
 data = {'version': 1, 'profiles': {}}
 if os.path.exists('$AUTH_FILE'):
-    with open('$AUTH_FILE') as f:
-        data = json.load(f)
+    try:
+        with open('$AUTH_FILE') as f:
+            content = f.read().strip()
+            if content:
+                data = json.loads(content)
+    except (json.JSONDecodeError, Exception):
+        pass  # Use default empty structure
 if 'profiles' not in data:
     data['profiles'] = {}
 if '$PROFILE_NAME' not in data['profiles']:
@@ -269,19 +274,28 @@ log "New expiry: $NEW_EXPIRES_TIME (${EXPIRES_IN}s / $((EXPIRES_IN / 3600))h)"
 
 # Step 3: Update auth-profiles.json
 log "Updating auth-profiles.json..."
-if [[ -f "$AUTH_FILE" ]]; then
-    python3 << PYEOF
+mkdir -p "$(dirname "$AUTH_FILE")"
+python3 << PYEOF
 import json
-with open('$AUTH_FILE') as f:
-    data = json.load(f)
+import os
+data = {'version': 1, 'profiles': {}}
+if os.path.exists('$AUTH_FILE'):
+    try:
+        with open('$AUTH_FILE') as f:
+            content = f.read().strip()
+            if content:
+                data = json.loads(content)
+    except (json.JSONDecodeError, Exception):
+        pass
+if 'profiles' not in data:
+    data['profiles'] = {}
+if '$PROFILE_NAME' not in data['profiles']:
+    data['profiles']['$PROFILE_NAME'] = {'type': 'token', 'provider': 'anthropic'}
 data['profiles']['$PROFILE_NAME']['token'] = '$NEW_ACCESS'
 with open('$AUTH_FILE', 'w') as f:
     json.dump(data, f, indent=2)
 PYEOF
-    log "✓ Auth file updated: $AUTH_FILE"
-else
-    log "WARN: Auth file not found: $AUTH_FILE"
-fi
+log "✓ Auth file updated: $AUTH_FILE"
 
 # Step 4: Update Keychain
 log "Updating Keychain..."

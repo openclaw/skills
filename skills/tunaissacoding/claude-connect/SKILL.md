@@ -68,16 +68,30 @@ Follow the login prompts in your browser. **This creates the Keychain item** tha
 
 ## 🚀 Installation
 
-**Run this right after installing Clawdbot** (after completing prerequisites above).
+⚠️ **Important:** Run these commands in a **new Terminal window**, not inside Claude Code CLI. Running inside Claude Code will disconnect it mid-refresh and break the process.
 
 ```bash
 # Install the skill
 clawdhub install claude-connect
 
-# Connect Claude to Clawdbot
+# Connect Claude to Clawdbot (in a NEW terminal, not Claude Code)
 cd ~/clawd/skills/claude-connect
-./refresh-token.sh
+./refresh-token.sh --force
 ```
+
+**Expected output (you MUST see "Keychain updated"):**
+```
+[2026-01-24 13:46:22] ✓ Keychain updated
+[2026-01-24 13:46:22] Scheduling gateway reload...
+[2026-01-24 13:46:22] ✓ Gateway restart scheduled
+[2026-01-24 13:46:22] Refresh complete
+
+✅ Token refreshed successfully!
+New expiry: 2026-01-24 21:46:22
+Expires in: 8 hours
+```
+
+⚠️ **If you don't see "✓ Keychain updated"**, the refresh failed. Make sure you're running in a new Terminal, not inside Claude Code CLI.
 
 **Expected output:**
 ```

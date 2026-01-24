@@ -45,7 +45,7 @@ fi
 
 # Check 3: auth-profiles.json exists
 echo -n "Checking auth profiles... "
-AUTH_PROFILES="$HOME/.config/claude/auth-profiles.json"
+AUTH_PROFILES="$HOME/.clawdbot/agents/main/agent/auth-profiles.json"
 if [[ -f "$AUTH_PROFILES" ]]; then
     echo -e "${GREEN}✓${NC} Found"
     

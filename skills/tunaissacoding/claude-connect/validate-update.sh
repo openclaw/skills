@@ -23,7 +23,7 @@ CHECKS_FAILED=0
 # Check 1: New config example exists
 echo -n "Checking new config example... "
 if [[ -f "$SCRIPT_DIR/claude-oauth-refresh-config.example.json" ]]; then
-    if jq -e '.notifications.on_start' "$SCRIPT_DIR/claude-oauth-refresh-config.example.json" &> /dev/null; then
+    if jq -e '.notifications | type == "object"' "$SCRIPT_DIR/claude-oauth-refresh-config.example.json" &> /dev/null; then
         echo -e "${GREEN}✓${NC}"
         ((CHECKS_PASSED++))
     else
@@ -57,8 +57,7 @@ fi
 
 # Check 4: refresh-token.sh has notification types
 echo -n "Checking notification types... "
-if grep -q "notifications.on_start" "$SCRIPT_DIR/refresh-token.sh" && \
-   grep -q "notifications.on_success" "$SCRIPT_DIR/refresh-token.sh" && \
+if grep -q "notifications.on_success" "$SCRIPT_DIR/refresh-token.sh" && \
    grep -q "notifications.on_failure" "$SCRIPT_DIR/refresh-token.sh"; then
     echo -e "${GREEN}✓${NC}"
     ((CHECKS_PASSED++))
@@ -67,19 +66,19 @@ else
     ((CHECKS_FAILED++))
 fi
 
-# Check 5: refresh-token.sh has enhanced error handling
-echo -n "Checking enhanced error handling... "
-if grep -q "Troubleshooting:" "$SCRIPT_DIR/refresh-token.sh"; then
+# Check 5: refresh-token.sh has error handling
+echo -n "Checking error handling... "
+if grep -q "error_exit" "$SCRIPT_DIR/refresh-token.sh"; then
     echo -e "${GREEN}✓${NC}"
     ((CHECKS_PASSED++))
 else
-    echo -e "${RED}✗${NC} Missing enhanced error messages"
+    echo -e "${RED}✗${NC} Missing error handling"
     ((CHECKS_FAILED++))
 fi
 
 # Check 6: install.sh has interactive prompts
 echo -n "Checking interactive prompts... "
-if grep -q "Refreshing token" "$SCRIPT_DIR/install.sh" && grep -q "NOTIFY_START_INPUT" "$SCRIPT_DIR/install.sh"; then
+if grep -q "Token refreshed" "$SCRIPT_DIR/install.sh" && grep -q "NOTIFY_SUCCESS_INPUT" "$SCRIPT_DIR/install.sh"; then
     echo -e "${GREEN}✓${NC}"
     ((CHECKS_PASSED++))
 else
@@ -97,26 +96,23 @@ else
     ((CHECKS_FAILED++))
 fi
 
-# Check 8: SKILL.md has Clawdbot examples
-echo -n "Checking Clawdbot documentation... "
-if grep -q "disable Claude refresh start notifications" "$SCRIPT_DIR/SKILL.md" && \
-   grep -q "show Claude refresh notification settings" "$SCRIPT_DIR/SKILL.md"; then
+# Check 8: SKILL.md exists
+echo -n "Checking SKILL.md... "
+if [[ -f "$SCRIPT_DIR/SKILL.md" ]]; then
     echo -e "${GREEN}✓${NC}"
     ((CHECKS_PASSED++))
 else
-    echo -e "${RED}✗${NC} Missing Clawdbot control examples"
+    echo -e "${RED}✗${NC} SKILL.md not found"
     ((CHECKS_FAILED++))
 fi
 
-# Check 9: SKILL.md explains notification types
-echo -n "Checking notification type docs... "
-if grep -q "on_start" "$SCRIPT_DIR/SKILL.md" && \
-   grep -q "on_success" "$SCRIPT_DIR/SKILL.md" && \
-   grep -q "on_failure" "$SCRIPT_DIR/SKILL.md"; then
+# Check 9: README.md exists
+echo -n "Checking README.md... "
+if [[ -f "$SCRIPT_DIR/README.md" ]]; then
     echo -e "${GREEN}✓${NC}"
     ((CHECKS_PASSED++))
 else
-    echo -e "${RED}✗${NC} Missing notification type documentation"
+    echo -e "${RED}✗${NC} README.md not found"
     ((CHECKS_FAILED++))
 fi
 

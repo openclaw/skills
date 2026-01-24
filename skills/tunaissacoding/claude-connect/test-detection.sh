@@ -34,8 +34,10 @@ if [[ -x "$SCRIPT_DIR/detect-notification-config.sh" ]]; then
 {
   "refresh_buffer_minutes": 30,
   "log_file": "~/clawd/logs/claude-oauth-refresh.log",
-  "notify_on_success": false,
-  "notify_on_failure": true,
+  "notifications": {
+    "on_success": false,
+    "on_failure": true
+  },
   "notification_channel": "$channel",
   "notification_target": "$target"
 }
@@ -43,9 +45,9 @@ EOF
         echo ""
         
         # Check if current config matches
-        if [[ -f "$SCRIPT_DIR/config.json" ]]; then
-            current_channel=$(jq -r '.notification_channel // ""' "$SCRIPT_DIR/config.json" 2>/dev/null)
-            current_target=$(jq -r '.notification_target // ""' "$SCRIPT_DIR/config.json" 2>/dev/null)
+        if [[ -f "$SCRIPT_DIR/claude-oauth-refresh-config.json" ]]; then
+            current_channel=$(jq -r '.notification_channel // ""' "$SCRIPT_DIR/claude-oauth-refresh-config.json" 2>/dev/null)
+            current_target=$(jq -r '.notification_target // ""' "$SCRIPT_DIR/claude-oauth-refresh-config.json" 2>/dev/null)
             
             if [[ "$current_channel" == "$channel" ]] && [[ "$current_target" == "$target" ]]; then
                 echo -e "${GREEN}✓ Current config matches detected values${NC}"
@@ -57,7 +59,7 @@ EOF
                 echo "Run ./install.sh to update config with detected values"
             fi
         else
-            echo "No config.json found - run ./install.sh to create"
+            echo "No claude-oauth-refresh-config.json found - run ./install.sh to create"
         fi
     else
         echo -e "${YELLOW}⚠ Auto-detection failed${NC}"

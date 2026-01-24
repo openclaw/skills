@@ -1,117 +1,116 @@
 #!/bin/bash
 # detect-notification-config.sh - Auto-detect notification settings from Clawdbot config
+# Follows target formats from Clawdbot docs: https://docs.clawd.bot/channels/
 
 set -euo pipefail
 
 CLAWDBOT_CONFIG="$HOME/.clawdbot/clawdbot.json"
+SESSIONS_FILE="$HOME/.clawdbot/agents/main/sessions/sessions.json"
 
-# Output format: channel|target or empty
+# Output format: channel|target
+# Target formats (per Clawdbot docs https://docs.clawd.bot/channels/):
+#   telegram: numeric ID (123456789) or @username
+#   discord:  user:<id> for DMs, channel:<channelId> for guild channels
+#   slack:    user:<id> for DMs, channel:<id> for channels
+#   signal:   E.164 phone (+15551234567), signal:group:<groupId>, or username:<name>
+#   whatsapp: E.164 phone number (+15551234567)
+
 detect_notification_target() {
-    if [[ ! -f "$CLAWDBOT_CONFIG" ]]; then
-        return 1
-    fi
-    
     if ! command -v jq &> /dev/null; then
         return 1
     fi
     
-    # Try to find enabled channels with valid targets
-    local channels=("telegram" "slack" "discord" "whatsapp" "imessage" "signal")
-    
-    for channel in "${channels[@]}"; do
-        local enabled=$(jq -r ".channels.${channel}.enabled // false" "$CLAWDBOT_CONFIG" 2>/dev/null)
-        
-        if [[ "$enabled" == "true" ]]; then
-            # Channel is enabled, try to find target
-            local target=""
-            
-            case "$channel" in
-                telegram)
-                    # Try to get chat_id from config or recent messages
-                    target=$(jq -r ".channels.telegram.default_chat_id // empty" "$CLAWDBOT_CONFIG" 2>/dev/null)
-                    if [[ -z "$target" ]]; then
-                        # Try to get from user info
-                        target=$(jq -r ".channels.telegram.user_id // empty" "$CLAWDBOT_CONFIG" 2>/dev/null)
-                    fi
-                    ;;
-                    
-                slack)
-                    # Try to get user ID
-                    target=$(jq -r ".channels.slack.user_id // empty" "$CLAWDBOT_CONFIG" 2>/dev/null)
-                    if [[ -n "$target" ]]; then
-                        target="user:${target}"
-                    fi
-                    ;;
-                    
-                discord)
-                    # Try to get user ID
-                    target=$(jq -r ".channels.discord.user_id // empty" "$CLAWDBOT_CONFIG" 2>/dev/null)
-                    if [[ -n "$target" ]]; then
-                        target="user:${target}"
-                    fi
-                    ;;
-                    
-                whatsapp)
-                    # Try to get phone number
-                    target=$(jq -r ".channels.whatsapp.phone // empty" "$CLAWDBOT_CONFIG" 2>/dev/null)
-                    ;;
-                    
-                imessage)
-                    # Try to get default target
-                    target=$(jq -r ".channels.imessage.default_target // empty" "$CLAWDBOT_CONFIG" 2>/dev/null)
-                    ;;
-                    
-                signal)
-                    # Try to get phone number
-                    target=$(jq -r ".channels.signal.phone // empty" "$CLAWDBOT_CONFIG" 2>/dev/null)
-                    ;;
-            esac
-            
-            # If we found a valid target, return it
-            if [[ -n "$target" ]]; then
-                echo "${channel}|${target}"
-                return 0
-            fi
-        fi
-    done
-    
-    return 1
-}
-
-# Try runtime detection via clawdbot CLI
-detect_from_cli() {
-    if ! command -v clawdbot &> /dev/null; then
+    if [[ ! -f "$SESSIONS_FILE" ]]; then
         return 1
     fi
     
-    # Try Telegram first (most common)
-    if clawdbot message telegram account list &> /dev/null; then
-        local chat_id=$(clawdbot message telegram message search --limit 1 --from-me true 2>/dev/null | \
-                       jq -r '.messages[0].chat.id // empty' 2>/dev/null)
-        if [[ -n "$chat_id" ]]; then
-            echo "telegram|${chat_id}"
-            return 0
-        fi
+    # Find first direct (non-group) session with delivery context
+    local session_data=$(jq -r '
+        to_entries[] | 
+        select(.value.chatType == "direct") |
+        select(.value.deliveryContext != null) |
+        {
+            channel: .value.deliveryContext.channel,
+            to: (.value.deliveryContext.to // .value.lastTo)
+        } | 
+        @json
+    ' "$SESSIONS_FILE" 2>/dev/null | head -1)
+    
+    if [[ -z "$session_data" ]]; then
+        return 1
+    fi
+    
+    local channel=$(echo "$session_data" | jq -r '.channel')
+    local raw_target=$(echo "$session_data" | jq -r '.to')
+    
+    if [[ -z "$channel" ]] || [[ -z "$raw_target" ]]; then
+        return 1
+    fi
+    
+    # Format target according to channel docs
+    local target=""
+    case "$channel" in
+        telegram)
+            # Telegram: just numeric ID or @username
+            # Session format: "telegram:123456789" → extract "123456789"
+            target="${raw_target#telegram:}"
+            ;;
+        discord)
+            # Discord: user:<id> for DMs
+            # Session format: "discord:user:123456789" or similar
+            local id="${raw_target#discord:}"
+            if [[ "$id" != user:* ]]; then
+                target="user:${id}"
+            else
+                target="$id"
+            fi
+            ;;
+        slack)
+            # Slack: user:<id> for DMs
+            # Session format: "slack:user:U123456789" or similar
+            local id="${raw_target#slack:}"
+            if [[ "$id" != user:* ]]; then
+                target="user:${id}"
+            else
+                target="$id"
+            fi
+            ;;
+        signal)
+            # Signal: signal:+15551234567 or plain E.164, signal:group:<groupId>, username:<name>
+            # Session format: "signal:+15551234567" → keep as-is or use plain E.164
+            local id="${raw_target#signal:}"
+            # If it's a phone number (starts with +), use plain E.164
+            if [[ "$id" == +* ]]; then
+                target="$id"
+            else
+                # Keep other formats (group:, username:, etc.)
+                target="$id"
+            fi
+            ;;
+        whatsapp)
+            # WhatsApp: phone number
+            target="${raw_target#whatsapp:}"
+            ;;
+        *)
+            # Unknown channel: try stripping channel prefix
+            target="${raw_target#${channel}:}"
+            ;;
+    esac
+    
+    if [[ -n "$target" ]]; then
+        echo "${channel}|${target}"
+        return 0
     fi
     
     return 1
 }
 
-# Main detection logic
+# Main
 main() {
-    # Try config file first
     if result=$(detect_notification_target); then
         echo "$result"
         exit 0
     fi
-    
-    # Fall back to CLI detection
-    if result=$(detect_from_cli); then
-        echo "$result"
-        exit 0
-    fi
-    
-    # No detection possible
     exit 1
 }
 

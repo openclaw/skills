@@ -77,10 +77,9 @@ if [[ -n "$EXISTING_CONFIG" ]]; then
                 # Migrate old format to new
                 OLD_SUCCESS=$(jq -r '.notify_on_success // false' "$EXISTING_CONFIG")
                 OLD_FAILURE=$(jq -r '.notify_on_failure // true' "$EXISTING_CONFIG")
-                jq --argjson on_start true \
-                   --argjson on_success "$OLD_SUCCESS" \
+                jq --argjson on_success "$OLD_SUCCESS" \
                    --argjson on_failure "$OLD_FAILURE" \
-                   'del(.notify_on_success, .notify_on_failure) | .notifications = {on_start: $on_start, on_success: $on_success, on_failure: $on_failure}' \
+                   'del(.notify_on_success, .notify_on_failure) | .notifications = {on_success: $on_success, on_failure: $on_failure}' \
                    "$EXISTING_CONFIG" > "$CONFIG_FILE"
                 echo -e "${GREEN}✓${NC} Migrated to new config format with notification types"
                 rm "$EXISTING_CONFIG"
@@ -113,14 +112,6 @@ if [[ "$CREATE_NEW_CONFIG" == "true" ]]; then
     echo ""
     
     # Prompt for each notification type
-    read -p "Enable \"🔄 Refreshing token...\" notification? [Y/n] " -n 1 -r NOTIFY_START_INPUT
-    echo ""
-    if [[ $NOTIFY_START_INPUT =~ ^[Nn]$ ]]; then
-        NOTIFY_START="false"
-    else
-        NOTIFY_START="true"
-    fi
-    
     read -p "Enable \"✅ Token refreshed!\" notification? [Y/n] " -n 1 -r NOTIFY_SUCCESS_INPUT
     echo ""
     if [[ $NOTIFY_SUCCESS_INPUT =~ ^[Nn]$ ]]; then
@@ -148,7 +139,6 @@ if [[ "$CREATE_NEW_CONFIG" == "true" ]]; then
   "refresh_buffer_minutes": 30,
   "log_file": "~/clawd/logs/claude-oauth-refresh.log",
   "notifications": {
-    "on_start": $NOTIFY_START,
     "on_success": $NOTIFY_SUCCESS,
     "on_failure": $NOTIFY_FAILURE
   },
@@ -165,7 +155,6 @@ EOF
   "refresh_buffer_minutes": 30,
   "log_file": "~/clawd/logs/claude-oauth-refresh.log",
   "notifications": {
-    "on_start": $NOTIFY_START,
     "on_success": $NOTIFY_SUCCESS,
     "on_failure": $NOTIFY_FAILURE
   },
@@ -275,17 +264,15 @@ echo "  • Only re-run this installer to reinstall/fix"
 echo ""
 echo "Notification settings:"
 if [[ -f "$CONFIG_FILE" ]]; then
-    SHOW_START=$(jq -r '.notifications.on_start' "$CONFIG_FILE" 2>/dev/null || echo "unknown")
     SHOW_SUCCESS=$(jq -r '.notifications.on_success' "$CONFIG_FILE" 2>/dev/null || echo "unknown")
     SHOW_FAILURE=$(jq -r '.notifications.on_failure' "$CONFIG_FILE" 2>/dev/null || echo "unknown")
-    echo "  • Start (🔄): $SHOW_START"
     echo "  • Success (✅): $SHOW_SUCCESS"
     echo "  • Failure (❌): $SHOW_FAILURE"
 fi
 echo ""
 echo "Change settings:"
 echo "  • Edit: $CONFIG_FILE"
-echo "  • Or ask Clawdbot: \"disable Claude refresh start notifications\""
+echo "  • Or ask Clawdbot: \"disable Claude refresh notifications\""
 echo ""
 echo "Monitor:"
 echo "  • Logs: tail -f ~/clawd/logs/claude-oauth-refresh.log"

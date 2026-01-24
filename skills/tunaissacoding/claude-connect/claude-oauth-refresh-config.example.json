@@ -5,9 +5,8 @@
   "refresh_buffer_minutes": 30,
   "log_file": "~/clawd/logs/claude-oauth-refresh.log",
   
-  "_keychain_comment": "Keychain settings - where tokens are stored",
+  "_keychain_comment": "Keychain settings - where tokens are stored (account auto-discovered)",
   "keychain_service": "Claude Code-credentials",
-  "keychain_account": "claude",
   "keychain_field": "claudeAiOauth",
   
   "_auth_file_comment": "Clawdbot auth-profiles.json location",

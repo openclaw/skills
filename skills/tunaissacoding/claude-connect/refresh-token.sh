@@ -16,7 +16,6 @@ CONFIG_FILE="$SCRIPT_DIR/claude-oauth-refresh-config.json"
 
 # Defaults for Clawdbot setup
 DEFAULT_KEYCHAIN_SERVICE="Claude Code-credentials"
-DEFAULT_KEYCHAIN_ACCOUNT="claude"  # Most common, but will auto-discover if needed
 DEFAULT_KEYCHAIN_FIELD="claudeAiOauth"
 DEFAULT_AUTH_FILE="$HOME/.clawdbot/agents/main/agent/auth-profiles.json"
 DEFAULT_PROFILE_NAME="anthropic:default"
@@ -30,11 +29,9 @@ if [[ -f "$CONFIG_FILE" ]]; then
     LOG_FILE=$(jq -r '.log_file // "~/clawd/logs/claude-oauth-refresh.log"' "$CONFIG_FILE" | sed "s|^~|$HOME|")
     NOTIFY_SUCCESS=$(jq -r '.notifications.on_success // true' "$CONFIG_FILE")
     NOTIFY_FAILURE=$(jq -r '.notifications.on_failure // true' "$CONFIG_FILE")
-    NOTIFY_CHANNEL=$(jq -r '.notification_channel // "telegram"' "$CONFIG_FILE")
     NOTIFY_TARGET=$(jq -r '.notification_target // ""' "$CONFIG_FILE")
     
     KEYCHAIN_SERVICE=$(jq -r '.keychain_service // ""' "$CONFIG_FILE")
-    KEYCHAIN_ACCOUNT=$(jq -r '.keychain_account // ""' "$CONFIG_FILE")
     KEYCHAIN_FIELD=$(jq -r '.keychain_field // ""' "$CONFIG_FILE")
     AUTH_FILE=$(jq -r '.auth_file // ""' "$CONFIG_FILE" | sed "s|^~|$HOME|")
     PROFILE_NAME=$(jq -r '.profile_name // ""' "$CONFIG_FILE")
@@ -45,10 +42,8 @@ else
     LOG_FILE="$HOME/clawd/logs/claude-oauth-refresh.log"
     NOTIFY_SUCCESS=true
     NOTIFY_FAILURE=true
-    NOTIFY_CHANNEL="telegram"
     NOTIFY_TARGET=""
     KEYCHAIN_SERVICE=""
-    KEYCHAIN_ACCOUNT=""
     KEYCHAIN_FIELD=""
     AUTH_FILE=""
     PROFILE_NAME=""
@@ -58,7 +53,6 @@ fi
 
 # Apply defaults if not set
 KEYCHAIN_SERVICE="${KEYCHAIN_SERVICE:-$DEFAULT_KEYCHAIN_SERVICE}"
-KEYCHAIN_ACCOUNT="${KEYCHAIN_ACCOUNT:-$DEFAULT_KEYCHAIN_ACCOUNT}"
 KEYCHAIN_FIELD="${KEYCHAIN_FIELD:-$DEFAULT_KEYCHAIN_FIELD}"
 AUTH_FILE="${AUTH_FILE:-$DEFAULT_AUTH_FILE}"
 PROFILE_NAME="${PROFILE_NAME:-$DEFAULT_PROFILE_NAME}"
@@ -287,6 +281,16 @@ security delete-generic-password -s "$KEYCHAIN_SERVICE" -a "$KEYCHAIN_ACCOUNT" 2
 security add-generic-password -s "$KEYCHAIN_SERVICE" -a "$KEYCHAIN_ACCOUNT" -w "$NEW_KEYCHAIN_DATA" -U
 
 log "✓ Keychain updated"
+
+# Reload Clawdbot to pick up new tokens (delayed to allow script to complete)
+if command -v clawdbot &> /dev/null; then
+    log "Scheduling gateway reload..."
+    # Restart in background after 2 second delay so script can finish
+    (sleep 2 && clawdbot gateway restart >> "$LOG_FILE" 2>&1) &
+    disown
+    log "✓ Gateway restart scheduled"
+fi
+
 log "Refresh complete"
 
 notify "✅ Claude token refreshed!

@@ -75,6 +75,7 @@ Follow the login prompts in your browser. **This creates the Keychain item** tha
 clawdhub install claude-connect
 
 # Connect Claude to Clawdbot
+cd ~/clawd/skills/claude-connect
 ./refresh-token.sh
 ```
 

@@ -1,0 +1,11 @@
+{
+  "owner": "luccast",
+  "slug": "gogcli",
+  "displayName": "gogcli - Google Workspace CLI",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769362342566,
+    "commit": null
+  },
+  "history": []
+}

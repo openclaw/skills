@@ -3,11 +3,16 @@
   "slug": "clippy",
   "displayName": "Clippy - Microsoft 365 CLI",
   "latest": {
-    "version": "1.0.3",
-    "publishedAt": 1769266181286,
-    "commit": "https://github.com/clawdbot/skills/commit/063bde35c911aa8bc2a27b2bd56d6e63993601a3"
+    "version": "1.2.0",
+    "publishedAt": 1769342635864,
+    "commit": null
   },
   "history": [
+    {
+      "version": "1.0.3",
+      "publishedAt": 1769266181286,
+      "commit": "https://github.com/clawdbot/skills/commit/063bde35c911aa8bc2a27b2bd56d6e63993601a3"
+    },
     {
       "version": "1.0.2",
       "publishedAt": 1769261867846,

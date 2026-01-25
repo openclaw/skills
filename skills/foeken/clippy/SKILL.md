@@ -1,30 +1,47 @@
 ---
 name: clippy
 description: Microsoft 365 / Outlook CLI for calendar and email. Use when managing Outlook calendar (view, create, update, delete events, find meeting times, respond to invitations), sending/reading emails, or searching for people/rooms in the organization.
+metadata: {"clawdbot":{"requires":{"bins":["clippy"]}}}
 ---
 
 # Clippy - Microsoft 365 CLI
 
-CLI: `~/bin/clippy`
-Repo: `~/projects/clippy`
 Source: https://github.com/foeken/clippy
 
-**Note:** Works through the M365 web UI via browser automation (Playwright), not the Graph API. No Azure AD app registration required - just login with your browser.
+Works through the M365 web UI via browser automation (Playwright), not the Graph API. No Azure AD app registration required - just login with your browser.
 
-**UX rule:** Stable IDs are internal only and **must never be shown to the user**. Users act on human-readable lists (numbers, titles, dates). Use IDs only for internal CLI calls.
+## Install
+
+```bash
+git clone https://github.com/foeken/clippy.git
+cd clippy && bun install
+bun run src/cli.ts --help
+```
+
+Or link globally: `bun link`
 
 ## Authentication
 
 ```bash
-# Check auth status
-clippy whoami
-
-# Interactive login (opens browser)
+# Interactive login (opens browser, establishes session)
 clippy login --interactive
 
-# Refresh token (runs automatically via launchd)
-clippy refresh
+# Check auth status
+clippy whoami
 ```
+
+### Keepalive (recommended)
+
+Keep a browser session alive to prevent token expiry:
+
+```bash
+# Start keepalive (keeps browser open, refreshes every 10min)
+clippy keepalive --interval 10
+```
+
+For persistent operation, set up as a launchd service (macOS) or systemd (Linux).
+
+**Health monitoring:** Keepalive writes to `~/.config/clippy/keepalive-health.txt` on each successful refresh. Check if this file is stale (>15min) to detect failures.
 
 ## Calendar
 
@@ -65,13 +82,8 @@ clippy create-event "Sync" 14:00 15:00 --repeat weekly --days mon,wed,fri
 ### Update/Delete Events
 
 ```bash
-# List events to get index
-clippy update-event
 clippy update-event 1 --title "New Title"
 clippy update-event 1 --start 10:00 --end 11:00
-clippy update-event 1 --add-attendee "new@company.com"
-
-# Delete (cancels + notifies attendees)
 clippy delete-event 1
 clippy delete-event 1 --message "Need to reschedule"
 ```
@@ -79,7 +91,7 @@ clippy delete-event 1 --message "Need to reschedule"
 ### Respond to Invitations
 
 ```bash
-clippy respond                           # List pending (map numbers to IDs internally)
+clippy respond                           # List pending
 clippy respond accept --id <eventId>
 clippy respond decline --id <eventId> --message "Conflict"
 clippy respond tentative --id <eventId>
@@ -95,13 +107,11 @@ clippy findtime --duration 60 --days 5
 
 ## Email
 
-**Drafts accept both real newlines and literal `\n` in CLI args.**
-
 ```bash
 # Inbox
 clippy mail
 clippy mail --unread
-clippy mail -n 20                        # 20 emails
+clippy mail -n 20
 clippy mail --search "invoice"
 
 # Other folders
@@ -159,9 +169,14 @@ clippy find "conference" --rooms         # Rooms
 
 ## JSON Output
 
-Add `--json` to any command for scripting:
-
 ```bash
 clippy calendar --json
 clippy mail --json
+```
+
+## Configuration
+
+Profile directory can be overridden:
+```bash
+export CLIPPY_PROFILE_DIR=~/.config/clippy/my-profile
 ```

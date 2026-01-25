@@ -1,7 +1,8 @@
 ---
 name: web-search-plus
-version: 2.1.2
+version: 2.1.3
 description: Unified search skill with Intelligent Auto-Routing. Uses multi-signal analysis to automatically select between Serper (Google), Tavily (Research), and Exa (Neural) with confidence scoring.
+tags: [search, web-search, serper, tavily, exa, google, research, semantic-search, auto-routing, multi-provider, shopping, free-tier]
 ---
 
 # Web Search Plus
@@ -224,14 +225,70 @@ export EXA_API_KEY="your-key"      # https://exa.ai
 
 ## FAQ
 
-**Q: How does it decide which provider to use?**
-> Multi-signal analysis: It detects price patterns, explanation phrases, similarity keywords, URLs, product+brand combos, query complexity, and more. Each signal has a weight, and the provider with the highest total score wins.
+### General
+
+**Q: How does auto-routing decide which provider to use?**
+> Multi-signal analysis scores each provider based on: price patterns, explanation phrases, similarity keywords, URLs, product+brand combos, and query complexity. Highest score wins. Use `--explain-routing` to see the decision breakdown.
 
 **Q: What if it picks the wrong provider?**
-> Use `--explain-routing` to see why. You can also use `-p serper/tavily/exa` to override.
+> Override with `-p serper/tavily/exa`. Check `--explain-routing` to understand why it chose differently.
 
 **Q: What does "low confidence" mean?**
-> The query is ambiguous (e.g., just "Tesla"). The fallback provider (Serper) is used, but results may vary.
+> Query is ambiguous (e.g., "Tesla" could be cars, stock, or company). Falls back to Serper. Results may vary.
 
-**Q: Can I add custom routing rules?**
-> Not yet via config, but you can modify the signal patterns in `search.py`.
+**Q: Can I disable a provider?**
+> Yes! In config.json: `"disabled_providers": ["exa"]`
+
+### API Keys
+
+**Q: Which API keys do I need?**
+> At minimum ONE key. You can use just Serper, just Tavily, or all three. Missing keys = that provider is skipped.
+
+**Q: Where do I get API keys?**
+> - Serper: https://serper.dev (100 free searches/month)
+> - Tavily: https://tavily.com (1000 free searches/month)
+> - Exa: https://exa.ai (limited free tier)
+
+**Q: How do I set API keys?**
+> Create `.env` in your workspace:
+> ```bash
+> export SERPER_API_KEY="your-key"
+> export TAVILY_API_KEY="your-key"
+> export EXA_API_KEY="your-key"
+> ```
+> Then `source .env` or add to your shell profile.
+
+### Routing Details
+
+**Q: How do I know which provider handled my search?**
+> Check `routing.provider` in JSON output, or `[🔍 Searched with: Provider]` in chat responses.
+
+**Q: Why does it sometimes choose Serper for research questions?**
+> If the query has brand/product signals (e.g., "how does Tesla FSD work"), shopping intent may outweigh research intent. Override with `-p tavily`.
+
+**Q: What's the confidence threshold?**
+> Default: 0.3 (30%). Below this = low confidence, uses fallback. Adjustable in config.json.
+
+### Troubleshooting
+
+**Q: "No API key found" error?**
+> Make sure keys are exported (not just set): `export SERPER_API_KEY="..."` and sourced.
+
+**Q: Getting empty results?**
+> 1. Check API key is valid
+> 2. Try a different provider with `-p`
+> 3. Some queries have no results (very niche topics)
+
+**Q: Rate limited?**
+> Each provider has limits. Spread queries across providers or wait. Serper: 100/month free, Tavily: 1000/month free.
+
+### For Clawdbot Users
+
+**Q: How do I use this in chat?**
+> Just ask! Clawdbot auto-detects search intent. Or explicitly: "search with web-search-plus for..."
+
+**Q: Does it replace built-in Brave Search?**
+> No, it's complementary. Use Brave for quick lookups, web-search-plus for research/shopping/discovery.
+
+**Q: Can I see which provider was used?**
+> Yes! SOUL.md can include attribution: `[🔍 Searched with: Serper/Tavily/Exa]`

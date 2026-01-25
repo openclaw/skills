@@ -1,0 +1,10 @@
+{
+  "name": "openai-tts-script",
+  "version": "1.0.0",
+  "description": "Helper script for OpenAI TTS",
+  "main": "generate_speech.js",
+  "dependencies": {
+    "openai": "^4.0.0",
+    "commander": "^11.0.0"
+  }
+}

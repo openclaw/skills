@@ -1,10 +1,7 @@
 {
-  "workspace": "${HOME}/clawd",
-  "backup_dir": "${HOME}/.clawdbot/backups",
-  "auto_update": false,
+  "backup_dir": "~/.clawdbot/backups",
   "backup_before_update": true,
   "backup_count": 5,
-  "update_interval_hours": 24,
   "excluded_skills": [],
   "backup_paths": [
     {"path": "~/.clawdbot", "label": "config", "exclude": ["backups", "logs", "media", "*.lock"]},
@@ -16,12 +13,12 @@
   ],
   "remote_storage": {
     "enabled": false,
-    "rclone_remote": "my-remote:",
+    "rclone_remote": "gdrive:",
     "path": "clawdbot-backups"
   },
   "encryption": {
     "enabled": false,
-    "gpg_recipient": "your-gpg-key-id-or-email"
+    "gpg_recipient": "your-email@example.com"
   },
   "notifications": {
     "enabled": false,

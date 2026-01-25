@@ -25,7 +25,7 @@ Avoid / be cautious:
 
 - **model_key**: The identifier used by `lms` commands (from `lms ls`). This is what you pass to `lms load`.
 - **model_identifier**: The identifier used when loading with `--identifier`. Can be the same as `model_key` or a custom name. This is what you use in API calls to LM Studio.
-- **lm_studio_api_url**: The base URL for LM Studio's API. Default is `http://127.0.0.1:1234/v1` (can be checked from Clawdbot config if needed: `models.providers.local.baseUrl` or `models.providers.lmstudio.baseUrl`).
+- **lm_studio_api_url**: The base URL for LM Studio's API. Default is `http://127.0.0.1:1234/v1`. No Clawdbot config required - the skill works with LM Studio's default server.
 
 **Note:** The description above contains all triggering information. The sections below provide implementation details for using the skill once triggered.
 
@@ -34,6 +34,7 @@ Avoid / be cautious:
 - LM Studio installed with `lms` CLI available on PATH
 - LM Studio server running (default: http://127.0.0.1:1234)
 - Models downloaded in LM Studio
+- Node.js available (for helper script; curl can be used as alternative)
 
 ## Complete Workflow
 
@@ -97,7 +98,7 @@ Analyze task requirements and select appropriate model:
 **Model Selection:**
 - Pick a `model_key` from `lms ls` that matches task requirements.
 - Use the `model_key` as the `model_identifier` when loading (or derive a clean identifier from it).
-- No config checking needed - any model in LM Studio can be used.
+- Any model in LM Studio can be used - no configuration needed.
 
 ### Step 4: Load Model
 
@@ -151,12 +152,23 @@ Parse JSON response and check if model_identifier appears as a loaded identifier
 
 ### Step 6: Call LM Studio API Directly
 
-Call LM Studio's OpenAI-compatible API directly using the loaded model:
+Call LM Studio's OpenAI-compatible API directly using the loaded model.
 
-**Determine API URL:**
-- Default: `http://127.0.0.1:1234/v1`
-- Optional: Check Clawdbot config for `models.providers.local.baseUrl` or `models.providers.lmstudio.baseUrl`
-- Fallback to default if not found
+**Option A: Using helper script (recommended for reliability)**
+
+```bash
+exec command:"node {baseDir}/scripts/lmstudio-api.mjs <model_identifier> '<task description>' --temperature=0.7 --max-tokens=2000"
+```
+
+The script handles:
+- Proper JSON encoding (no escaping issues)
+- Error handling and retries
+- Response validation (checks `response.model` matches request)
+- Consistent output format
+
+**Option B: Direct curl call**
+
+**API URL:** Use default `http://127.0.0.1:1234/v1` (LM Studio's standard default). No configuration needed.
 
 **Make API call:**
 
@@ -184,7 +196,12 @@ exec command:"curl -X POST <lm_studio_api_url>/chat/completions \
 - Extract `choices[0].message.content` for the model's response
 - Check for `error` field in response for error handling
 
-**Example:**
+**Example (using script):**
+```bash
+exec command:"node {baseDir}/scripts/lmstudio-api.mjs meta-llama-3.1-8b-instruct 'Summarize this document and extract key points' --temperature=0.7 --max-tokens=2000"
+```
+
+**Example (using curl):**
 ```bash
 exec command:"curl -X POST http://127.0.0.1:1234/v1/chat/completions \
   -H 'Content-Type: application/json' \
@@ -201,6 +218,14 @@ exec command:"curl -X POST http://127.0.0.1:1234/v1/chat/completions \
 
 Extract and format the API response:
 
+**If using helper script:**
+1. Parse JSON output from script (already validated)
+2. Extract `content` field - this contains the model's response
+3. Optionally use `usage` field for token statistics
+4. Format the result appropriately for the task context
+5. Return the formatted result to the user
+
+**If using curl directly:**
 1. Parse the JSON response from the curl command
 2. **Validate `response.model` field** - ensure it matches the requested `model_identifier` (important: LM Studio may auto-select models)
 3. Extract `choices[0].message.content` - this contains the model's response
@@ -406,18 +431,10 @@ exec command:"lms load meta-llama-3.1-8b-instruct --identifier \"meta-llama-3.1-
 exec command:"lms ps --json"
 # Parse and confirm model appears
 
-# 6. Call LM Studio API
-exec command:"curl -X POST http://127.0.0.1:1234/v1/chat/completions \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer lmstudio' \
-  -d '{
-    \"model\": \"meta-llama-3.1-8b-instruct\",
-    \"messages\": [{\"role\": \"user\", \"content\": \"Summarize this document and extract 5 key points\"}],
-    \"temperature\": 0.7,
-    \"max_tokens\": 2000
-  }'"
+# 6. Call LM Studio API (using helper script)
+exec command:"node {baseDir}/scripts/lmstudio-api.mjs meta-llama-3.1-8b-instruct 'Summarize this document and extract 5 key points' --temperature=0.7 --max-tokens=2000"
 
-# 7. Parse response and extract choices[0].message.content
+# 7. Parse response and extract content field
 
 # 8. Optional explicit unload after completion (otherwise rely on TTL)
 exec command:"lms unload meta-llama-3.1-8b-instruct"
@@ -436,16 +453,8 @@ exec command:"lms load meta-llama-3.1-70b-instruct --identifier \"meta-llama-3.1
 # 5. Verify loaded
 exec command:"lms ps --json"
 
-# 6. Call LM Studio API with longer context
-exec command:"curl -X POST http://127.0.0.1:1234/v1/chat/completions \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer lmstudio' \
-  -d '{
-    \"model\": \"meta-llama-3.1-70b-instruct\",
-    \"messages\": [{\"role\": \"user\", \"content\": \"Analyze the codebase architecture, identify main components, and suggest improvements\"}],
-    \"temperature\": 0.3,
-    \"max_tokens\": 4000
-  }'"
+# 6. Call LM Studio API with longer context (using helper script)
+exec command:"node {baseDir}/scripts/lmstudio-api.mjs meta-llama-3.1-70b-instruct 'Analyze the codebase architecture, identify main components, and suggest improvements' --temperature=0.3 --max-tokens=4000"
 
 # 7. Parse response and format results
 
@@ -466,36 +475,53 @@ exec command:"lms load qwen2-vl-7b-instruct --identifier \"qwen2-vl-7b-instruct\
 # 5. Verify loaded
 exec command:"lms ps --json"
 
-# 6. Call LM Studio API with image (if supported by model)
-exec command:"curl -X POST http://127.0.0.1:1234/v1/chat/completions \
-  -H 'Content-Type: application/json' \
-  -H 'Authorization: Bearer lmstudio' \
-  -d '{
-    \"model\": \"qwen2-vl-7b-instruct\",
-    \"messages\": [{\"role\": \"user\", \"content\": \"Describe this image in detail, including objects, colors, composition, and any text visible\"}],
-    \"temperature\": 0.7,
-    \"max_tokens\": 2000
-  }'"
+# 6. Call LM Studio API with image (if supported by model, using helper script)
+exec command:"node {baseDir}/scripts/lmstudio-api.mjs qwen2-vl-7b-instruct 'Describe this image in detail, including objects, colors, composition, and any text visible' --temperature=0.7 --max-tokens=2000"
 
 # 7-8. Parse response and unload
 ```
 
 ## LM Studio API Details
 
+### Helper Script (Recommended)
+
+The skill includes `scripts/lmstudio-api.mjs` for reliable API calls. This script is optional but recommended for better error handling and response validation.
+
+**Benefits:**
+- Proper JSON encoding (no escaping issues)
+- Built-in error handling
+- Response validation (checks `response.model` matches request)
+- Consistent output format
+- Environment variable support (`LM_STUDIO_API_URL`)
+
+**Usage:**
+```bash
+node {baseDir}/scripts/lmstudio-api.mjs <model_identifier> '<task>' [--temperature=0.7] [--max-tokens=2000] [--api-url=http://127.0.0.1:1234/v1]
+```
+
+**Output:**
+```json
+{
+  "content": "<model response>",
+  "model": "<model used>",
+  "usage": {"prompt_tokens": 100, "completion_tokens": 200, "total_tokens": 300}
+}
+```
+
+**Note:** If Node.js is not available, you can use curl directly (see Option B in Step 6).
+
 ### API Endpoint Format
 
 LM Studio exposes an OpenAI-compatible API endpoint:
-- Base URL: `http://127.0.0.1:1234/v1` (default)
+- Base URL: `http://127.0.0.1:1234/v1` (default, no configuration required)
 - Chat completions: `POST /v1/chat/completions`
 - Models list: `GET /v1/models`
 
 ### Determining API URL
 
-The API URL can be determined from:
-1. **Default**: `http://127.0.0.1:1234/v1` (most common)
-2. **From Clawdbot config**: Check `models.providers.local.baseUrl` or `models.providers.lmstudio.baseUrl` if available
-3. **From LM Studio server status**: `lms server status --json` may include server URL
-4. **Fallback**: Always default to `http://127.0.0.1:1234/v1` if uncertain
+The API URL defaults to `http://127.0.0.1:1234/v1` (LM Studio's standard default). **No configuration is required** - the skill works out of the box with LM Studio's default server.
+
+The helper script supports `LM_STUDIO_API_URL` environment variable if you need to override the default URL.
 
 ### Request Format (OpenAI-Compatible)
 
@@ -574,7 +600,7 @@ The API URL can be determined from:
 ### Authentication
 
 LM Studio API typically uses:
-- Header: `Authorization: Bearer lmstudio` (or check config for custom API key)
+- Header: `Authorization: Bearer lmstudio`
 - Some setups may not require authentication (check LM Studio server settings)
 
 ## Notes

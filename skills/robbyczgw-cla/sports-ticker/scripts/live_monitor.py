@@ -63,7 +63,12 @@ def check_team(team: dict, state: dict, alerts_config: dict) -> tuple[list, dict
     for c in competitors:
         t_name = c.get("team", {}).get("displayName", "?")
         t_id = str(c.get("team", {}).get("id", ""))
-        score = int(c.get("score", 0) or 0)
+        # Safely parse score - ESPN returns string, empty string, or int
+        raw_score = c.get("score", 0)
+        try:
+            score = int(raw_score) if raw_score not in (None, "", "-") else 0
+        except (ValueError, TypeError):
+            score = 0
         
         if c.get("homeAway") == "home":
             home_team, home_score = t_name, score

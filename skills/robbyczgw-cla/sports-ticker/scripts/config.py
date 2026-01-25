@@ -11,12 +11,16 @@ CONFIG_EXAMPLE = SKILL_DIR / "config.example.json"
 
 def load_config() -> dict:
     """Load configuration from config.json."""
-    if CONFIG_FILE.exists():
-        return json.loads(CONFIG_FILE.read_text())
-    elif CONFIG_EXAMPLE.exists():
-        print(f"⚠️  No config.json found. Copy config.example.json to config.json and customize it.")
-        return json.loads(CONFIG_EXAMPLE.read_text())
-    else:
+    try:
+        if CONFIG_FILE.exists():
+            return json.loads(CONFIG_FILE.read_text())
+        elif CONFIG_EXAMPLE.exists():
+            print(f"⚠️  No config.json found. Copy config.example.json to config.json and customize it.")
+            return json.loads(CONFIG_EXAMPLE.read_text())
+        else:
+            return {"teams": [], "alerts": {}}
+    except json.JSONDecodeError as e:
+        print(f"⚠️  Invalid JSON in config file: {e}")
         return {"teams": [], "alerts": {}}
 
 def save_config(config: dict):

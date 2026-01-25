@@ -1,21 +1,28 @@
 # Web Search Plus
 
-> Unified multi-provider web search with **Smart Auto-Routing** — supporting **Serper**, **Tavily**, and **Exa**. Just search, and the skill picks the best provider!
+> Unified multi-provider web search with **Intelligent Auto-Routing** — uses multi-signal analysis to automatically select between **Serper**, **Tavily**, and **Exa** with confidence scoring.
 
 [![ClawdHub](https://img.shields.io/badge/ClawdHub-web--search--plus-blue)](https://clawdhub.com)
-[![Version](https://img.shields.io/badge/version-2.0.0-green)](https://clawdhub.com)
+[![Version](https://img.shields.io/badge/version-2.1.0-green)](https://clawdhub.com)
 [![GitHub](https://img.shields.io/badge/GitHub-web--search--plus-blue)](https://github.com/robbyczgw-cla/web-search-plus)
 
 ---
 
-## 🚀 What's New in v2.0.0
+## 🧠 What's New in v2.1.0
 
-**Smart Auto-Routing** — No more choosing providers! The skill analyzes your query and automatically routes to the best search engine:
+**Intelligent Multi-Signal Routing** — The skill now uses sophisticated query analysis:
+
+- **Intent Classification**: Shopping vs Research vs Discovery
+- **Linguistic Patterns**: "how much" (price) vs "how does" (research)
+- **Entity Detection**: Product+brand combos, URLs, domains
+- **Complexity Analysis**: Long queries favor research providers
+- **Confidence Scoring**: Know how reliable the routing decision is
 
 ```bash
-python3 scripts/search.py -q "iPhone 16 price"              # → Serper (shopping)
-python3 scripts/search.py -q "how does quantum computing work"  # → Tavily (research)
-python3 scripts/search.py -q "companies similar to Stripe"  # → Exa (semantic)
+python3 scripts/search.py -q "how much does iPhone 16 cost"     # → Serper (68% confidence)
+python3 scripts/search.py -q "how does quantum entanglement work"  # → Tavily (86% HIGH)
+python3 scripts/search.py -q "startups similar to Notion"       # → Exa (76% HIGH)
+python3 scripts/search.py -q "companies like stripe.com"        # → Exa (100% HIGH - URL detected)
 ```
 
 ---

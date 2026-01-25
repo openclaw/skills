@@ -3,9 +3,20 @@
 # Test Auto-Routing Feature
 # Tests various query types to verify routing works correctly
 
-export SERPER_API_KEY=e2b820a3eade20f2c1c3a6573645cd323fd40f24
-export TAVILY_API_KEY=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
-export EXA_API_KEY=4e602d9b-1fda-4754-904b-29c7f2794140
+# Load keys from .env file
+if [ -f .env ]; then
+  source .env
+else
+  echo "⚠️  No .env file found. Please create one with your API keys."
+  echo "   See .env.example for the required format."
+  exit 1
+fi
+
+# Verify keys are set
+if [ -z "$SERPER_API_KEY" ] && [ -z "$TAVILY_API_KEY" ] && [ -z "$EXA_API_KEY" ]; then
+  echo "❌ No API keys found. Please set at least one in .env"
+  exit 1
+fi
 
 echo "🧪 Testing Web Search Plus v2.0.0 - Smart Auto-Routing"
 echo "======================================================"

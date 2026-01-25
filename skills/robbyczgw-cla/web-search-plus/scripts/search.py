@@ -163,6 +163,13 @@ class QueryAnalyzer:
         r'€\d+|\d+\s*euros?': 3.0,
         r'£\d+|\d+\s*pounds?': 3.0,
         
+        # German price patterns (sehr stark)
+        r'\bpreis(e)?\b': 3.5,
+        r'\bkosten\b': 3.0,
+        r'\bwieviel\b': 3.5,
+        r'\bwie viel\b': 3.5,
+        r'\bwas kostet\b': 4.0,
+        
         # Purchase intent (strong)
         r'\bbuy\b': 3.5,
         r'\bpurchase\b': 3.5,
@@ -170,6 +177,13 @@ class QueryAnalyzer:
         r'\bshopping\b': 3.5,
         r'\bshop for\b': 3.5,
         r'\bwhere to (buy|get|purchase)\b': 4.0,
+        
+        # German purchase intent (stark)
+        r'\bkaufen\b': 3.5,
+        r'\bbestellen\b': 3.5,
+        r'\bwo kaufen\b': 4.0,
+        r'\bhändler\b': 3.0,
+        r'\bshop\b': 2.5,
         
         # Deal/discount signals
         r'\bdeal(s)?\b': 3.0,
@@ -182,6 +196,14 @@ class QueryAnalyzer:
         r'\bcompare prices\b': 3.5,
         r'\bcoupon\b': 3.0,
         
+        # German deal/discount signals
+        r'\bgünstig(er|ste)?\b': 3.0,
+        r'\bbillig(er|ste)?\b': 3.0,
+        r'\bangebot(e)?\b': 3.0,
+        r'\brabatt\b': 3.0,
+        r'\baktion\b': 2.5,
+        r'\bschnäppchen\b': 3.0,
+        
         # Product comparison
         r'\bvs\.?\b': 2.0,
         r'\bversus\b': 2.0,
@@ -191,6 +213,12 @@ class QueryAnalyzer:
         r'\breview(s)?\b': 2.0,
         r'\brating(s)?\b': 2.0,
         r'\bunboxing\b': 2.5,
+        
+        # German product comparison
+        r'\btest\b': 2.5,
+        r'\bbewertung(en)?\b': 2.5,
+        r'\btechnische daten\b': 3.0,
+        r'\bspezifikationen\b': 2.5,
     }
     
     RESEARCH_SIGNALS = {
@@ -247,6 +275,30 @@ class QueryAnalyzer:
         r'\bbackground\b': 2.5,
         r'\bcontext\b': 2.5,
         r'\bimplications?\b': 3.0,
+        
+        # German explanation patterns (sehr stark)
+        r'\bwie funktioniert\b': 4.0,
+        r'\bwarum\b': 3.5,
+        r'\berklär(en|ung)?\b': 4.0,
+        r'\bwas ist\b': 3.0,
+        r'\bwas sind\b': 3.0,
+        r'\bbedeutung\b': 3.0,
+        
+        # German analysis patterns
+        r'\banalyse\b': 3.5,
+        r'\bvergleich(en)?\b': 3.0,
+        r'\bvor- und nachteile\b': 4.0,
+        r'\bvorteile\b': 3.0,
+        r'\bnachteile\b': 3.0,
+        r'\bunterschied(e)?\b': 3.5,
+        
+        # German learning patterns
+        r'\bverstehen\b': 3.0,
+        r'\blernen\b': 2.5,
+        r'\banleitung\b': 3.0,
+        r'\bübersicht\b': 2.5,
+        r'\bhintergrund\b': 2.5,
+        r'\bzusammenfassung\b': 2.5,
     }
     
     DISCOVERY_SIGNALS = {

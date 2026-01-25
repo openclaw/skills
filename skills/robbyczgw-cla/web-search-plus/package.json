@@ -1,7 +1,7 @@
 {
   "name": "@clawdbot/web-search-plus",
-  "version": "2.0.0",
-  "description": "Unified search skill with Smart Auto-Routing. Automatically selects between Serper (Google), Tavily (Research), and Exa (Neural) based on query analysis. No provider selection needed - just search! Fully configurable routing keywords and priorities.",
+  "version": "2.1.0",
+  "description": "Unified search skill with Intelligent Auto-Routing. Uses multi-signal analysis (intent classification, linguistic patterns, URL/brand detection) to automatically select between Serper (Google), Tavily (Research), and Exa (Neural) with confidence scoring.",
   "keywords": [
     "clawdbot",
     "skill",
@@ -30,14 +30,23 @@
   },
   "clawdbot": {
     "skill": true,
-    "triggers": ["search", "find", "look up", "research"],
+    "triggers": [
+      "search",
+      "find",
+      "look up",
+      "research"
+    ],
     "capabilities": [
       "web-search",
       "image-search",
       "semantic-search",
       "multi-provider"
     ],
-    "providers": ["serper", "tavily", "exa"]
+    "providers": [
+      "serper",
+      "tavily",
+      "exa"
+    ]
   },
   "files": [
     "SKILL.md",

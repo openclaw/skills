@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$comment": "Web Search Plus configuration — customize defaults, auto-routing, and provider settings",
+  "$comment": "Web Search Plus configuration — intelligent routing and provider settings",
   
   "defaults": {
     "provider": "serper",
@@ -12,34 +12,41 @@
     "fallback_provider": "serper",
     "provider_priority": ["serper", "tavily", "exa"],
     "disabled_providers": [],
+    "confidence_threshold": 0.3,
     "keyword_mappings": {
       "serper": [
         "price", "buy", "shop", "shopping", "cost", "deal", "sale", "purchase",
         "cheap", "expensive", "store", "product", "review", "specs", "specification",
         "where to buy", "near me", "local", "restaurant", "hotel", "weather",
         "news", "latest", "breaking", "map", "directions", "phone number",
-        "compare prices", "best deal", "discount", "coupon", "order online"
+        "preis", "kaufen", "bestellen", "günstig", "billig", "teuer", "kosten",
+        "angebot", "rabatt", "shop", "händler", "geschäft", "laden", "test",
+        "bewertung", "technische daten", "spezifikationen", "wo kaufen", "in der nähe",
+        "wetter", "nachrichten", "aktuell", "neu"
       ],
       "tavily": [
         "how does", "how to", "explain", "research", "what is", "why does",
         "analyze", "compare", "study", "academic", "detailed", "comprehensive",
         "in-depth", "understand", "learn", "tutorial", "guide", "overview",
         "history of", "background", "context", "implications", "pros and cons",
-        "definition of", "meaning of", "difference between", "benefits of"
+        "wie funktioniert", "erklärung", "erklären", "was ist", "warum",
+        "analyse", "vergleich", "vergleichen", "studie", "verstehen", "lernen",
+        "anleitung", "tutorial", "überblick", "hintergrund", "vor- und nachteile"
       ],
       "exa": [
         "similar to", "companies like", "find sites like", "alternatives to",
-        "competitors", "like", "startup", "github", "paper", "research paper",
+        "competitors", "startup", "github", "paper", "research paper",
         "arxiv", "pdf", "academic paper", "similar pages", "related sites",
-        "who else", "other companies", "comparable to", "YC company",
-        "Series A", "Series B", "funded startup", "AI company"
+        "who else", "other companies", "comparable to",
+        "ähnlich wie", "firmen wie", "alternativen zu", "konkurrenten",
+        "vergleichbar mit", "andere unternehmen"
       ]
     }
   },
   
   "serper": {
-    "country": "us",
-    "language": "en",
+    "country": "at",
+    "language": "de",
     "type": "search",
     "autocorrect": true,
     "include_images": false

@@ -1,6 +1,6 @@
 ---
 name: solana
-description: Solana wallet operations - create wallets, check balances, send SOL/tokens, swap via Jupiter
+description: Solana wallet operations - create wallets, check balances, send SOL/tokens, swap via Jupiter, launch tokens on Pump.fun
 triggers:
   - solana
   - wallet
@@ -9,6 +9,9 @@ triggers:
   - send token
   - swap
   - jupiter
+  - pumpfun
+  - pump.fun
+  - launch token
 metadata:
   clawdbot:
     emoji: "◎"
@@ -102,6 +105,36 @@ python3 {baseDir}/scripts/jup_swap.py tokens
 
 Token symbols: SOL, USDC, USDT, BONK, JUP, RAY, PYTH (or use full mint addresses)
 
+## Pump.fun Token Launch
+
+### Launch Token
+```bash
+python3 {baseDir}/scripts/pumpfun.py launch --name "Token Name" --symbol "TKN" --image ./logo.png
+```
+
+### Launch with Dev Buy
+```bash
+python3 {baseDir}/scripts/pumpfun.py launch --name "Token Name" --symbol "TKN" --image ./logo.png --buy 0.5
+```
+
+### Launch with Custom Mint (Vanity Address)
+```bash
+python3 {baseDir}/scripts/pumpfun.py launch --name "Token Name" --symbol "TKN" --image ./logo.png --mint-key <base58_key>
+```
+
+Use vanity addresses ending in 'pump' for more legit-looking tokens. Generate with:
+```bash
+solana-keygen grind --ends-with pump:1
+```
+
+### Options
+- `--name` - Token name (required)
+- `--symbol` - Token symbol (required)
+- `--image` - Path to token image (required)
+- `--description` or `-d` - Token description
+- `--buy` or `-b` - Dev buy amount in SOL
+- `--mint-key` or `-m` - Custom mint private key (base58)
+
 ## Network Configuration
 
 By default, wallet operations run on **mainnet**. Use `--network` to switch:
@@ -142,6 +175,12 @@ python3 {baseDir}/scripts/jup_swap.py quote SOL USDC 1
 
 # Swap 0.5 SOL to USDC
 python3 {baseDir}/scripts/jup_swap.py swap SOL USDC 0.5
+
+# Launch token on Pump.fun
+python3 {baseDir}/scripts/pumpfun.py launch --name "My Token" --symbol "MTK" --image ./logo.png
+
+# Launch with dev buy
+python3 {baseDir}/scripts/pumpfun.py launch --name "My Token" --symbol "MTK" --image ./logo.png --buy 1
 ```
 
 ## Common Token Mints (Mainnet)
@@ -159,4 +198,5 @@ python3 {baseDir}/scripts/jup_swap.py swap SOL USDC 0.5
 - **Send SOL** for payments or transfers
 - **Send tokens** for SPL token transfers
 - **Swap tokens** via Jupiter aggregator
+- **Launch tokens** on Pump.fun with custom images and dev buys
 - **Devnet testing** with `--network devnet`

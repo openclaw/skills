@@ -3,9 +3,15 @@
   "slug": "solana-skills",
   "displayName": "Solana",
   "latest": {
-    "version": "0.1.1",
-    "publishedAt": 1769389616647,
-    "commit": "https://github.com/clawdbot/skills/commit/ded2f0ec1cb65a12dc1b82e8e4778517db51d329"
+    "version": "0.1.2",
+    "publishedAt": 1769437935228,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "0.1.1",
+      "publishedAt": 1769389616647,
+      "commit": "https://github.com/clawdbot/skills/commit/ded2f0ec1cb65a12dc1b82e8e4778517db51d329"
+    }
+  ]
 }

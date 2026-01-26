@@ -3,11 +3,16 @@
   "slug": "self-improving-agent",
   "displayName": "self-improving-agent",
   "latest": {
-    "version": "1.0.1",
-    "publishedAt": 1768859807396,
-    "commit": "https://github.com/clawdbot/skills/commit/6d0b9a337eaff501ba62f03fb61a1f4749d109bc"
+    "version": "1.0.2",
+    "publishedAt": 1769420552012,
+    "commit": null
   },
   "history": [
+    {
+      "version": "1.0.1",
+      "publishedAt": 1768859807396,
+      "commit": "https://github.com/clawdbot/skills/commit/6d0b9a337eaff501ba62f03fb61a1f4749d109bc"
+    },
     {
       "version": "1.0.0",
       "publishedAt": 1767632598365,

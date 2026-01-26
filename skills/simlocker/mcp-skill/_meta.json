@@ -1,0 +1,11 @@
+{
+  "owner": "simlocker",
+  "slug": "mcp-skill",
+  "displayName": "Mcp Skill",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769421092406,
+    "commit": null
+  },
+  "history": []
+}

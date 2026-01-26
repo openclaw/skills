@@ -1,0 +1,14 @@
+{
+  "name": "youtube-toolkit",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "googleapis": "^170.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

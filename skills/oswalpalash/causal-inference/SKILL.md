@@ -1,6 +1,6 @@
 ---
 name: causal-inference
-description: Add causal reasoning to agent actions. Use when planning interventions (email timing, scheduling, follow-ups), debugging why workflows failed, predicting action outcomes, or when the agent needs to answer "what happens if I do X?" with real predictions instead of correlations. Enables intervention-grade planning, counterfactual debugging, and principled safety checks.
+description: Add causal reasoning to agent actions. Trigger on ANY high-level action with observable outcomes - emails, messages, calendar changes, file operations, API calls, notifications, reminders, purchases, deployments. Use for planning interventions, debugging failures, predicting outcomes, backfilling historical data for analysis, or answering "what happens if I do X?" Also trigger when reviewing past actions to understand what worked/failed and why.
 ---
 
 # Causal Inference
@@ -13,12 +13,74 @@ A lightweight causal layer for predicting action outcomes, not by pattern-matchi
 
 Plans must be *causally valid*, not just plausible.
 
-## When to Use
+## When to Trigger
 
-1. **Intervention planning** — "If I reschedule meeting A, will it cascade?" / "If I send follow-ups at 9am vs 6pm, which gets more replies?"
-2. **Counterfactual debugging** — "Why did this workflow fail?" → "Which causal link broke?" → "What minimal intervention would fix it?"
-3. **Distribution-shift robustness** — When APIs/tools change, causal models generalize better than correlational predictors
-4. **Safety decisions** — Quantify expected harm before acting; refuse when uncertainty is high
+**Trigger this skill on ANY high-level action**, including but not limited to:
+
+| Domain | Actions to Log |
+|--------|---------------|
+| **Communication** | Send email, send message, reply, follow-up, notification, mention |
+| **Calendar** | Create/move/cancel meeting, set reminder, RSVP |
+| **Tasks** | Create/complete/defer task, set priority, assign |
+| **Files** | Create/edit/share document, commit code, deploy |
+| **Social** | Post, react, comment, share, DM |
+| **Purchases** | Order, subscribe, cancel, refund |
+| **System** | Config change, permission grant, integration setup |
+
+Also trigger when:
+- **Reviewing outcomes** — "Did that email get a reply?" → log outcome, update estimates
+- **Debugging failures** — "Why didn't this work?" → trace causal graph
+- **Backfilling history** — "Analyze my past emails/calendar" → parse logs, reconstruct actions
+- **Planning** — "Should I send now or later?" → query causal model
+
+## Backfill: Bootstrap from Historical Data
+
+Don't start from zero. Parse existing logs to reconstruct past actions + outcomes.
+
+### Email Backfill
+
+```bash
+# Extract sent emails with reply status
+gog gmail list --sent --after 2024-01-01 --format json > /tmp/sent_emails.json
+
+# For each sent email, check if reply exists
+python3 scripts/backfill_email.py /tmp/sent_emails.json
+```
+
+### Calendar Backfill
+
+```bash
+# Extract past events with attendance
+gog calendar list --after 2024-01-01 --format json > /tmp/events.json
+
+# Reconstruct: did meeting happen? was it moved? attendee count?
+python3 scripts/backfill_calendar.py /tmp/events.json
+```
+
+### Message Backfill (WhatsApp/Discord/Slack)
+
+```bash
+# Parse message history for send/reply patterns
+wacli search --after 2024-01-01 --from me --format json > /tmp/wa_sent.json
+python3 scripts/backfill_messages.py /tmp/wa_sent.json
+```
+
+### Generic Backfill Pattern
+
+```python
+# For any historical data source:
+for record in historical_data:
+    action_event = {
+        "action": infer_action_type(record),
+        "context": extract_context(record),
+        "time": record["timestamp"],
+        "pre_state": reconstruct_pre_state(record),
+        "post_state": extract_post_state(record),
+        "outcome": determine_outcome(record),
+        "backfilled": True  # Mark as reconstructed
+    }
+    append_to_log(action_event)
+```
 
 ## Architecture
 
@@ -29,11 +91,14 @@ Every executed action emits a structured event:
 ```json
 {
   "action": "send_followup",
+  "domain": "email",
   "context": {"recipient_type": "warm_lead", "prior_touches": 2},
   "time": "2025-01-26T10:00:00Z",
   "pre_state": {"days_since_last_contact": 7},
   "post_state": {"reply_received": true, "reply_delay_hours": 4},
-  "outcome": "positive_reply"
+  "outcome": "positive_reply",
+  "outcome_observed_at": "2025-01-26T14:00:00Z",
+  "backfilled": false
 }
 ```
 
@@ -43,7 +108,7 @@ Store in `memory/causal/action_log.jsonl`.
 
 Start with 10-30 observable variables per domain.
 
-**Email domain example:**
+**Email domain:**
 ```
 send_time → reply_prob
 subject_style → open_rate
@@ -52,12 +117,28 @@ followup_count → reply_prob (diminishing)
 time_since_last → reply_prob
 ```
 
-**Calendar domain example:**
+**Calendar domain:**
 ```
 meeting_time → attendance_rate
 attendee_count → slip_risk
 conflict_degree → reschedule_prob
 buffer_time → focus_quality
+```
+
+**Messaging domain:**
+```
+response_delay → conversation_continuation
+message_length → response_length
+time_of_day → response_prob
+platform → response_delay
+```
+
+**Task domain:**
+```
+due_date_proximity → completion_prob
+priority_level → completion_speed
+task_size → deferral_risk
+context_switches → error_rate
 ```
 
 Store graph definitions in `memory/causal/graphs/`.
@@ -86,6 +167,23 @@ Before executing actions:
 
 ## Workflow
 
+### On Every Action
+
+```
+BEFORE executing:
+1. Log pre_state
+2. If enough historical data: query model for expected outcome
+3. If high uncertainty or risk: confirm with user
+
+AFTER executing:
+1. Log action + context + time
+2. Set reminder to check outcome (if not immediate)
+
+WHEN outcome observed:
+1. Update action log with post_state + outcome
+2. Re-estimate treatment effects if enough new data
+```
+
 ### Planning an Action
 
 ```
@@ -113,26 +211,37 @@ Before executing actions:
 6. Log counterfactual for learning
 ```
 
-## Quick Start: Email Follow-ups
+## Quick Start: Bootstrap Today
 
-The simplest domain to instrument. Variables to track:
+```bash
+# 1. Create the infrastructure
+mkdir -p memory/causal/graphs memory/causal/estimates
 
-| Variable | Type | Source |
-|----------|------|--------|
-| send_time | categorical (morning/afternoon/evening) | action |
-| day_of_week | categorical | action |
-| recipient_type | categorical (cold/warm/hot) | context |
-| subject_has_question | boolean | action |
-| prior_thread_length | int | context |
-| reply_received | boolean | outcome |
-| reply_delay_hours | float | outcome |
+# 2. Initialize config
+cat > memory/causal/config.yaml << 'EOF'
+domains:
+  - email
+  - calendar
+  - messaging
+  - tasks
 
-After ~50-100 logged actions, estimate:
-- Effect of send_time on reply_prob
-- Effect of subject_has_question on reply_prob
-- Interaction: recipient_type × send_time
+thresholds:
+  max_uncertainty: 0.3
+  min_expected_utility: 0.1
 
-Use estimates to recommend optimal follow-up timing.
+protected_actions:
+  - delete_email
+  - cancel_meeting
+  - send_to_new_contact
+  - financial_transaction
+EOF
+
+# 3. Backfill one domain (start with email)
+python3 scripts/backfill_email.py
+
+# 4. Estimate initial effects
+python3 scripts/estimate_effect.py --treatment send_time --outcome reply_received --values morning,evening
+```
 
 ## Safety Constraints
 

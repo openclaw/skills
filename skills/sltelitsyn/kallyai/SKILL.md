@@ -1,5 +1,5 @@
 ---
-name: kallyai-api
+name: kallyai
 description: Make phone calls via KallyAI API - an AI phone assistant that calls businesses on your behalf. Use when users want to make restaurant reservations, schedule appointments, or inquire at businesses by phone.
 metadata: {"clawdbot":{"emoji":"📞","requires":{"bins":["kallyai"]},"install":[{"id":"pip","kind":"pip","package":"kallyai-cli","bins":["kallyai"],"label":"Install via pip"}]}}
 ---
@@ -22,12 +22,17 @@ Collect from user:
 
 ### Step 2: Authenticate User
 
-For OAuth integration, redirect user to:
+Use the CLI OAuth flow:
 ```
-https://api.kallyai.com/v1/auth/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=YOUR_REDIRECT_URI&scope=calls.write
+https://api.kallyai.com/v1/auth/cli?redirect_uri=http://localhost:8976/callback
 ```
 
-User signs in with Google or Apple → receives access token.
+This opens a login page. After authentication, the user is redirected to the localhost callback with tokens:
+```
+http://localhost:8976/callback?access_token=<token>&refresh_token=<refresh>&expires_in=3600
+```
+
+Start a local HTTP server to capture the callback and extract the tokens.
 
 ### Step 3: Make the Call
 
@@ -121,7 +126,7 @@ kallyai --auth-status # Check if logged in
 
 **Base URL:** `https://api.kallyai.com`
 
-**OAuth URL:** `https://api.kallyai.com/v1/auth/authorize`
+**CLI OAuth URL:** `https://api.kallyai.com/v1/auth/cli?redirect_uri=http://localhost:8976/callback`
 
 **Required fields for calls:**
 | Field | Description |

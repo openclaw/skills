@@ -1,0 +1,39 @@
+{
+  "name": "Clawdbot Security Check",
+  "version": "2.0.0",
+  "description": "Self-security audit framework that teaches Clawdbot to audit its own configuration across 10 security domains. Knowledge-based, extensible, 100% read-only.",
+  "author": "Gavin - Technical Co-Founder",
+  "keywords": ["security", "audit", "clawdbot", "self-audit", "hardening", "vulnerability", "framework"],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "main": "SKILL.md",
+  "scripts": {
+    "start": "node security-check.js",
+    "start:json": "node security-check.js --json",
+    "test": "node security-check.js | grep -q 'SECURITY ANALYSIS' && echo 'Skill framework loaded'"
+  },
+  "permissions": ["read-only"],
+  "safety": {
+    "readOnly": true,
+    "modifiesSettings": false,
+    "networkAccess": false,
+    "fileSystemAccess": ["read"],
+    "installsPackages": false
+  },
+  "securityDomains": [
+    "gateway-exposure",
+    "dm-policy",
+    "sandbox-isolation",
+    "credentials-security",
+    "prompt-injection",
+    "dangerous-commands",
+    "network-isolation",
+    "elevated-access",
+    "audit-logging",
+    "pairing-codes"
+  ],
+  "severityLevels": ["critical", "high", "medium", "low"],
+  "knowledgeFramework": true,
+  "extensible": true
+}

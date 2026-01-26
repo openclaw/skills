@@ -1,0 +1,11 @@
+{
+  "owner": "darconada",
+  "slug": "test-minimal-skill",
+  "displayName": "Test Minimal",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769444160901,
+    "commit": null
+  },
+  "history": []
+}

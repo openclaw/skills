@@ -1,13 +1,18 @@
 {
   "owner": "gumadeiras",
   "slug": "apple-mail-search-safe",
-  "displayName": "Apple Mail Search (Fast & Safe)",
+  "displayName": "apple-mail-search-safe",
   "latest": {
-    "version": "2026.1.7",
-    "publishedAt": 1768516491763,
-    "commit": "https://github.com/clawdbot/skills/commit/f471fc8e947f0da9e1343ffa60e702fa302b1358"
+    "version": "4.0.0",
+    "publishedAt": 1769425452939,
+    "commit": null
   },
   "history": [
+    {
+      "version": "2026.1.7",
+      "publishedAt": 1768516491763,
+      "commit": "https://github.com/clawdbot/skills/commit/f471fc8e947f0da9e1343ffa60e702fa302b1358"
+    },
     {
       "version": "2026.1.6",
       "publishedAt": 1768516131776,

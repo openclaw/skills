@@ -1,37 +1,83 @@
 ---
 name: grok-search
-description: Search the web or X/Twitter using xAI Grok server-side tools (web_search, x_search) via the xAI Responses API. Use when you need tweets/threads/users from X, or want Grok as an alternative search provider.
-metadata: {"clawdbot":{"requires":{"bins":["node"],"env":["XAI_API_KEY"]},"primaryEnv":"XAI_API_KEY"}}
+description: Search the web or X/Twitter using xAI Grok server-side tools (web_search, x_search) via the xAI Responses API. Use when you need tweets/threads/users from X, want Grok as an alternative to Brave, or you need structured JSON + citations.
+homepage: https://docs.x.ai/docs/guides/tools/search-tools
+triggers: ["grok", "xai", "search x", "search twitter", "find tweets", "x search", "twitter search", "web_search", "x_search"]
+metadata: {"clawdbot":{"emoji":"🔎","requires":{"bins":["node"],"env":["XAI_API_KEY"]},"primaryEnv":"XAI_API_KEY"}}
 ---
 
-Use Grok search via the bundled script and return structured results.
+Run xAI Grok locally via bundled scripts (search + chat + model listing). Default output for search is *pretty JSON* (agent-friendly) with citations.
 
-## Prereqs
+## API key
 
-- `XAI_API_KEY` must be set (env var), or present at `~/.clawdbot/clawdbot.json` under `env.XAI_API_KEY`.
+The script looks for an xAI API key in this order:
+- `XAI_API_KEY` env var
+- `~/.clawdbot/clawdbot.json` → `env.XAI_API_KEY`
+- `~/.clawdbot/clawdbot.json` → `skills.entries["grok-search"].apiKey`
+- fallback: `skills.entries["search-x"].apiKey` or `skills.entries.xai.apiKey`
 
 ## Run
 
-From the agent workspace root (or `cd` into this skill folder):
+Use `{baseDir}` so the command works regardless of workspace layout.
+
+### Search
 
 - Web search (JSON):
-  - `node skills/grok-search/scripts/grok_search.mjs "<query>" --web --json --max 10`
+  - `node {baseDir}/scripts/grok_search.mjs "<query>" --web`
 
 - X/Twitter search (JSON):
-  - `node skills/grok-search/scripts/grok_search.mjs "<query>" --x --json --max 10`
+  - `node {baseDir}/scripts/grok_search.mjs "<query>" --x`
 
-Optional:
-- `--max <n>` limit results
-- `--model <id>` (default: `grok-4-1-fast`)
+### Chat
 
-## Output shape
+- Chat (text):
+  - `node {baseDir}/scripts/chat.mjs "<prompt>"`
 
-The script returns JSON:
+- Chat (vision):
+  - `node {baseDir}/scripts/chat.mjs --image /path/to/image.jpg "<prompt>"`
 
-`{ "query": string, "mode": "web"|"x", "results": [{"title": string|null, "url": string|null, "snippet": string|null}], "citations": [string] }`
+### Models
 
-## Tips
+- List models:
+  - `node {baseDir}/scripts/models.mjs`
 
-- Prefer `--x` when the user asks for tweets, threads, or “what’s happening on X”.
-- Use `--web` for general web research, especially when you want xAI citations.
-- If results are too broad, tighten query terms (add @handles, exact phrases, time hints like “2026”).
+## Useful flags
+
+Output:
+- `--links-only` print just citation URLs
+- `--text` hide the citations section in pretty output
+- `--raw` include the raw Responses API payload on stderr (debug)
+
+Common:
+- `--max <n>` limit results (default 8)
+- `--model <id>` (default `grok-4-1-fast`)
+
+X-only filters (server-side via x_search tool params):
+- `--days <n>` (e.g. 7)
+- `--from YYYY-MM-DD` / `--to YYYY-MM-DD`
+- `--handles @a,@b` (limit to these handles)
+- `--exclude @bots,@spam` (exclude handles)
+
+## Output shape (JSON)
+
+```json
+{
+  "query": "...",
+  "mode": "web" | "x",
+  "results": [
+    {
+      "title": "...",
+      "url": "...",
+      "snippet": "...",
+      "author": "...",
+      "posted_at": "..."
+    }
+  ],
+  "citations": ["https://..."]
+}
+```
+
+## Notes
+
+- `citations` are merged/validated from xAI response annotations where possible (more reliable than trusting the model’s JSON blindly).
+- Prefer `--x` for tweets/threads, `--web` for general research.

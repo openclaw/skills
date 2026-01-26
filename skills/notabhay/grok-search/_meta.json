@@ -3,9 +3,15 @@
   "slug": "grok-search",
   "displayName": "grok-search",
   "latest": {
-    "version": "0.1.0",
-    "publishedAt": 1769439975447,
-    "commit": "https://github.com/clawdbot/skills/commit/d715469b769c291216d96ef136a4259e0fe53ed5"
+    "version": "0.2.1",
+    "publishedAt": 1769443868217,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "0.1.0",
+      "publishedAt": 1769439975447,
+      "commit": "https://github.com/clawdbot/skills/commit/d715469b769c291216d96ef136a4259e0fe53ed5"
+    }
+  ]
 }

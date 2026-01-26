@@ -1,0 +1,11 @@
+{
+  "owner": "danfedick",
+  "slug": "nomad",
+  "displayName": "Nomad",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769388922153,
+    "commit": null
+  },
+  "history": []
+}

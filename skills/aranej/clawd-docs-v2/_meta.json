@@ -1,11 +1,17 @@
 {
   "owner": "aranej",
   "slug": "clawd-docs-v2",
-  "displayName": "Clawd-Docs v2.0",
+  "displayName": "Clawd Docs V2",
   "latest": {
-    "version": "2.0.0",
-    "publishedAt": 1768423508903,
-    "commit": "https://github.com/clawdbot/skills/commit/e45679f1921c1dd0bbc7b6a759743bd71a116455"
+    "version": "2.1.3",
+    "publishedAt": 1769375813829,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "2.0.0",
+      "publishedAt": 1768423508903,
+      "commit": "https://github.com/clawdbot/skills/commit/e45679f1921c1dd0bbc7b6a759743bd71a116455"
+    }
+  ]
 }

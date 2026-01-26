@@ -3,12 +3,7 @@ name: edge-tts
 description: |
   Text-to-speech conversion using node-edge-tts npm package for generating audio from text.
   Supports multiple voices, languages, speed adjustment, pitch control, and subtitle generation.
-  Use when: (1) User requests audio/voice output with triggers like "read this to me",
-  "say that out loud", "play the audio", "narrate that", "read the search results",
-  "tell me what you found", or when keywords "tts", "voice", "to audio", "to podcast",
-  "read aloud" appear. (2) Content needs to be spoken rather than read
-  (multitasking, accessibility, driving, cooking). (3) User wants a specific voice,
-  speed, pitch, or format for TTS output.
+  Use when: (1) User requests audio/voice output with the "tts" trigger or keyword. (2) Content needs to be spoken rather than read (multitasking, accessibility, driving, cooking). (3) User wants a specific voice, speed, pitch, or format for TTS output.
 ---
 
 # Edge-TTS Skill
@@ -33,33 +28,7 @@ tts("Your text to convert to speech")
 
 ## Trigger Detection
 
-Recognize these natural language patterns as TTS requests:
-
-### Direct Message TTS
-- "read this to me"
-- "say that out loud"
-- "speak the last message"
-- "play the audio for this"
-- "i want to hear your response instead of reading it"
-- "narrate that for me"
-- "voice out the text above"
-- "read it out loud"
-
-### Search Results TTS
-- "read the search results"
-- "tell me what you found"
-- "give me a verbal summary of the news"
-- "what does the internet say about [topic]? speak the answer"
-- "read the top result aloud"
-- "can you talk me through these findings?"
-
-### Keyword-Based
-- "to audio"
-- "to podcast"
-- "read aloud"
-- "tts"
-- "voice mode"
-- "audio only"
+Recognize "tts" keyword as TTS requests. The skill automatically filters out TTS-related keywords from text before conversion to avoid converting the trigger words themselves to audio.
 
 ## Advanced Customization
 
@@ -154,6 +123,9 @@ Complete documentation for node-edge-tts npm package including:
 - Output formats
 - Best practices and limitations
 
+### Voice Testing
+Test different voices and preview audio quality at: https://tts.travisvn.com/
+
 Refer to this when you need specific voice details or advanced features.
 
 ## Installation
@@ -171,10 +143,46 @@ This installs:
 
 ## Workflow
 
-1. **Detect intent**: Check for trigger phrases or TTS keywords in user message
+1. **Detect intent**: Check for "tts" trigger or keyword in user message
 2. **Choose method**: Use built-in `tts` tool for simple requests, or `scripts/tts-converter.js` for customization
 3. **Generate audio**: Convert the target text (message, search results, summary)
 4. **Return to user**: The tts tool returns a MEDIA: path; Clawdbot handles delivery
+
+## Testing
+
+### Basic Test
+Run the test script to verify TTS functionality:
+```bash
+cd /home/user/clawd/skills/public/edge-tts/scripts
+npm test
+```
+This generates a test audio file and verifies the TTS service is working.
+
+### Voice Testing
+Test different voices and preview audio quality at: https://tts.travisvn.com/
+
+### Integration Test
+Use the built-in `tts` tool for quick testing:
+```javascript
+// Example: Test TTS with default settings
+tts("This is a test of the TTS functionality.")
+```
+
+### Configuration Test
+Verify configuration persistence:
+```bash
+cd /home/user/clawd/skills/public/edge-tts/scripts
+node config-manager.js --get
+node config-manager.js --set-voice en-US-GuyNeural
+node config-manager.js --get
+```
+
+## Troubleshooting
+
+- **Test connectivity**: Run `npm test` to check if TTS service is accessible
+- **Check voice availability**: Use `node tts-converter.js --list-voices` to see available voices
+- **Verify proxy settings**: If using proxy, test with `node tts-converter.js "test" --proxy http://localhost:7890`
+- **Check audio output**: The test should generate `test-output.mp3` in the scripts directory
 
 ## Notes
 
@@ -183,7 +191,7 @@ This installs:
 - Output is MP3 format by default
 - Requires internet connection
 - Supports subtitle generation (JSON format with word-level timing)
-- Audio files are temporary; Clawdbot handles cleanup
+- **Temporary File Handling**: By default, audio files are saved to the system's temporary directory (`/tmp/edge-tts-temp/` on Unix, `C:\Users\<user>\AppData\Local\Temp\edge-tts-temp\` on Windows) with unique filenames (e.g., `tts_1234567890_abc123.mp3`). Files are not automatically deleted - the calling application (Clawdbot) should handle cleanup after use. You can specify a custom output path with the `--output` option if permanent storage is needed.
 - **TTS keyword filtering**: The skill automatically filters out TTS-related keywords (tts, TTS, text-to-speech) from text before conversion to avoid converting the trigger words themselves to audio
 - For repeated preferences, use `config-manager.js` to set defaults
 - **Default voice**: `en-US-MichelleNeural` (female, natural)

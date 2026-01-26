@@ -1,0 +1,11 @@
+{
+  "owner": "jiasenl",
+  "slug": "clawdbot-skill-homebridge",
+  "displayName": "Homebridge",
+  "latest": {
+    "version": "0.1.0",
+    "publishedAt": 1769426902313,
+    "commit": null
+  },
+  "history": []
+}

@@ -1,0 +1,11 @@
+{
+  "owner": "arein",
+  "slug": "onchain-test",
+  "displayName": "Onchain Test",
+  "latest": {
+    "version": "0.1.2",
+    "publishedAt": 1769414664113,
+    "commit": null
+  },
+  "history": []
+}

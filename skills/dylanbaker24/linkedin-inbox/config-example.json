@@ -1,0 +1,41 @@
+{
+  "scan": {
+    "intervalMinutes": 60,
+    "activeHours": {
+      "start": 9,
+      "end": 18,
+      "timezone": "America/Los_Angeles"
+    },
+    "skipWeekends": true,
+    "browser": "Google Chrome"
+  },
+  "drafting": {
+    "styleProfile": "USER.md",
+    "autoClassify": true,
+    "templates": {
+      "decline_pitch": "Thanks for reaching out. Not a fit for us right now, but best of luck.",
+      "interested": "This looks interesting. Happy to chat more. What's your availability?",
+      "defer": "Let me think on this and get back to you.",
+      "referral": "I might know someone. Let me check and get back to you.",
+      "not_hiring": "Appreciate you thinking of me. Not looking for new opportunities right now."
+    },
+    "classificationRules": {
+      "pitch": ["services", "help you", "partnership", "offering", "solution"],
+      "job": ["opportunity", "role", "position", "hiring", "recruiter"],
+      "networking": ["connect", "coffee", "catch up", "learn more about"],
+      "spam": ["crypto", "guaranteed", "million", "investment opportunity"]
+    }
+  },
+  "notifications": {
+    "channel": "discord",
+    "target": "#linkedin",
+    "includeInMorningPing": true,
+    "urgentKeywords": ["urgent", "deadline", "asap", "today"]
+  },
+  "safety": {
+    "maxActionsPerHour": 20,
+    "requireApproval": true,
+    "dryRunMode": false,
+    "logAllActions": true
+  }
+}

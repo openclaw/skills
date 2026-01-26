@@ -1,0 +1,77 @@
+[
+  {
+    "id": "59a903eb-2f61-4fea-af66-6e25cd4c3771",
+    "contributors": {
+      "deep_sleep": 96,
+      "efficiency": 93,
+      "latency": 83,
+      "rem_sleep": 73,
+      "restfulness": 79,
+      "timing": 100,
+      "total_sleep": 69
+    },
+    "day": "2025-12-17",
+    "score": 81,
+    "timestamp": "2025-12-17T00:00:00.000+00:00"
+  },
+  {
+    "id": "072a0ca8-c292-49f5-9cd3-c95daaeb6dd8",
+    "contributors": {
+      "deep_sleep": 98,
+      "efficiency": 95,
+      "latency": 72,
+      "rem_sleep": 88,
+      "restfulness": 72,
+      "timing": 56,
+      "total_sleep": 96
+    },
+    "day": "2025-12-26",
+    "score": 85,
+    "timestamp": "2025-12-26T00:00:00.000+00:00"
+  },
+  {
+    "id": "d2a4bd67-8376-419c-9e7b-b808fe48c964",
+    "contributors": {
+      "deep_sleep": 97,
+      "efficiency": 93,
+      "latency": 70,
+      "rem_sleep": 72,
+      "restfulness": 79,
+      "timing": 5,
+      "total_sleep": 63
+    },
+    "day": "2025-12-27",
+    "score": 68,
+    "timestamp": "2025-12-27T00:00:00.000+00:00"
+  },
+  {
+    "id": "a148eced-6e10-496f-93f4-cdaefb9ec504",
+    "contributors": {
+      "deep_sleep": 97,
+      "efficiency": 98,
+      "latency": 89,
+      "rem_sleep": 96,
+      "restfulness": 92,
+      "timing": 28,
+      "total_sleep": 93
+    },
+    "day": "2025-12-29",
+    "score": 87,
+    "timestamp": "2025-12-29T00:00:00.000+00:00"
+  },
+  {
+    "id": "12cf59a6-f4ab-44f8-80a6-8febf583c487",
+    "contributors": {
+      "deep_sleep": 97,
+      "efficiency": 98,
+      "latency": 70,
+      "rem_sleep": 71,
+      "restfulness": 95,
+      "timing": 11,
+      "total_sleep": 45
+    },
+    "day": "2025-12-30",
+    "score": 65,
+    "timestamp": "2025-12-30T00:00:00.000+00:00"
+  }
+]

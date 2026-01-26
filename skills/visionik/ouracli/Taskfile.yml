@@ -1,0 +1,65 @@
+version: '3'
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  py:install:
+    desc: Install dependencies
+    cmds:
+      - pip install -e ".[dev]"
+
+  test:
+    desc: Run tests
+    cmds:
+      - pytest
+
+  test:coverage:
+    desc: Run tests with coverage
+    cmds:
+      - pytest --cov=src --cov-report=html --cov-report=term-missing
+
+  py:fmt:
+    desc: Format code (black, isort, ruff)
+    cmds:
+      - black src/ tests/
+      - isort src/ tests/
+      - ruff check --fix src/ tests/
+
+  py:lint:
+    desc: Lint code (ruff)
+    cmds:
+      - ruff check src/ tests/
+
+  py:type:
+    desc: Type check (mypy)
+    cmds:
+      - mypy src/
+
+  quality:
+    desc: Run all quality checks
+    deps:
+      - py:fmt
+      - py:lint
+      - py:type
+
+  check:
+    desc: Pre-commit checks (fmt, lint, type, test)
+    cmds:
+      - task: py:fmt
+      - task: py:lint
+      - task: py:type
+      - task: test
+
+  build:
+    desc: Build CLI
+    cmds:
+      - pip install -e .
+
+  clean:
+    desc: Clean artifacts
+    cmds:
+      - rm -rf build/ dist/ *.egg-info htmlcov/ .coverage .pytest_cache/ .mypy_cache/ .ruff_cache/
+      - find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true

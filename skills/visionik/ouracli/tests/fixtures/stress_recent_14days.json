@@ -1,0 +1,93 @@
+[
+  {
+    "id": "a13e976b-286a-48f7-9cf8-698282d5f339",
+    "day": "2025-12-17",
+    "day_summary": "stressful",
+    "recovery_high": 0,
+    "stress_high": 54900
+  },
+  {
+    "id": "070e141e-e9ee-4782-a540-1f99a24c5d9a",
+    "day": "2025-12-19",
+    "day_summary": null,
+    "recovery_high": 0,
+    "stress_high": 0
+  },
+  {
+    "id": "b51e238c-c6de-48ce-b1ec-8e33445112bd",
+    "day": "2025-12-20",
+    "day_summary": null,
+    "recovery_high": 0,
+    "stress_high": 0
+  },
+  {
+    "id": "bc6f1fec-a6dd-4dd5-a4a4-79bad9648655",
+    "day": "2025-12-21",
+    "day_summary": null,
+    "recovery_high": 0,
+    "stress_high": 0
+  },
+  {
+    "id": "1c1ddf61-faa6-4244-8429-9cdd4d9d868b",
+    "day": "2025-12-22",
+    "day_summary": null,
+    "recovery_high": 0,
+    "stress_high": 0
+  },
+  {
+    "id": "fab3d867-06e0-403c-9dac-85c085ce2777",
+    "day": "2025-12-23",
+    "day_summary": null,
+    "recovery_high": 0,
+    "stress_high": 0
+  },
+  {
+    "id": "4da63502-329e-403d-b64d-60035e86a81a",
+    "day": "2025-12-24",
+    "day_summary": null,
+    "recovery_high": 0,
+    "stress_high": 0
+  },
+  {
+    "id": "ce5811d7-80ff-4021-aa43-04ce3f479b13",
+    "day": "2025-12-25",
+    "day_summary": "normal",
+    "recovery_high": 2700,
+    "stress_high": 2700
+  },
+  {
+    "id": "b5e18e2c-b86a-4922-9844-295c59238ee0",
+    "day": "2025-12-26",
+    "day_summary": "stressful",
+    "recovery_high": 5400,
+    "stress_high": 11700
+  },
+  {
+    "id": "5ae594dd-212f-4069-a09a-e261361b2766",
+    "day": "2025-12-27",
+    "day_summary": null,
+    "recovery_high": 900,
+    "stress_high": 0
+  },
+  {
+    "id": "2cba4951-590b-48df-89bb-26fb7cab362d",
+    "day": "2025-12-28",
+    "day_summary": null,
+    "recovery_high": 0,
+    "stress_high": 0
+  },
+  {
+    "id": "fde9663e-fc04-4856-84c4-d5577936814e",
+    "day": "2025-12-29",
+    "day_summary": "stressful",
+    "recovery_high": 4500,
+    "stress_high": 29700
+  },
+  {
+    "id": "400814b8-7202-48f9-9f9e-44e8996cbe48",
+    "day": "2025-12-30",
+    "day_summary": null,
+    "recovery_high": 0,
+    "stress_high": 900
+  }
+]

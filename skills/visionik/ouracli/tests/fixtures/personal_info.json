@@ -1,0 +1,8 @@
+{
+  "id": "sanitized-user-id-12345",
+  "age": 54,
+  "weight": 125.2,
+  "height": 1.9,
+  "biological_sex": "male",
+  "email": "jsmith@some.where"
+}

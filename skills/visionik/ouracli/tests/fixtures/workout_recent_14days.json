@@ -1,0 +1,14 @@
+[
+  {
+    "id": "4a98b9bd-f865-4586-83ae-61ab23ce064a",
+    "activity": "strengthTraining",
+    "calories": 374.5845947265625,
+    "day": "2025-12-29",
+    "distance": 5410.298612515219,
+    "end_datetime": "2025-12-29T13:08:00.000-05:00",
+    "intensity": "moderate",
+    "label": null,
+    "source": "confirmed",
+    "start_datetime": "2025-12-29T12:06:00.000-05:00"
+  }
+]

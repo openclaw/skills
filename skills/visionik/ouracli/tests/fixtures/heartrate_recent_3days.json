@@ -1,0 +1,4742 @@
+[
+  {
+    "timestamp": "2025-12-29T06:19:18.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:19:20.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:19:24.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:21:06.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:21:31.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:21:57.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:26:18.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:26:20.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:26:45.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T06:29:47.000Z",
+    "bpm": 68,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T06:34:47.000Z",
+    "bpm": 68,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T06:39:47.000Z",
+    "bpm": 69,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T06:44:47.000Z",
+    "bpm": 69,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T06:49:47.000Z",
+    "bpm": 69,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T06:54:47.000Z",
+    "bpm": 68,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T06:59:47.000Z",
+    "bpm": 68,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:04:47.000Z",
+    "bpm": 68,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:09:47.000Z",
+    "bpm": 68,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:14:47.000Z",
+    "bpm": 67,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:19:47.000Z",
+    "bpm": 66,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:24:47.000Z",
+    "bpm": 66,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:29:47.000Z",
+    "bpm": 66,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:34:47.000Z",
+    "bpm": 66,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:39:47.000Z",
+    "bpm": 65,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:44:47.000Z",
+    "bpm": 65,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:49:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:54:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T07:59:47.000Z",
+    "bpm": 63,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:04:47.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:09:47.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:14:47.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:19:47.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:24:47.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:29:47.000Z",
+    "bpm": 65,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:34:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:39:47.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:44:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:49:47.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:54:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T08:59:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:04:47.000Z",
+    "bpm": 56,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:09:47.000Z",
+    "bpm": 56,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:14:47.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:19:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:24:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:29:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:34:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:39:47.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:44:47.000Z",
+    "bpm": 56,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:49:47.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:54:47.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T09:57:02.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:04:47.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:09:47.000Z",
+    "bpm": 63,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:14:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:19:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:24:47.000Z",
+    "bpm": 66,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:29:47.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:34:47.000Z",
+    "bpm": 67,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:39:47.000Z",
+    "bpm": 65,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:44:47.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:49:47.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:54:47.000Z",
+    "bpm": 56,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T10:59:47.000Z",
+    "bpm": 55,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:04:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:09:47.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:14:47.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:19:47.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:24:47.000Z",
+    "bpm": 63,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:29:47.000Z",
+    "bpm": 63,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:34:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:39:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:44:47.000Z",
+    "bpm": 65,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:49:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:54:47.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T11:59:47.000Z",
+    "bpm": 66,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:01:03.000Z",
+    "bpm": 70,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:14:47.000Z",
+    "bpm": 55,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:19:47.000Z",
+    "bpm": 56,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:24:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:29:47.000Z",
+    "bpm": 55,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:34:47.000Z",
+    "bpm": 56,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:39:47.000Z",
+    "bpm": 54,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:44:47.000Z",
+    "bpm": 55,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:49:47.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:54:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T12:59:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:04:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:09:47.000Z",
+    "bpm": 63,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:14:47.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:19:47.000Z",
+    "bpm": 56,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:24:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:29:47.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:34:47.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:39:47.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:44:47.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:49:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:54:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T13:59:47.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T14:04:47.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T14:09:47.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T14:27:23.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:27:37.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:28:34.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:32:52.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:33:20.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:33:29.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:43:50.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:43:53.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:44:00.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:53:58.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:54:24.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T14:54:29.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:13:31.000Z",
+    "bpm": 61,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:23:21.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:23:33.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:24:32.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:33:09.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:33:10.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:33:46.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:44:38.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:44:39.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:46:59.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:47:08.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:47:14.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:52:53.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:53:20.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:58:53.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T15:59:19.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:00:00.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:05:28.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:05:40.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:06:01.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:09:45.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:10:12.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:10:28.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:10:31.000Z",
+    "bpm": 70,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-29T16:11:57.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:12:04.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:12:08.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:28:06.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:28:21.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:29:00.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:33:09.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:33:11.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:33:53.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:38:10.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:38:25.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:39:25.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:46:26.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:47:05.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:47:06.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:48:38.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:48:54.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:49:17.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:53:45.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:55:06.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T16:55:29.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:06:40.000Z",
+    "bpm": 108,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:06:41.000Z",
+    "bpm": 111,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:06:43.000Z",
+    "bpm": 106,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:16:51.000Z",
+    "bpm": 92,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:16:57.000Z",
+    "bpm": 97,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:17:00.000Z",
+    "bpm": 94,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:36:15.000Z",
+    "bpm": 124,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:36:18.000Z",
+    "bpm": 123,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:36:20.000Z",
+    "bpm": 122,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:46:06.000Z",
+    "bpm": 115,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:46:07.000Z",
+    "bpm": 113,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T17:46:15.000Z",
+    "bpm": 111,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:00:57.000Z",
+    "bpm": 109,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:01:12.000Z",
+    "bpm": 105,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:01:20.000Z",
+    "bpm": 107,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:06:50.000Z",
+    "bpm": 110,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:06:59.000Z",
+    "bpm": 105,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:07:12.000Z",
+    "bpm": 112,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:12:42.000Z",
+    "bpm": 100,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:13:46.000Z",
+    "bpm": 97,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:13:55.000Z",
+    "bpm": 98,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:18:58.000Z",
+    "bpm": 98,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:19:36.000Z",
+    "bpm": 96,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:20:08.000Z",
+    "bpm": 95,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:24:21.000Z",
+    "bpm": 94,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:24:24.000Z",
+    "bpm": 96,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:25:18.000Z",
+    "bpm": 92,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:29:02.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:30:00.000Z",
+    "bpm": 90,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:30:03.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:34:09.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:34:30.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:35:04.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:39:10.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:40:22.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:40:32.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:45:07.000Z",
+    "bpm": 85,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:45:59.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:46:02.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:50:12.000Z",
+    "bpm": 90,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:50:14.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:50:15.000Z",
+    "bpm": 83,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:52:04.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:52:15.000Z",
+    "bpm": 82,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:53:23.000Z",
+    "bpm": 83,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:57:05.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:57:26.000Z",
+    "bpm": 83,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T18:58:11.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:02:43.000Z",
+    "bpm": 83,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:03:14.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:03:27.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:09:08.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:09:09.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:09:10.000Z",
+    "bpm": 94,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:11:06.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:11:08.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:11:13.000Z",
+    "bpm": 85,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:13:39.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:13:49.000Z",
+    "bpm": 95,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:14:32.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:19:21.000Z",
+    "bpm": 90,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:19:28.000Z",
+    "bpm": 92,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:19:49.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:21:51.000Z",
+    "bpm": 90,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:21:55.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:22:57.000Z",
+    "bpm": 92,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:26:49.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:27:15.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:28:23.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:32:09.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:32:39.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:33:18.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:37:19.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:37:36.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:38:55.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:43:16.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:43:25.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:43:29.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:47:51.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:48:34.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:48:48.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:53:01.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:53:34.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T19:53:59.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:02:49.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:02:53.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:03:53.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:20:55.000Z",
+    "bpm": 109,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:20:56.000Z",
+    "bpm": 113,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:20:58.000Z",
+    "bpm": 99,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:30:20.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:30:34.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:30:42.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:34:32.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:34:46.000Z",
+    "bpm": 85,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:35:24.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:39:01.000Z",
+    "bpm": 85,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:40:21.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:40:40.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:44:25.000Z",
+    "bpm": 108,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:44:40.000Z",
+    "bpm": 97,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:44:51.000Z",
+    "bpm": 100,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:49:43.000Z",
+    "bpm": 94,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:49:45.000Z",
+    "bpm": 96,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:51:37.000Z",
+    "bpm": 93,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:51:39.000Z",
+    "bpm": 96,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:51:43.000Z",
+    "bpm": 94,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:54:24.000Z",
+    "bpm": 90,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:54:30.000Z",
+    "bpm": 93,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:55:23.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T20:59:43.000Z",
+    "bpm": 99,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:00:00.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:00:01.000Z",
+    "bpm": 95,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:05:46.000Z",
+    "bpm": 96,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:05:51.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:05:59.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:10:04.000Z",
+    "bpm": 101,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:10:06.000Z",
+    "bpm": 104,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:10:36.000Z",
+    "bpm": 105,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:20:22.000Z",
+    "bpm": 99,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:20:36.000Z",
+    "bpm": 100,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:20:40.000Z",
+    "bpm": 104,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:26:06.000Z",
+    "bpm": 107,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:26:39.000Z",
+    "bpm": 103,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:26:52.000Z",
+    "bpm": 105,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:31:21.000Z",
+    "bpm": 97,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:31:22.000Z",
+    "bpm": 102,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:31:48.000Z",
+    "bpm": 100,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:33:49.000Z",
+    "bpm": 111,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:33:50.000Z",
+    "bpm": 108,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:33:56.000Z",
+    "bpm": 106,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:37:12.000Z",
+    "bpm": 103,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:37:14.000Z",
+    "bpm": 105,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:37:56.000Z",
+    "bpm": 101,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:42:57.000Z",
+    "bpm": 100,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:43:13.000Z",
+    "bpm": 97,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:45:17.000Z",
+    "bpm": 98,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:45:21.000Z",
+    "bpm": 101,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:46:51.000Z",
+    "bpm": 103,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:52:45.000Z",
+    "bpm": 115,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:52:47.000Z",
+    "bpm": 119,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:54:30.000Z",
+    "bpm": 116,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T21:59:57.000Z",
+    "bpm": 99,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:00:03.000Z",
+    "bpm": 102,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:00:38.000Z",
+    "bpm": 106,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:02:55.000Z",
+    "bpm": 103,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:03:03.000Z",
+    "bpm": 106,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:04:25.000Z",
+    "bpm": 104,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:02.700Z",
+    "bpm": 112,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:07.700Z",
+    "bpm": 111,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:12.700Z",
+    "bpm": 111,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:17.700Z",
+    "bpm": 112,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:22.700Z",
+    "bpm": 113,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:27.700Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:32.700Z",
+    "bpm": 115,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:37.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:42.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:47.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:52.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:08:57.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:02.700Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:07.700Z",
+    "bpm": 112,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:12.700Z",
+    "bpm": 111,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:17.700Z",
+    "bpm": 110,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:22.700Z",
+    "bpm": 109,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:27.700Z",
+    "bpm": 109,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:32.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:37.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:42.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:47.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:52.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:57.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:09:59.000Z",
+    "bpm": 105,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:02.700Z",
+    "bpm": 105,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:07.700Z",
+    "bpm": 105,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:09.000Z",
+    "bpm": 106,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:12.700Z",
+    "bpm": 105,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:17.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:22.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:27.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:32.000Z",
+    "bpm": 111,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:32.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:37.700Z",
+    "bpm": 105,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:42.700Z",
+    "bpm": 105,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:47.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:52.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:10:57.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:02.700Z",
+    "bpm": 107,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:07.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:12.700Z",
+    "bpm": 109,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:17.700Z",
+    "bpm": 110,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:22.700Z",
+    "bpm": 109,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:27.700Z",
+    "bpm": 110,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:32.700Z",
+    "bpm": 110,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:37.700Z",
+    "bpm": 111,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:42.700Z",
+    "bpm": 112,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:47.700Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:52.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:11:57.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:02.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:07.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:12.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:17.700Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:22.700Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:27.700Z",
+    "bpm": 115,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:32.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:37.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:42.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:47.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:52.700Z",
+    "bpm": 115,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:12:57.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:02.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:07.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:12.700Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:17.700Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:22.700Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:27.700Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:32.700Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:37.700Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:42.700Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:47.700Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:52.700Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:13:57.700Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:02.700Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:07.700Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:12.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:17.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:22.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:27.700Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:32.700Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:37.700Z",
+    "bpm": 115,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:42.700Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:47.700Z",
+    "bpm": 113,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:52.700Z",
+    "bpm": 112,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:14:57.700Z",
+    "bpm": 112,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:02.700Z",
+    "bpm": 112,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:07.700Z",
+    "bpm": 111,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:12.700Z",
+    "bpm": 110,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:17.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:22.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:27.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:29.000Z",
+    "bpm": 109,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:32.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:37.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:40.000Z",
+    "bpm": 107,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:42.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:47.000Z",
+    "bpm": 105,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:47.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:52.700Z",
+    "bpm": 107,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:15:57.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:16:02.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:16:07.700Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:16:12.700Z",
+    "bpm": 107,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:16:17.700Z",
+    "bpm": 107,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:16:22.700Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:20:40.000Z",
+    "bpm": 116,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:20:52.000Z",
+    "bpm": 110,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:21:30.000Z",
+    "bpm": 107,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:33:01.000Z",
+    "bpm": 111,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:33:02.000Z",
+    "bpm": 108,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:33:11.000Z",
+    "bpm": 105,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:41:38.000Z",
+    "bpm": 110,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:41:44.000Z",
+    "bpm": 107,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:42:36.000Z",
+    "bpm": 115,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:47:12.000Z",
+    "bpm": 96,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:47:19.000Z",
+    "bpm": 99,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:47:47.000Z",
+    "bpm": 97,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T22:54:33.200Z",
+    "bpm": 124,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:54:38.200Z",
+    "bpm": 125,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:54:43.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:54:48.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:54:53.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:54:58.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:03.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:08.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:13.200Z",
+    "bpm": 125,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:18.200Z",
+    "bpm": 124,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:23.200Z",
+    "bpm": 124,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:28.200Z",
+    "bpm": 124,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:33.200Z",
+    "bpm": 125,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:38.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:43.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:48.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:53.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:55:58.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:03.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:08.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:13.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:18.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:23.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:28.200Z",
+    "bpm": 128,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:33.200Z",
+    "bpm": 128,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:38.200Z",
+    "bpm": 128,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:43.200Z",
+    "bpm": 128,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:48.200Z",
+    "bpm": 128,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:53.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:56:58.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:03.200Z",
+    "bpm": 127,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:08.200Z",
+    "bpm": 126,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:13.200Z",
+    "bpm": 125,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:18.200Z",
+    "bpm": 124,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:23.200Z",
+    "bpm": 124,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:28.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:33.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:38.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:43.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:48.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:53.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:57:58.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:03.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:08.200Z",
+    "bpm": 123,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:13.200Z",
+    "bpm": 122,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:18.200Z",
+    "bpm": 122,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:23.200Z",
+    "bpm": 122,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:28.200Z",
+    "bpm": 122,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:33.200Z",
+    "bpm": 121,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:38.200Z",
+    "bpm": 120,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:43.200Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:48.200Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:53.200Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:58:58.200Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:03.200Z",
+    "bpm": 113,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:08.200Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:13.200Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:18.200Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:23.200Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:28.200Z",
+    "bpm": 115,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:33.200Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:38.200Z",
+    "bpm": 113,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:43.200Z",
+    "bpm": 111,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:48.200Z",
+    "bpm": 109,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:53.200Z",
+    "bpm": 107,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T22:59:58.200Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:03.200Z",
+    "bpm": 107,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:08.200Z",
+    "bpm": 109,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:13.200Z",
+    "bpm": 110,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:18.200Z",
+    "bpm": 113,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:23.200Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:28.200Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:33.200Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:38.200Z",
+    "bpm": 118,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:43.200Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:48.200Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:53.200Z",
+    "bpm": 120,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:00:58.200Z",
+    "bpm": 120,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:03.200Z",
+    "bpm": 119,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:08.200Z",
+    "bpm": 117,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:13.200Z",
+    "bpm": 116,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:18.200Z",
+    "bpm": 115,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:23.200Z",
+    "bpm": 115,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:28.200Z",
+    "bpm": 114,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:33.200Z",
+    "bpm": 113,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:38.200Z",
+    "bpm": 112,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:43.200Z",
+    "bpm": 110,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:48.200Z",
+    "bpm": 109,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:53.200Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:01:58.200Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:03.200Z",
+    "bpm": 108,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:08.200Z",
+    "bpm": 107,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:13.200Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:18.200Z",
+    "bpm": 106,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:23.000Z",
+    "bpm": 103,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:23.200Z",
+    "bpm": 105,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:28.200Z",
+    "bpm": 105,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:33.200Z",
+    "bpm": 103,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:38.200Z",
+    "bpm": 101,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:43.200Z",
+    "bpm": 100,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:46.000Z",
+    "bpm": 98,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:48.200Z",
+    "bpm": 99,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:53.200Z",
+    "bpm": 98,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:02:58.200Z",
+    "bpm": 98,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:03.200Z",
+    "bpm": 98,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:08.200Z",
+    "bpm": 99,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:11.000Z",
+    "bpm": 100,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:13.200Z",
+    "bpm": 99,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:18.200Z",
+    "bpm": 100,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:23.200Z",
+    "bpm": 99,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:28.200Z",
+    "bpm": 98,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:33.200Z",
+    "bpm": 96,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:38.200Z",
+    "bpm": 95,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:43.200Z",
+    "bpm": 94,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:48.200Z",
+    "bpm": 94,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:53.200Z",
+    "bpm": 94,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:03:58.200Z",
+    "bpm": 95,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:03.200Z",
+    "bpm": 97,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:08.200Z",
+    "bpm": 97,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:13.200Z",
+    "bpm": 97,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:18.200Z",
+    "bpm": 96,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:23.200Z",
+    "bpm": 95,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:28.200Z",
+    "bpm": 95,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:33.200Z",
+    "bpm": 96,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:38.200Z",
+    "bpm": 97,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:43.200Z",
+    "bpm": 97,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:48.200Z",
+    "bpm": 97,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:53.200Z",
+    "bpm": 95,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:04:58.200Z",
+    "bpm": 94,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:03.200Z",
+    "bpm": 94,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:08.200Z",
+    "bpm": 95,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:13.200Z",
+    "bpm": 96,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:18.200Z",
+    "bpm": 97,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:23.200Z",
+    "bpm": 98,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:28.200Z",
+    "bpm": 98,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:33.200Z",
+    "bpm": 98,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:38.200Z",
+    "bpm": 98,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:43.200Z",
+    "bpm": 99,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:48.200Z",
+    "bpm": 100,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:05:53.200Z",
+    "bpm": 100,
+    "source": "workout"
+  },
+  {
+    "timestamp": "2025-12-29T23:09:11.000Z",
+    "bpm": 94,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:09:55.000Z",
+    "bpm": 95,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:10:24.000Z",
+    "bpm": 92,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:14:50.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:14:52.000Z",
+    "bpm": 92,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:14:57.000Z",
+    "bpm": 93,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:19:58.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:20:39.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:21:19.000Z",
+    "bpm": 92,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:25:08.000Z",
+    "bpm": 93,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:25:16.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:25:50.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:27:56.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:28:10.000Z",
+    "bpm": 90,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:28:41.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:33:14.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:33:54.000Z",
+    "bpm": 91,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:34:04.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:37:49.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:38:19.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:39:15.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:43:02.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:43:40.000Z",
+    "bpm": 85,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:44:14.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:50:41.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:50:44.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:51:01.000Z",
+    "bpm": 85,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:53:24.000Z",
+    "bpm": 82,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:53:27.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:55:40.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:55:49.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-29T23:55:57.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:01:08.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:01:13.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:01:14.000Z",
+    "bpm": 89,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:08:02.000Z",
+    "bpm": 83,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:08:13.000Z",
+    "bpm": 87,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:09:00.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:13:26.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:14:44.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:14:54.000Z",
+    "bpm": 84,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:19:00.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:19:38.000Z",
+    "bpm": 82,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:20:09.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:23:47.000Z",
+    "bpm": 82,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:23:59.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:24:07.000Z",
+    "bpm": 85,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:29:38.000Z",
+    "bpm": 83,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:30:21.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:30:23.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:34:48.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:34:53.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:36:07.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:39:48.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:39:52.000Z",
+    "bpm": 82,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:39:55.000Z",
+    "bpm": 86,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:49:44.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:50:20.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:50:58.000Z",
+    "bpm": 82,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:54:55.000Z",
+    "bpm": 83,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:55:00.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T00:55:39.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:00:02.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:00:31.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:00:45.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:05:27.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:05:49.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:05:55.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:10:24.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:10:29.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:10:48.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:12:34.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:12:47.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:12:49.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:18:00.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:18:51.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:19:27.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:24:13.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:24:17.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:24:55.000Z",
+    "bpm": 82,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:34:17.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:34:50.000Z",
+    "bpm": 82,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:44:12.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:44:14.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:44:16.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:54:35.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:54:39.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T01:54:53.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:04:13.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:04:15.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:04:51.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:25:54.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:25:56.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:25:59.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:36:28.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:37:00.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:37:20.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:41:48.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:41:49.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:41:58.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:47:52.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:48:12.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:49:10.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:53:26.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:53:31.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:53:38.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:59:37.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:59:38.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T02:59:41.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:04:15.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:05:23.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:05:38.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:09:38.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:10:07.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:10:10.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:17:31.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:17:43.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:18:14.000Z",
+    "bpm": 81,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:31:23.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:31:29.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:31:59.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:36:44.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:37:15.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:37:17.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:42:34.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:43:14.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:43:48.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:47:54.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:48:30.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:48:31.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:53:26.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:53:44.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:54:33.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:59:10.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:59:20.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T03:59:26.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:01:57.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:02:02.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:02:24.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:06:53.000Z",
+    "bpm": 88,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:07:05.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:07:10.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:09:29.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:09:41.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:09:46.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:14:44.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:15:01.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:15:12.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:25:12.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:25:16.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:25:23.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:27:05.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:27:23.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:27:40.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:32:21.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:32:24.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:32:33.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:37:25.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:37:28.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:37:48.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:45:23.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:45:24.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:45:43.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:48:02.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:49:14.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:49:28.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:52:49.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:52:58.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:53:23.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:58:13.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:58:14.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T04:58:29.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:00:16.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:00:17.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:00:46.000Z",
+    "bpm": 79,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:05:21.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:05:23.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:05:29.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:07:48.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:08:53.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:09:02.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:12:55.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:13:10.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:13:12.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:15:24.000Z",
+    "bpm": 80,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:15:48.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:17:18.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:17:47.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:17:48.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:20:22.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:20:56.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:21:18.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:26:17.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:26:36.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:26:40.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:30:39.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:31:47.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:31:58.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:36:17.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:36:36.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:36:59.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:41:26.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:41:47.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:41:53.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:46:40.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:47:34.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:47:39.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:51:03.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:51:23.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:51:56.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:56:51.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:57:58.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T05:58:13.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:01:38.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:02:35.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:02:52.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:07:11.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:08:14.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:08:18.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:12:56.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:13:18.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:13:21.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:18:22.000Z",
+    "bpm": 72,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:18:23.000Z",
+    "bpm": 74,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:18:31.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:21:20.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:21:21.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:21:31.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:24:08.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:24:46.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:25:29.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:29:35.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:29:38.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:29:56.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:31:43.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:32:03.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:32:24.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:40:05.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:40:49.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:40:55.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:45:05.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:45:14.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:45:45.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:50:22.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:55:28.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:55:47.000Z",
+    "bpm": 73,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T06:56:46.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:01:32.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:01:33.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:01:43.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:06:38.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:07:25.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:07:38.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:11:10.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:11:11.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:11:12.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:13:40.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:14:04.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:14:49.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:18:29.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:18:39.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:18:42.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:21:01.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:23:26.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:23:36.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:23:38.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:28:41.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:29:00.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:29:54.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:33:51.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:33:56.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:34:00.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:38:57.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:38:59.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:39:11.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:46:31.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:46:38.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:46:52.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:51:49.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:51:58.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:52:10.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:58:47.000Z",
+    "bpm": 95,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:58:57.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T07:59:12.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:00:59.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:03:33.000Z",
+    "bpm": 61,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:04:14.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:04:43.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:09:43.000Z",
+    "bpm": 139,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:09:44.000Z",
+    "bpm": 135,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:09:52.000Z",
+    "bpm": 144,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:14:20.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:19:17.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:19:55.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:20:00.000Z",
+    "bpm": 75,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:27:07.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:27:16.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:27:51.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:30:08.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:30:10.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:30:25.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:35:33.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:35:35.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:35:36.000Z",
+    "bpm": 70,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:47:41.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:47:51.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:47:53.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:54:01.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:54:11.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T08:55:04.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:02:19.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:02:20.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:02:40.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:07:05.000Z",
+    "bpm": 66,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:07:10.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:07:11.000Z",
+    "bpm": 64,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:14:34.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:14:35.000Z",
+    "bpm": 77,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:14:55.000Z",
+    "bpm": 68,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:16:47.000Z",
+    "bpm": 78,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:16:48.000Z",
+    "bpm": 76,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:17:16.000Z",
+    "bpm": 71,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:19:45.000Z",
+    "bpm": 69,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:19:50.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:20:11.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:24:49.000Z",
+    "bpm": 61,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:26:28.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:26:30.000Z",
+    "bpm": 67,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:30:11.000Z",
+    "bpm": 65,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:31:58.000Z",
+    "bpm": 62,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:32:01.000Z",
+    "bpm": 63,
+    "source": "awake"
+  },
+  {
+    "timestamp": "2025-12-30T09:50:17.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T09:55:17.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:00:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:05:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:10:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:15:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:20:17.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:25:17.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:30:17.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:35:17.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:40:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:45:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:50:18.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T10:55:18.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:00:18.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:05:18.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:10:18.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:15:18.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:20:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:25:17.000Z",
+    "bpm": 66,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:30:17.000Z",
+    "bpm": 69,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:35:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:40:17.000Z",
+    "bpm": 63,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:45:17.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:50:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T11:55:17.000Z",
+    "bpm": 63,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:00:17.000Z",
+    "bpm": 63,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:05:17.000Z",
+    "bpm": 64,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:10:17.000Z",
+    "bpm": 67,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:15:17.000Z",
+    "bpm": 65,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:20:17.000Z",
+    "bpm": 61,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:25:17.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:30:17.000Z",
+    "bpm": 65,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:35:17.000Z",
+    "bpm": 65,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:40:17.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:45:17.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:50:17.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T12:55:17.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:00:17.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:05:17.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:10:17.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:15:17.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:20:17.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:25:17.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:30:17.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:35:17.000Z",
+    "bpm": 60,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:40:17.000Z",
+    "bpm": 55,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:45:17.000Z",
+    "bpm": 57,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:50:17.000Z",
+    "bpm": 58,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T13:55:17.000Z",
+    "bpm": 59,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T14:00:17.000Z",
+    "bpm": 62,
+    "source": "rest"
+  },
+  {
+    "timestamp": "2025-12-30T14:15:17.000Z",
+    "bpm": 53,
+    "source": "rest"
+  }
+]

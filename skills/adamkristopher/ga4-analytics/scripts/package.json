@@ -1,0 +1,17 @@
+{
+  "name": "ga4-toolkit",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@google-analytics/data": "^4.9.0",
+    "@googleapis/indexing": "^6.0.1",
+    "@googleapis/searchconsole": "^6.0.1",
+    "dotenv": "^16.4.7",
+    "googleapis": "^170.0.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

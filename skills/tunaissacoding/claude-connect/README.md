@@ -1,152 +1,62 @@
-# claude-connect
+# ⚠️ DEPRECATED — Clawdbot Handles This Natively
 
-Connect Claude to Clawdbot instantly and keep it connected 24/7.
+**This skill is no longer needed.**
 
-**The problem:** Clawdbot can't find your Claude Code token after setup, and tokens expire every 8 hours causing authentication failures.
+As of January 2026, Clawdbot has built-in OAuth support that:
+- Connects to Claude via the setup wizard (`clawdbot onboard --auth-choice claude-cli`)
+- Automatically refreshes tokens before expiry
+- Updates auth profiles without any user intervention
 
-**This tool:** Connects your Claude subscription to Clawdbot, then automatically refreshes tokens before they expire so you never see auth errors.
-
----
-
-## ⚡ What It Does
-
-**Your Claude subscription works with Clawdbot, and stays working.**
-
-The tool:
-- Connects your Claude tokens to Clawdbot's auth config
-- Auto-refreshes tokens 30 minutes before they expire
-- Runs silently in the background every few hours
-- Handles duplicate/incomplete Keychain entries automatically
-
-Zero manual intervention after initial setup.
+**You don't need to install this skill.** Just run `clawdbot onboard` and select Claude CLI auth — it pulls tokens from Keychain automatically.
 
 ---
 
-## 🛠️ Getting Ready
+## What This Skill Was For
 
-Before installing this skill:
+This skill was created to solve two issues before native support existed:
+1. Getting Clawdbot to recognize Claude tokens from Keychain
+2. Keeping tokens refreshed automatically
 
-**You'll need:**
-- **macOS 10.15 (Catalina) or later** with Keychain access
-- **Active Claude subscription** (Pro, Max, Team, or Enterprise)
-
-**Install through Homebrew:**
-
-```bash
-# Install jq (for JSON parsing)
-brew install jq
-```
-
-**Set up Claude Code CLI:**
-
-### Step 1: Install Claude Code CLI
-
-```bash
-curl -fsSL https://claude.ai/install.sh | bash
-```
-
-### Step 2: Log Into Your Claude Account
-
-**Start Claude Code CLI:**
-```bash
-claude
-```
-
-**Then inside the CLI, run:**
-```
-/login
-```
-
-Follow the login prompts in your browser. **This creates the Keychain item** that stores your tokens.
+**Clawdbot now does both of these automatically.**
 
 ---
 
-## 🚀 Installation
+## If You Have This Installed
 
-⚠️ **Important:** Run these commands in a **new Terminal window**, not inside Claude Code CLI. Running inside Claude Code will disconnect it mid-refresh and break the process.
+You can safely:
+1. Remove the launchd job: `launchctl unload ~/Library/LaunchAgents/com.clawdbot.claude-oauth-refresh.plist`
+2. Delete the skill folder: `rm -rf ~/clawd/skills/claude-connect`
+3. Remove any related cron jobs
 
-```bash
-# Install the skill
-clawdhub install claude-connect
-
-# Alternative: Install from GitHub (if clawdhub isn't working)
-cd ~/clawd/skills
-git clone https://github.com/clawdbot/claude-connect.git
-cd claude-connect
-chmod +x *.sh
-
-# Connect Claude to Clawdbot (in a NEW terminal, not Claude Code)
-cd ~/clawd/skills/claude-connect
-./refresh-token.sh --force
-```
-
-**Expected output (you MUST see "Keychain updated"):**
-```
-[2026-01-24 13:46:22] ✓ Keychain updated
-[2026-01-24 13:46:22] Scheduling gateway reload...
-[2026-01-24 13:46:22] ✓ Gateway restart scheduled
-[2026-01-24 13:46:22] Refresh complete
-
-✅ Token refreshed successfully!
-New expiry: 2026-01-24 21:46:22
-Expires in: 8 hours
-```
-
-⚠️ **If you don't see "✓ Keychain updated"**, the refresh failed. Make sure you're running in a new Terminal, not inside Claude Code CLI.
-
-**Done!** Claude is now connected to Clawdbot, and the connection stays alive 24/7.
+Your tokens will continue to work via Clawdbot's native support.
 
 ---
 
-### What This Does
+## Still Having Issues?
 
-**Solves two specific issues:**
+If `clawdbot onboard` doesn't find your Claude tokens:
 
-1. **Connection:** Links your Claude subscription to Clawdbot
-   - Reads from Keychain (where `claude` + `/login` stored tokens)
-   - Writes to Clawdbot's auth-profiles.json
-   - Clawdbot can now use Claude
+1. Make sure Claude CLI is installed and logged in:
+   ```bash
+   claude
+   # Then run: /login
+   ```
 
-2. **Maintenance:** Keeps the connection alive
-   - Checks expiry every few hours
-   - Refreshes 30 min before expiry
-   - You never see auth failures
+2. Re-run the Clawdbot wizard:
+   ```bash
+   clawdbot onboard --auth-choice claude-cli
+   ```
 
 ---
 
-## 🔧 How It Works
+## Historical Reference
 
-**Result:** Claude stays connected without you thinking about it.
+This repo is kept for historical reference only. The code is no longer maintained.
 
-**The process:**
+**Original purpose:** Connect Claude subscription to Clawdbot and keep tokens refreshed.
 
-1. **Scans Keychain:** Finds all `"Claude Code-credentials"` entries
-2. **Validates tokens:** Uses first entry with complete OAuth data
-3. **Checks expiry:** Refreshes 30 minutes before token expires
-4. **Calls OAuth API:** Gets new tokens from Anthropic
-5. **Updates configs:** Writes to both Keychain and Clawdbot's auth-profiles.json
+---
 
-**Example (force refresh):**
+## License
 
-```bash
-./refresh-token.sh --force
-```
-
-Output:
-```
-Scanning for all 'Claude Code-credentials' entries...
-Found 2 entry/entries
-Checking entry with account: Claude Code
-  ⚠ Entry incomplete, continuing...
-Checking entry with account: claude
-✓ Found complete OAuth tokens
-
-Force refresh requested (token expires in 21 minutes)
-Calling OAuth endpoint...
-✓ Received new tokens
-New expiry: 2026-01-24 09:27:17 (8 hours)
-✓ Auth file updated
-✓ Keychain updated
-
-✅ Token refreshed successfully!
-```
+MIT

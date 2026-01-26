@@ -1,6 +1,6 @@
 #!/bin/bash
 # refresh-token.sh - Clawdbot OAuth token refresh
-# Matches the exact process: Keychain JSON → OAuth API → Update auth-profiles.json + Keychain
+# FIXED: Properly writes OAuth format to auth-profiles.json
 # Usage: ./refresh-token.sh [--force]
 
 set -euo pipefail
@@ -18,7 +18,7 @@ CONFIG_FILE="$SCRIPT_DIR/claude-oauth-refresh-config.json"
 DEFAULT_KEYCHAIN_SERVICE="Claude Code-credentials"
 DEFAULT_KEYCHAIN_FIELD="claudeAiOauth"
 DEFAULT_AUTH_FILE="$HOME/.clawdbot/agents/main/agent/auth-profiles.json"
-DEFAULT_PROFILE_NAME="anthropic:default"
+DEFAULT_PROFILE_NAME="anthropic:claude-cli"  # FIXED: Use claude-cli for OAuth
 DEFAULT_CLIENT_ID="9d1c250a-e61b-44d9-88ed-5944d1962f5e"
 DEFAULT_TOKEN_URL="https://console.anthropic.com/v1/oauth/token"
 DEFAULT_REFRESH_BUFFER=30
@@ -117,7 +117,7 @@ validate_keychain_data() {
     fi
 }
 
-# Get ALL account names for this service (account name doesn't matter, we just need to iterate)
+# Get ALL account names for this service
 log "Scanning for all '$KEYCHAIN_SERVICE' entries..."
 ALL_ACCOUNTS=$(security dump-keychain 2>/dev/null | \
     awk '/^class: "genp"/,/^keychain:/ {
@@ -158,10 +158,10 @@ while IFS= read -r account; do
         KEYCHAIN_DATA="$TEMP_DATA"
         KEYCHAIN_ACCOUNT="$account"
         FOUND=true
-        log "✓ Found complete OAuth tokens in this entry"
+        log "✓ Found complete OAuth tokens"
         break
     else
-        log "  ⚠ Entry incomplete or invalid, continuing..."
+        log "⚠ Entry incomplete, continuing..."
     fi
 done <<< "$ALL_ACCOUNTS"
 
@@ -195,17 +195,17 @@ TIME_LEFT_MIN=$((TIME_LEFT_MS / 60000))
 if [[ "$FORCE_REFRESH" == "false" ]] && [[ $TIME_LEFT_MIN -gt $REFRESH_BUFFER ]]; then
     log "Token still valid for ${TIME_LEFT_MIN} minutes (buffer: ${REFRESH_BUFFER}m)"
     
-    # Sync token to auth-profiles.json if not already there (first run)
+    # FIXED: Sync token to auth-profiles.json in proper OAuth format
     ACCESS_TOKEN=$(echo "$KEYCHAIN_DATA" | python3 -c "import sys, json; print(json.load(sys.stdin)['$KEYCHAIN_FIELD'].get('accessToken', ''))" 2>/dev/null || echo "")
     
     if [[ -n "$ACCESS_TOKEN" ]]; then
         CURRENT_AUTH_TOKEN=""
         if [[ -f "$AUTH_FILE" ]]; then
-            CURRENT_AUTH_TOKEN=$(python3 -c "import json; f=open('$AUTH_FILE'); d=json.load(f); print(d.get('profiles',{}).get('$PROFILE_NAME',{}).get('token',''))" 2>/dev/null || echo "")
+            CURRENT_AUTH_TOKEN=$(python3 -c "import json; f=open('$AUTH_FILE'); d=json.load(f); print(d.get('profiles',{}).get('$PROFILE_NAME',{}).get('access',''))" 2>/dev/null || echo "")
         fi
         
         if [[ "$CURRENT_AUTH_TOKEN" != "$ACCESS_TOKEN" ]]; then
-            log "Syncing token to auth-profiles.json..."
+            log "Syncing token to auth-profiles.json (OAuth format)..."
             mkdir -p "$(dirname "$AUTH_FILE")"
             python3 << PYEOF
 import json
@@ -220,38 +220,41 @@ if os.path.exists('$AUTH_FILE'):
             if content:
                 data = json.loads(content)
     except (json.JSONDecodeError, Exception):
-        pass  # Use default empty structure
+        pass
 if 'profiles' not in data:
     data['profiles'] = {}
 
-# DELETE anthropic:claude-cli if it exists (OAuth takes priority, blocks our token)
-if 'anthropic:claude-cli' in data['profiles']:
-    del data['profiles']['anthropic:claude-cli']
-    print("  ⚠ Removed anthropic:claude-cli (OAuth profiles block token profiles)")
+# FIXED: Write proper OAuth format (NOT token format)
+data['profiles']['$PROFILE_NAME'] = {
+    'type': 'oauth',
+    'provider': 'anthropic',
+    'access': '$ACCESS_TOKEN',
+    'refresh': '$REFRESH_TOKEN',
+    'expires': $CURRENT_EXPIRES
+}
 
-# Ensure anthropic:default exists with type: token
-if '$PROFILE_NAME' not in data['profiles']:
-    data['profiles']['$PROFILE_NAME'] = {'type': 'token', 'provider': 'anthropic'}
-data['profiles']['$PROFILE_NAME']['type'] = 'token'
-data['profiles']['$PROFILE_NAME']['provider'] = 'anthropic'
-data['profiles']['$PROFILE_NAME']['token'] = '$ACCESS_TOKEN'
+# Set order to prefer OAuth profile
+if 'order' not in data:
+    data['order'] = {}
+data['order']['anthropic'] = ['$PROFILE_NAME']
 
-# Clean up any OAuth-specific fields
-for field in ['access', 'refresh', 'expires', 'email']:
-    data['profiles']['$PROFILE_NAME'].pop(field, None)
+# Set lastGood
+if 'lastGood' not in data:
+    data['lastGood'] = {}
+data['lastGood']['anthropic'] = '$PROFILE_NAME'
 
-# Atomic write: write to temp file, then rename
+# Atomic write
 auth_dir = os.path.dirname('$AUTH_FILE')
 fd, temp_path = tempfile.mkstemp(dir=auth_dir, suffix='.tmp')
 try:
     with os.fdopen(fd, 'w') as f:
         json.dump(data, f, indent=2)
-    os.rename(temp_path, '$AUTH_FILE')  # Atomic on same filesystem
+    os.rename(temp_path, '$AUTH_FILE')
 except:
     os.unlink(temp_path)
     raise
 PYEOF
-            log "✓ Token synced to auth-profiles.json"
+            log "✓ Token synced to auth-profiles.json (OAuth format)"
         fi
     fi
     
@@ -296,11 +299,8 @@ NEW_EXPIRES_TIME=$(date -r $((NEW_EXPIRES_AT / 1000)) '+%Y-%m-%d %H:%M:%S')
 log "✓ Received new tokens"
 log "New expiry: $NEW_EXPIRES_TIME (${EXPIRES_IN}s / $((EXPIRES_IN / 3600))h)"
 
-# Step 3: Update auth-profiles.json (ATOMIC WRITE to prevent race condition)
-# DELETE anthropic:claude-cli if it exists (OAuth profiles take priority over tokens,
-# so a revoked OAuth profile would block our working token profile)
-# Only maintain anthropic:default with type: token
-log "Updating auth-profiles.json..."
+# Step 3: Update auth-profiles.json (FIXED: Proper OAuth format)
+log "Updating auth-profiles.json (OAuth format)..."
 mkdir -p "$(dirname "$AUTH_FILE")"
 python3 << PYEOF
 import json
@@ -319,39 +319,37 @@ if os.path.exists('$AUTH_FILE'):
 if 'profiles' not in data:
     data['profiles'] = {}
 
-# DELETE anthropic:claude-cli if it exists - it may have revoked OAuth tokens
-# that take priority over our working token profile
-deleted_cli = False
-if 'anthropic:claude-cli' in data['profiles']:
-    del data['profiles']['anthropic:claude-cli']
-    deleted_cli = True
+# FIXED: Write proper OAuth format with access/refresh/expires
+data['profiles']['$PROFILE_NAME'] = {
+    'type': 'oauth',
+    'provider': 'anthropic',
+    'access': '$NEW_ACCESS',
+    'refresh': '$NEW_REFRESH',
+    'expires': $NEW_EXPIRES_AT
+}
 
-# Ensure anthropic:default exists with type: token
-if '$PROFILE_NAME' not in data['profiles']:
-    data['profiles']['$PROFILE_NAME'] = {'type': 'token', 'provider': 'anthropic'}
-data['profiles']['$PROFILE_NAME']['type'] = 'token'  # Force type to token
-data['profiles']['$PROFILE_NAME']['provider'] = 'anthropic'
-data['profiles']['$PROFILE_NAME']['token'] = '$NEW_ACCESS'
+# Set order to prefer OAuth profile
+if 'order' not in data:
+    data['order'] = {}
+data['order']['anthropic'] = ['$PROFILE_NAME']
 
-# Clean up any OAuth-specific fields that might confuse Clawdbot
-for field in ['access', 'refresh', 'expires', 'email']:
-    data['profiles']['$PROFILE_NAME'].pop(field, None)
+# Set lastGood
+if 'lastGood' not in data:
+    data['lastGood'] = {}
+data['lastGood']['anthropic'] = '$PROFILE_NAME'
 
-# Atomic write: write to temp file, then rename (atomic on POSIX)
+# Atomic write
 auth_dir = os.path.dirname('$AUTH_FILE')
 fd, temp_path = tempfile.mkstemp(dir=auth_dir, suffix='.tmp')
 try:
     with os.fdopen(fd, 'w') as f:
         json.dump(data, f, indent=2)
-    os.rename(temp_path, '$AUTH_FILE')  # Atomic on same filesystem
+    os.rename(temp_path, '$AUTH_FILE')
 except:
     os.unlink(temp_path)
     raise
-
-if deleted_cli:
-    print("  ⚠ Removed anthropic:claude-cli (OAuth profiles block token profiles)")
 PYEOF
-log "✓ Auth file updated: $AUTH_FILE"
+log "✓ Auth file updated: $AUTH_FILE (OAuth format)"
 
 # Step 4: Update Keychain
 log "Updating Keychain..."
@@ -387,7 +385,6 @@ log "✓ Keychain updated"
 # Reload Clawdbot to pick up new tokens (delayed to allow script to complete)
 if command -v clawdbot &> /dev/null; then
     log "Scheduling gateway reload..."
-    # Restart in background after 2 second delay so script can finish
     (sleep 2 && clawdbot gateway restart >> "$LOG_FILE" 2>&1) &
     disown
     log "✓ Gateway restart scheduled"

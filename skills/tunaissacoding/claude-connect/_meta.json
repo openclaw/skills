@@ -3,11 +3,16 @@
   "slug": "claude-connect",
   "displayName": "Claude Connect",
   "latest": {
-    "version": "1.0.12",
-    "publishedAt": 1769264790371,
-    "commit": "https://github.com/clawdbot/skills/commit/cddada60b4f4d173ae55958888fbd900ff68bd2c"
+    "version": "1.1.0",
+    "publishedAt": 1769399254595,
+    "commit": null
   },
   "history": [
+    {
+      "version": "1.0.12",
+      "publishedAt": 1769264790371,
+      "commit": "https://github.com/clawdbot/skills/commit/cddada60b4f4d173ae55958888fbd900ff68bd2c"
+    },
     {
       "version": "1.0.9",
       "publishedAt": 1769236172008,

@@ -1,0 +1,11 @@
+{
+  "owner": "rohitg00",
+  "slug": "k8s-certs",
+  "displayName": "Kubernetes Skills",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769433712360,
+    "commit": null
+  },
+  "history": []
+}

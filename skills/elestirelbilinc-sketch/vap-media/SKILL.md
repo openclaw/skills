@@ -1,6 +1,6 @@
 ---
 name: vap-media
-description: AI image, video, and music generation with transparent pricing. Flux, Veo 3.1, Suno V5.
+description: AI image, video, and music generation. Flux, Veo 3.1, Suno V5.
 homepage: https://vapagent.com
 metadata: {"clawdbot":{"emoji":"🎬","requires":{"bins":["curl"],"env":["VAP_API_KEY"]},"primaryEnv":"VAP_API_KEY"}}
 ---
@@ -11,11 +11,11 @@ Generate AI images, videos, and music directly via the VAP API. No local depende
 
 ## Available Models
 
-| Type | Model | Price | Use Case |
-|------|-------|-------|----------|
-| Image | Flux | $0.18 | Social posts, product mockups |
-| Video | Veo 3.1 | $1.96 | Clips, promos, content |
-| Music | Suno V5 | $0.68 | Background tracks, jingles |
+| Type | Model | Use Case |
+|------|-------|----------|
+| Image | Flux | Social posts, product mockups |
+| Video | Veo 3.1 | Clips, promos, content |
+| Music | Suno V5 | Background tracks, jingles |
 
 ## Quick Usage
 
@@ -119,11 +119,6 @@ No surprise charges. You know exact cost before execution.
   "result": {
     "url": "https://pub-xxx.r2.dev/output.png",
     "metadata": {}
-  },
-  "cost": {
-    "reserved": 0.18,
-    "burned": 0.18,
-    "refunded": 0.00
   }
 }
 ```

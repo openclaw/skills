@@ -1,0 +1,11 @@
+{
+  "owner": "jestersimpps",
+  "slug": "fail2ban-reporter",
+  "displayName": "fail2ban Reporter",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769495069128,
+    "commit": null
+  },
+  "history": []
+}

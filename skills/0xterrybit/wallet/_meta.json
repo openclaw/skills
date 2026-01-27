@@ -3,9 +3,15 @@
   "slug": "wallet",
   "displayName": "Wallet",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769513882727,
-    "commit": "https://github.com/clawdbot/skills/commit/70a628614749a7758272b2d670e905205f7877a2"
+    "version": "1.0.1",
+    "publishedAt": 1769537587356,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769513882727,
+      "commit": "https://github.com/clawdbot/skills/commit/70a628614749a7758272b2d670e905205f7877a2"
+    }
+  ]
 }

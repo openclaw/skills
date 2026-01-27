@@ -1,0 +1,59 @@
+{
+  "name": "clawdbot-security-suite",
+  "version": "1.0.0",
+  "description": "Complete runtime security for AI agents - prevent command injection, SSRF, prompt injection, and data exfiltration",
+  "main": "skills/security/security",
+  "scripts": {
+    "test": "bash scripts/test-security-suite.sh",
+    "install-skill": "cp -r skills/security ~/.clawdbot/skills/",
+    "install-hook": "cp -r hooks/security-validator ~/.clawdbot/hooks/ && clawdbot hooks enable security-validator",
+    "install-all": "npm run install-skill && npm run install-hook",
+    "validate": "skills/security/security help"
+  },
+  "keywords": [
+    "ai",
+    "security", 
+    "clawdbot",
+    "agent",
+    "command-injection",
+    "ssrf",
+    "prompt-injection",
+    "cybersecurity",
+    "runtime-security",
+    "threat-detection"
+  ],
+  "author": {
+    "name": "Graydon Trusler",
+    "email": "gt@lexpertai.com",
+    "url": "https://x.com/LexpertAI"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/gtrusler/clawdbot-security-suite#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gtrusler/clawdbot-security-suite.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gtrusler/clawdbot-security-suite/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "os": [
+    "darwin",
+    "linux"
+  ],
+  "clawdhub": {
+    "skill": true,
+    "category": "security",
+    "tags": ["security", "validation", "runtime-protection"],
+    "requires": {
+      "bins": ["bash", "jq"],
+      "clawdbot": ">=2026.1.0"
+    }
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "tests"
+  }
+}

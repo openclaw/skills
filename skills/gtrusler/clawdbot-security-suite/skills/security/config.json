@@ -1,0 +1,76 @@
+{
+  "version": "1.0.0",
+  "strictMode": false,
+  "logEvents": true,
+  "blockOnThreat": true,
+  
+  "patterns": {
+    "enabled": [
+      "command_injection",
+      "api_keys", 
+      "ssrf",
+      "path_traversal",
+      "prompt_injection",
+      "sensitive_files",
+      "data_exfiltration"
+    ],
+    "customPatterns": []
+  },
+  
+  "monitoring": {
+    "realTime": true,
+    "alertThreshold": "medium",
+    "maxLogSize": "10MB",
+    "logRetention": "30d"
+  },
+  
+  "validation": {
+    "commands": {
+      "enabled": true,
+      "blockDangerous": true,
+      "warnSensitive": true
+    },
+    "urls": {
+      "enabled": true,
+      "blockPrivateIPs": true,
+      "blockLocalhost": true
+    },
+    "paths": {
+      "enabled": true,
+      "blockTraversal": true,
+      "warnSensitive": true
+    },
+    "content": {
+      "enabled": true,
+      "scanPromptInjection": true,
+      "scanAPIKeys": true
+    }
+  },
+  
+  "whitelist": {
+    "commands": [
+      "ls",
+      "pwd", 
+      "whoami",
+      "date",
+      "echo"
+    ],
+    "domains": [
+      "github.com",
+      "api.github.com",
+      "docs.clawd.bot"
+    ],
+    "paths": [
+      "/tmp/",
+      "/var/tmp/",
+      "$HOME/Downloads/",
+      "$HOME/Desktop/"
+    ]
+  },
+  
+  "notifications": {
+    "threatDetected": true,
+    "blockingEnabled": true,
+    "warningsEnabled": true
+  }
+}

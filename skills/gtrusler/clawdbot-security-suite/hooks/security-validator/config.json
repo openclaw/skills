@@ -1,0 +1,36 @@
+{
+  "strictMode": false,
+  "blockThreats": true,
+  "logEvents": true,
+  "patterns": {
+    "commandInjection": true,
+    "ssrf": true,
+    "pathTraversal": true,
+    "promptInjection": true
+  },
+  "thresholds": {
+    "commandInjection": "high",
+    "ssrf": "high", 
+    "pathTraversal": "high",
+    "promptInjection": "medium"
+  },
+  "whitelist": {
+    "commands": [
+      "ls",
+      "pwd",
+      "whoami",
+      "date",
+      "echo"
+    ],
+    "domains": [
+      "github.com",
+      "api.github.com", 
+      "docs.clawd.bot"
+    ]
+  },
+  "failSafe": {
+    "allowOnValidationError": true,
+    "allowOnSkillMissing": true,
+    "validationTimeoutMs": 5000
+  }
+}

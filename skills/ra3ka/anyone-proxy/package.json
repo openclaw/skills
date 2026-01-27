@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@anyone-protocol/anyone-client": "^1.1.3"
+  }
+}

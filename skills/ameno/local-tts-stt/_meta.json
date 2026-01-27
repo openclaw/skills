@@ -1,0 +1,11 @@
+{
+  "owner": "ameno",
+  "slug": "local-tts-stt",
+  "displayName": "Local TTS/STT",
+  "latest": {
+    "version": "0.1.0",
+    "publishedAt": 1769499277000,
+    "commit": ""
+  },
+  "history": []
+}

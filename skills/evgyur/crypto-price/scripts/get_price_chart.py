@@ -354,10 +354,62 @@ def _get_hyperliquid_candles(symbol, total_minutes, interval_minutes):
             high_price = float(row["h"])
             low_price = float(row["l"])
             close_price = float(row["c"])
+            volume = float(row.get("v", 0))
         except (KeyError, TypeError, ValueError):
             continue
-        candles.append((ts_ms, open_price, high_price, low_price, close_price))
+        candles.append((ts_ms, open_price, high_price, low_price, close_price, volume))
     return candles
+
+
+def _find_fractals(ohlc_rows, window=10, max_fractals=3):
+    """Find true swing highs and lows.
+    Swing high: highest high within window candles on both sides.
+    Swing low: lowest low within window candles on both sides.
+    Returns list of (index, type, price) where type is 'up' or 'down'.
+    """
+    if len(ohlc_rows) < window * 2 + 1:
+        return []
+    
+    swing_highs = []
+    swing_lows = []
+    
+    for i in range(window, len(ohlc_rows) - window):
+        current_high = ohlc_rows[i][2]
+        current_low = ohlc_rows[i][3]
+        
+        # Check if this is a swing high (highest high in the window)
+        is_swing_high = True
+        for j in range(i - window, i + window + 1):
+            if j != i and ohlc_rows[j][2] >= current_high:
+                is_swing_high = False
+                break
+        
+        if is_swing_high:
+            swing_highs.append((i, current_high))
+        
+        # Check if this is a swing low (lowest low in the window)
+        is_swing_low = True
+        for j in range(i - window, i + window + 1):
+            if j != i and ohlc_rows[j][3] <= current_low:
+                is_swing_low = False
+                break
+        
+        if is_swing_low:
+            swing_lows.append((i, current_low))
+    
+    # Sort by price extremity and take top N
+    # For highs: sort by price descending (highest first)
+    swing_highs.sort(key=lambda x: -x[1])
+    # For lows: sort by price ascending (lowest first)  
+    swing_lows.sort(key=lambda x: x[1])
+    
+    result = []
+    for idx, price in swing_highs[:max_fractals]:
+        result.append((idx, 'down', price))  # down arrow for resistance/high
+    for idx, price in swing_lows[:max_fractals]:
+        result.append((idx, 'up', price))  # up arrow for support/low
+    
+    return sorted(result, key=lambda x: x[0])
 
 
 def _search_token_id(symbol):
@@ -473,7 +525,7 @@ def _timestamp_to_datetime(ts_value):
     return datetime.fromtimestamp(ts, tz=timezone.utc)
 
 
-def _build_chart(symbol, ohlc_rows, currency, label):
+def _build_chart(symbol, ohlc_rows, currency, label, use_gradient=False):
     try:
         import matplotlib
         matplotlib.use("Agg")
@@ -481,14 +533,32 @@ def _build_chart(symbol, ohlc_rows, currency, label):
         import matplotlib.dates as mdates
         from matplotlib.lines import Line2D
         from matplotlib.patches import Rectangle
+        import matplotlib.font_manager as fm
+        
+        # Load custom font
+        font_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fonts', 'Tomorrow.ttf')
+        if os.path.exists(font_path):
+            fm.fontManager.addfont(font_path)
+            custom_font = fm.FontProperties(fname=font_path).get_name()
+            plt.rcParams['font.family'] = custom_font
     except Exception:
         return None
 
     if not ohlc_rows:
         return None
 
-    fig, ax = plt.subplots(figsize=(8, 8), facecolor="#0f141c")
-    ax.set_facecolor("#0f141c")
+    # Check if we have volume data (6-element tuples)
+    has_volume = len(ohlc_rows[0]) >= 6 if ohlc_rows else False
+    
+    if has_volume:
+        fig, (ax, ax_vol) = plt.subplots(2, 1, figsize=(8, 9), facecolor="#121212",
+                                          gridspec_kw={'height_ratios': [3, 1], 'hspace': 0.05})
+        ax_vol.set_facecolor("#121212")
+    else:
+        fig, ax = plt.subplots(figsize=(8, 8), facecolor="#121212")
+        ax_vol = None
+    
+    ax.set_facecolor("#121212")
 
     times = [_timestamp_to_datetime(row[0]) for row in ohlc_rows]
     x_vals = mdates.date2num(times)
@@ -498,24 +568,186 @@ def _build_chart(symbol, ohlc_rows, currency, label):
         widths = [delta * 0.7] * len(x_vals)
     else:
         widths = [0.02] * len(x_vals)
+        delta = 0.02
 
     lows = []
     highs = []
+    volumes = []
+    colors = []
+    
+    # Pre-calculate fractals
+    fractals = _find_fractals(ohlc_rows)
+    
+    # Build sets of indices for swing coloring (only used in default mode)
+    bullish_reversal_indices = set()
+    bearish_reversal_indices = set()
+
+    # Always include absolute high/low candles in coloring
+    abs_high_idx = None
+    abs_low_idx = None
+    if ohlc_rows:
+        abs_high_idx = max(range(len(ohlc_rows)), key=lambda i: ohlc_rows[i][2])
+        abs_low_idx = min(range(len(ohlc_rows)), key=lambda i: ohlc_rows[i][3])
+
+    if not use_gradient:
+        for frac_idx, frac_type, frac_price in fractals:
+            if frac_type == 'up':  # swing low = bullish reversal
+                for off in range(0, 3):  # swing candle + 2 after = 3 total
+                    if frac_idx + off < len(ohlc_rows):
+                        bullish_reversal_indices.add(frac_idx + off)
+            else:  # swing high = bearish reversal
+                for off in range(0, 3):  # swing candle + 2 after = 3 total
+                    if frac_idx + off < len(ohlc_rows):
+                        bearish_reversal_indices.add(frac_idx + off)
+
+        if abs_low_idx is not None:
+            for off in range(0, 3):
+                if abs_low_idx + off < len(ohlc_rows):
+                    bullish_reversal_indices.add(abs_low_idx + off)
+        if abs_high_idx is not None:
+            for off in range(0, 3):
+                if abs_high_idx + off < len(ohlc_rows):
+                    bearish_reversal_indices.add(abs_high_idx + off)
+    
     for idx, row in enumerate(ohlc_rows):
-        _ts, open_price, high_price, low_price, close_price = row
-        color = "#26a69a" if close_price >= open_price else "#ef5350"
+        if has_volume:
+            _ts, open_price, high_price, low_price, close_price, volume = row
+            volumes.append(volume)
+        else:
+            _ts, open_price, high_price, low_price, close_price = row[:5]
+        
+        is_bullish = close_price >= open_price
         x = x_vals[idx]
         width = widths[idx]
-        ax.add_line(Line2D([x, x], [low_price, high_price], color=color, linewidth=1.0))
         lower = min(open_price, close_price)
         height = max(abs(close_price - open_price), 1e-9)
-        rect = Rectangle((x - width / 2, lower), width, height, facecolor=color, edgecolor=color)
-        ax.add_patch(rect)
+        
+        if use_gradient:
+            # Gradient mode: green gradient up, blue-purple gradient down
+            wick_color = "#888888"
+            border_color = "#000000"
+            if is_bullish:
+                color_top = "#84dc58"  # Bright green
+                color_bottom = "#336d16"  # Dark green
+            else:
+                color_top = "#6c7ce4"  # Blue
+                color_bottom = "#544996"  # Purple
+            
+            colors.append(color_top)
+            wick = Line2D([x, x], [low_price, high_price], color=wick_color, linewidth=1.0, zorder=3)
+            ax.add_line(wick)
+            
+            # Draw gradient candle body
+            n_segments = 10
+            segment_height = height / n_segments
+            for seg in range(n_segments):
+                t = seg / (n_segments - 1) if n_segments > 1 else 0
+                r1, g1, b1 = int(color_bottom[1:3], 16), int(color_bottom[3:5], 16), int(color_bottom[5:7], 16)
+                r2, g2, b2 = int(color_top[1:3], 16), int(color_top[3:5], 16), int(color_top[5:7], 16)
+                r = int(r1 + (r2 - r1) * t)
+                g = int(g1 + (g2 - g1) * t)
+                b = int(b1 + (b2 - b1) * t)
+                seg_color = f'#{r:02x}{g:02x}{b:02x}'
+                seg_y = lower + seg * segment_height
+                rect = Rectangle((x - width / 2, seg_y), width, segment_height, 
+                                facecolor=seg_color, edgecolor='none', zorder=4)
+                ax.add_patch(rect)
+            border_rect = Rectangle((x - width / 2, lower), width, height, 
+                                    facecolor='none', edgecolor=border_color, linewidth=0.5, zorder=5)
+            ax.add_patch(border_rect)
+        else:
+            # Default mode: Grey + Cyan/Magenta for swings
+            wick_color = "#808080"
+            border_color = "#000000"
+            up_normal = "#B0B0B0"
+            down_normal = "#606060"
+            up_reversal = "#00FFFF"
+            down_reversal = "#FF00FF"
+            
+            if idx in bullish_reversal_indices:
+                color = up_reversal
+            elif idx in bearish_reversal_indices:
+                color = down_reversal
+            else:
+                color = up_normal if is_bullish else down_normal
+            
+            colors.append(color)
+            wick = Line2D([x, x], [low_price, high_price], color=wick_color, linewidth=1.0, zorder=3)
+            ax.add_line(wick)
+            rect = Rectangle((x - width / 2, lower), width, height, facecolor=color, edgecolor=border_color, linewidth=0.5, zorder=4)
+            ax.add_patch(rect)
+        
         lows.append(low_price)
         highs.append(high_price)
 
-    ax.set_title(f"{symbol} last {label}", loc="left", fontsize=11, color="#e6edf3", pad=10)
-    ax.set_xlabel("Time (UTC)", color="#8b949e")
+    # Draw fractals (already calculated above)
+    price_range = max(highs) - min(lows) if highs and lows else 1
+    offset = price_range * 0.02
+    
+    # Fractal colors based on mode
+    frac_up_color = "#84dc58" if use_gradient else "#00FFFF"
+    frac_down_color = "#6c7ce4" if use_gradient else "#FF00FF"
+    
+    for frac_idx, frac_type, frac_price in fractals:
+        x = x_vals[frac_idx]
+        if frac_type == 'down':  # bearish fractal - arrow down above high
+            ax.plot(x, frac_price + offset * 0.5, marker='v', color=frac_down_color, markersize=6, zorder=5)
+            ax.annotate(f'{frac_price:.2f}', xy=(x, frac_price + offset * 1.5),
+                       fontsize=8, color='white', ha='center', va='bottom', zorder=6)
+        else:  # bullish fractal - arrow up below low
+            ax.plot(x, frac_price - offset * 0.5, marker='^', color=frac_up_color, markersize=6, zorder=5)
+            ax.annotate(f'{frac_price:.2f}', xy=(x, frac_price - offset * 1.5),
+                       fontsize=8, color='white', ha='center', va='top', zorder=6)
+
+    # Always mark absolute high/low so at least one swing high/low is visible
+    if highs and lows:
+        abs_high_price = max(highs)
+        abs_low_price = min(lows)
+        abs_high_idx = highs.index(abs_high_price)
+        abs_low_idx = lows.index(abs_low_price)
+
+        abs_high_color = "#FFD54F"  # gold
+        abs_low_color = "#90CAF9"   # light blue
+
+        xh = x_vals[abs_high_idx]
+        xl = x_vals[abs_low_idx]
+
+        ax.plot(xh, abs_high_price + offset * 0.5, marker='v', color=abs_high_color, markersize=7, zorder=6)
+        ax.annotate(f'{abs_high_price:.2f}', xy=(xh, abs_high_price + offset * 1.7),
+                   fontsize=8, color='white', ha='center', va='bottom', zorder=7)
+
+        ax.plot(xl, abs_low_price - offset * 0.5, marker='^', color=abs_low_color, markersize=7, zorder=6)
+        ax.annotate(f'{abs_low_price:.2f}', xy=(xl, abs_low_price - offset * 1.7),
+                   fontsize=8, color='white', ha='center', va='top', zorder=7)
+
+    # Draw volume bars
+    if has_volume and ax_vol and volumes:
+        for idx, vol in enumerate(volumes):
+            x = x_vals[idx]
+            width = widths[idx]
+            rect = Rectangle((x - width / 2, 0), width, vol, 
+                            facecolor=colors[idx], edgecolor=colors[idx], alpha=0.7, zorder=3)
+            ax_vol.add_patch(rect)
+        
+        ax_vol.set_xlim(min(x_vals) - delta, max(x_vals) + delta)
+        ax_vol.set_ylim(0, max(volumes) * 1.1 if volumes else 1)
+        ax_vol.set_ylabel("Volume", color="#8b949e", fontsize=9)
+        ax_vol.tick_params(axis="x", colors="#8b949e")
+        ax_vol.tick_params(axis="y", colors="#8b949e")
+        for spine in ax_vol.spines.values():
+            spine.set_color("#2a2f38")
+        ax_vol.grid(True, linestyle="-", linewidth=0.6, color="#1f2630", alpha=0.8, zorder=1)
+        
+        # Format volume axis
+        locator = mdates.AutoDateLocator(minticks=4, maxticks=8)
+        formatter = mdates.ConciseDateFormatter(locator)
+        ax_vol.xaxis.set_major_locator(locator)
+        ax_vol.xaxis.set_major_formatter(formatter)
+        ax.set_xticklabels([])  # Hide x labels on price chart
+    
+    ax.set_title(f"{symbol} last {label}", loc="center", fontsize=14, color="white", fontweight="bold", pad=12)
+    if not has_volume:
+        ax.set_xlabel("Time (UTC)", color="#8b949e")
     ax.set_ylabel(currency.upper(), color="#8b949e")
 
     ax.tick_params(axis="x", colors="#8b949e")
@@ -523,21 +755,33 @@ def _build_chart(symbol, ohlc_rows, currency, label):
     for spine in ax.spines.values():
         spine.set_color("#2a2f38")
 
-    ax.grid(True, linestyle="-", linewidth=0.6, color="#1f2630", alpha=0.8)
+    ax.grid(True, linestyle="-", linewidth=0.6, color="#1f2630", alpha=0.8, zorder=1)
 
     if len(x_vals) > 1:
         ax.set_xlim(min(x_vals) - delta, max(x_vals) + delta)
     if lows and highs:
         min_y = min(lows)
         max_y = max(highs)
-        pad = (max_y - min_y) * 0.05 if max_y > min_y else max_y * 0.01
+        pad = (max_y - min_y) * 0.08 if max_y > min_y else max_y * 0.01  # More padding for fractals
         ax.set_ylim(min_y - pad, max_y + pad)
 
-    locator = mdates.AutoDateLocator(minticks=4, maxticks=8)
-    formatter = mdates.ConciseDateFormatter(locator)
-    ax.xaxis.set_major_locator(locator)
-    ax.xaxis.set_major_formatter(formatter)
+    if not has_volume:
+        locator = mdates.AutoDateLocator(minticks=4, maxticks=8)
+        formatter = mdates.ConciseDateFormatter(locator)
+        ax.xaxis.set_major_locator(locator)
+        ax.xaxis.set_major_formatter(formatter)
     ax.tick_params(axis="x", labelrotation=0)
+
+    # Highlight last price on Y-axis
+    if ohlc_rows:
+        last_close = ohlc_rows[-1][4]
+        # Draw horizontal dashed line at last price
+        ax.axhline(y=last_close, color='white', linestyle='--', linewidth=0.8, alpha=0.6)
+        # Add price label on left side
+        ax.annotate(f'{last_close:.2f}', xy=(ax.get_xlim()[0], last_close),
+                   fontsize=9, color='white', fontweight='bold',
+                   ha='right', va='center',
+                   bbox=dict(boxstyle='round,pad=0.3', facecolor='#0f141c', edgecolor='white', linewidth=1))
 
     ts = int(time.time())
     chart_path = f"/tmp/crypto_chart_{symbol}_{ts}.png"
@@ -545,6 +789,40 @@ def _build_chart(symbol, ohlc_rows, currency, label):
     fig.savefig(chart_path, dpi=150)
     plt.close(fig)
     return chart_path
+
+
+def _normalize_hl_symbol(symbol):
+    sym = str(symbol or "").upper()
+    # Strip common separators (e.g., BTC-USD, BTC/USDC)
+    for sep in ("-", "/", "_"):
+        if sep in sym:
+            sym = sym.split(sep)[0]
+            break
+    # Strip common stablecoin suffixes (e.g., BTCUSDC)
+    stable_suffixes = ("USDC", "USDH", "USDE", "USD", "USDT")
+    for suf in stable_suffixes:
+        if sym.endswith(suf) and len(sym) > len(suf):
+            sym = sym[: -len(suf)]
+            break
+    return sym
+
+
+def _hyperliquid_lookup(symbol):
+    try:
+        meta, ctxs = _get_hyperliquid_meta()
+    except RuntimeError:
+        return None, None
+    universe = meta.get("universe", [])
+    mapping = {}
+    for idx, entry in enumerate(universe):
+        name = str(entry.get("name", "")).upper()
+        if name:
+            mapping[name] = idx
+    norm = _normalize_hl_symbol(symbol)
+    idx = mapping.get(norm)
+    if idx is None or idx >= len(ctxs):
+        return None, None
+    return universe[idx], ctxs[idx]
 
 
 def main():
@@ -561,11 +839,14 @@ def main():
         token_id = raw_symbol.lower()
 
     total_minutes, label = _parse_duration(sys.argv[2:])
+    # Check for gradient mode flag
+    use_gradient = any(arg.lower() in ('gradient', 'grad', '-g', '--gradient') for arg in sys.argv[2:])
     hours = total_minutes / 60.0
     source = "coingecko"
     currency = "usdt"
     price_usdt = None
-    hl_meta, hl_ctx = _hyperliquid_lookup(symbol_upper)
+    hl_symbol = _normalize_hl_symbol(symbol_upper)
+    hl_meta, hl_ctx = _hyperliquid_lookup(hl_symbol)
     if hl_ctx:
         source = "hyperliquid"
         currency = "usd"
@@ -622,7 +903,7 @@ def main():
         interval_minutes = _pick_hyperliquid_interval_minutes(total_minutes)
         candle_minutes = interval_minutes
         try:
-            candles = _get_hyperliquid_candles(symbol_upper, total_minutes, interval_minutes)
+            candles = _get_hyperliquid_candles(hl_symbol, total_minutes, interval_minutes)
         except RuntimeError:
             candles = []
 
@@ -652,6 +933,7 @@ def main():
     candles.sort(key=lambda item: item[0])
     if candles:
         target = max(2, int((hours * 60) / candle_minutes))
+        target = int(target * 0.8)  # 20% fewer candles for breathing room
         last_points = candles[-target:]
     else:
         last_points = []
@@ -665,15 +947,20 @@ def main():
         if price_period_ago:
             change_period = price_usdt - price_period_ago
             change_period_percent = (change_period / price_period_ago) * 100
-    chart_path = _build_chart(symbol_upper, last_points, currency, label)
+    chart_path = _build_chart(symbol_upper, last_points, currency, label, use_gradient)
 
     if change_period_percent is None:
         change_text = f"{label} n/a"
     else:
-        sign = "+" if change_period_percent >= 0 else ""
-        change_text = f"{sign}{change_period_percent:.2f}% over {label}"
+        if change_period_percent >= 0:
+            emoji = "⬆️"
+            sign = "+"
+        else:
+            emoji = "🔻"
+            sign = ""
+        change_text = f"{emoji} {sign}{change_period_percent:.2f}% over {label}"
 
-    text = f"{symbol_upper}: ${_format_price(price_usdt)} {currency.upper()} ({change_text})"
+    text = f"{symbol_upper}: ${_format_price(price_usdt)} {currency.upper()} {change_text}"
     text = text.replace("*", "")
     result = {
         "symbol": symbol_upper,

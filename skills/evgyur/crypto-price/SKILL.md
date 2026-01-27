@@ -33,7 +33,8 @@ Returns JSON with:
 - `chart_path` - Path to generated PNG chart (if available)
 - `text_plain` - Formatted text description
 
-If `chart_path` is present, attach the PNG along with the text. Return text exactly as `text_plain` with no extra formatting.
+**Chart as image (always when chart_path is present):**  
+You must send the chart as a **photo**, not as text. In your reply, output `text_plain` and on a new line: `MEDIA: ` followed by the exact `chart_path` value (e.g. `MEDIA: /tmp/crypto_chart_HYPE_1769204734.png`). Clawdbot will attach that file as an image. Do **not** write `[chart: path]` or any other text placeholder — only the `MEDIA: <chart_path>` line makes the image appear.
 
 ## Chart Details
 

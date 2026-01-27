@@ -1,0 +1,26 @@
+{
+  "name": "bring-add",
+  "version": "1.0.0",
+  "description": "CLI for adding items to Bring! shopping lists",
+  "main": "index.js",
+  "bin": {
+    "bring-add": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "bring",
+    "shopping-list",
+    "cli"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "bring-shopping": "*",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

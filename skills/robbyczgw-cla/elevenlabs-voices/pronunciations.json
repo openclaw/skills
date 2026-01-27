@@ -1,0 +1,69 @@
+{
+  "description": "Custom pronunciation rules for ElevenLabs TTS",
+  "version": "1.0.0",
+  "rules": [
+    {
+      "word": "Clawdbot",
+      "replacement": "Clawd bot",
+      "comment": "Pronounce as two words"
+    },
+    {
+      "word": "API",
+      "replacement": "A P I",
+      "comment": "Spell out acronym"
+    },
+    {
+      "word": "GitHub",
+      "replacement": "Git Hub",
+      "comment": "Two words pronunciation"
+    },
+    {
+      "word": "CLI",
+      "replacement": "C L I",
+      "comment": "Spell out"
+    },
+    {
+      "word": "OAuth",
+      "replacement": "Oh Auth",
+      "comment": "Standard pronunciation"
+    },
+    {
+      "word": "SQL",
+      "replacement": "S Q L",
+      "comment": "Spell out (or use 'sequel')"
+    },
+    {
+      "word": "JSON",
+      "replacement": "Jason",
+      "comment": "Common pronunciation"
+    },
+    {
+      "word": "YAML",
+      "replacement": "Yam ul",
+      "comment": "Common pronunciation"
+    },
+    {
+      "word": "nginx",
+      "replacement": "engine X",
+      "comment": "Standard pronunciation"
+    },
+    {
+      "word": "kubectl",
+      "replacement": "kube control",
+      "comment": "Kubernetes command"
+    }
+  ],
+  "phonemes": {
+    "description": "IPA phoneme mappings (for advanced use)",
+    "examples": {
+      "tomato": "təˈmeɪtoʊ",
+      "schedule": "ˈskedʒuːl"
+    }
+  },
+  "notes": [
+    "Add custom words/names that the TTS mispronounces",
+    "The 'replacement' field is the phonetic spelling for correct pronunciation",
+    "Rules are applied case-insensitively",
+    "Disable with --no-pronunciations flag"
+  ]
+}

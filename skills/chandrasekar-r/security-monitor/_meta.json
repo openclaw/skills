@@ -1,0 +1,11 @@
+{
+  "owner": "chandrasekar-r",
+  "slug": "security-monitor",
+  "displayName": "Security Monitor",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769467400470,
+    "commit": null
+  },
+  "history": []
+}

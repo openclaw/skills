@@ -1,0 +1,33 @@
+{
+  "agents": {
+    "defaults": {
+      "compaction": {
+        "mode": "safeguard",
+        "memoryFlush": {
+          "enabled": true,
+          "softThresholdTokens": 8000,
+          "systemPrompt": "Session nearing compaction. Preserve context using triple memory system (git-notes, LanceDB, files).",
+          "prompt": "Context is at ~80%. Write session summary to memory/YYYY-MM-DD.md, update MEMORY.md if needed, store key facts to git-notes. Reply NO_REPLY when done."
+        }
+      }
+    }
+  },
+  "plugins": {
+    "slots": {
+      "memory": "memory-lancedb"
+    },
+    "entries": {
+      "memory-lancedb": {
+        "enabled": true,
+        "config": {
+          "embedding": {
+            "apiKey": "${OPENAI_API_KEY}",
+            "model": "text-embedding-3-small"
+          },
+          "autoRecall": true,
+          "autoCapture": true
+        }
+      }
+    }
+  }
+}

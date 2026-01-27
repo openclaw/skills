@@ -1,0 +1,11 @@
+{
+  "owner": "nerveband",
+  "slug": "craft-cli",
+  "displayName": "Craft CLI",
+  "latest": {
+    "version": "1.6.2",
+    "publishedAt": 1769484773655,
+    "commit": null
+  },
+  "history": []
+}

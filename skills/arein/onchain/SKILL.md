@@ -1,6 +1,6 @@
 ---
 name: onchain
-description: CLI for crypto portfolio tracking, market data, and CEX history. Use when the user asks about crypto prices, wallet balances, portfolio values, Coinbase/Binance holdings, or Polymarket predictions.
+description: CLI for crypto portfolio tracking, market data, CEX history, and transaction lookups. Use when the user asks about crypto prices, wallet balances, portfolio values, Coinbase/Binance holdings, Polymarket predictions, or transaction details.
 ---
 
 # Onchain CLI
@@ -39,6 +39,9 @@ onchain <command>
 ```bash
 onchain price <token>         # Token price (btc, eth, sol, etc.)
 onchain markets               # Market overview with trending
+onchain search <query>        # Search tokens by name or symbol
+onchain gas                   # Current gas prices (Ethereum default)
+onchain gas --chain polygon   # Gas prices for other EVM chains
 ```
 
 ### Wallet Data
@@ -49,6 +52,43 @@ onchain balance --chain polygon     # Filter by chain
 onchain history [address]           # Transaction history
 onchain portfolio [address]         # Full portfolio with DeFi positions
 ```
+
+### Transaction Lookup
+
+```bash
+onchain tx <hash>                   # Lookup transaction details (auto-detects chain)
+onchain tx <hash> --chain base      # Specify chain explicitly
+onchain tx <explorer-url>           # Paste block explorer URL directly
+```
+
+Supports EVM chains (Ethereum, Polygon, Base, Arbitrum, Optimism, BSC, Avalanche, Fantom) and Solana. Accepts raw hashes or explorer URLs (etherscan.io, basescan.org, solscan.io, etc.).
+
+#### Example Output
+```
+Transaction Details
+
+✓ Status: SUCCESS
+  Hash:  0xd757...5f31
+  Chain: Base
+  Block: 41,310,593
+  Time:  Jan 26, 2026, 01:55 PM (4h ago)
+
+Addresses
+  From: 0xc4e7263dd870a29f1cfe438d1a7db48547b16888
+  To:   0xab98b760e5ad88521a97c0f87a3f6eef8c42641d
+
+Value & Fee
+  Value: 0 ETH
+  Fee:   3.62e-7 ETH
+  Gas:   96,893 / 249,604 (39%)
+
+Method
+  ID: 0x6a761202
+
+🔗 https://basescan.org/tx/0xd757...
+```
+
+**This output contains all available transaction data.** The CLI queries Etherscan/Solscan APIs directly - there is no additional data available from other sources.
 
 ### CEX Data
 
@@ -62,9 +102,34 @@ onchain binance history       # Binance trade history
 ### Prediction Markets
 
 ```bash
-onchain polymarket trending          # Trending markets
-onchain polymarket search <query>    # Search markets
+onchain polymarket tags              # List all available tags/categories
+onchain polymarket tags --popular    # Show popular tags by market count
+onchain polymarket trending          # Trending markets (respects config filters)
+onchain polymarket trending --all    # Show all markets (ignore config filters)
+onchain polymarket trending --exclude sports,nfl   # Exclude specific tags
+onchain polymarket trending --include crypto,ai    # Only show specific tags
+onchain polymarket search <query>    # Search markets (respects config filters)
 onchain polymarket view <slug>       # View market details
+onchain polymarket sentiment <topic> # Analyze market sentiment for a topic
+```
+
+**Sentiment analysis**: Analyzes prediction markets to determine bullish/bearish expectations:
+```bash
+onchain polymarket sentiment fed        # Fed rate expectations
+onchain polymarket sentiment bitcoin    # Bitcoin market sentiment
+onchain polymarket sentiment ai         # AI-related predictions
+onchain polymarket sentiment trump      # Political sentiment
+onchain polymarket sentiment fed --json # JSON output for agents
+```
+
+**Tag filtering**: Configure default excludes in `~/.config/onchain/config.json5`:
+```json5
+{
+  "polymarket": {
+    "excludeTags": ["sports", "nfl", "nba", "mlb"],
+    "includeTags": []  // empty = all non-excluded
+  }
+}
 ```
 
 ### Configuration
@@ -101,6 +166,8 @@ Config file: `~/.config/onchain/config.json5`
 |---------|---------|-------|
 | Market data | `COINGECKO_API_KEY` | Free tier works, Pro for higher limits |
 | Market fallback | `COINMARKETCAP_API_KEY` | Alternative market data source |
+| EVM tx lookup | `ETHERSCAN_API_KEY` | For `onchain tx` on EVM chains |
+| Solana tx lookup | `SOLSCAN_API_KEY` | For `onchain tx` on Solana |
 
 ## Examples
 
@@ -121,7 +188,28 @@ onchain portfolio main  # Uses saved wallet named "main"
 
 ### Get trending prediction markets
 ```bash
-onchain polymarket trending -n 5
+onchain polymarket trending -n 5             # Top 5 (respects config filters)
+onchain polymarket trending --all            # All markets, ignore config
+onchain polymarket trending --exclude sports # Filter out sports on-the-fly
+```
+
+### Lookup a transaction
+```bash
+onchain tx 0xd757e7e4cdb424e22319cbf63bbcfcd4b26c93ebef31d1458ab7d5e986375f31
+onchain tx https://basescan.org/tx/0x...  # Or paste explorer URL
+```
+
+### Search for tokens
+```bash
+onchain search pepe               # Find tokens matching "pepe"
+onchain search "shiba inu" -l 5   # Limit to 5 results
+```
+
+### Check gas prices
+```bash
+onchain gas                   # Ethereum gas prices
+onchain gas --chain polygon   # Polygon gas prices
+onchain gas --json            # JSON output
 ```
 
 ### JSON output for scripts
@@ -157,4 +245,29 @@ onchain --json price btc | jq '{price: .priceUsd, change24h: .priceChange24h}'
 
 # Check if market is bullish
 CHANGE=$(onchain --json markets | jq '.marketCapChange24h')
+
+# Get transaction details as JSON
+TX=$(onchain --json tx 0x... --chain base)
+echo $TX | jq '{status: .status, from: .from, to: .to, method: .methodId}'
 ```
+
+### Transaction Lookup Guidance
+
+**IMPORTANT: Trust the CLI output.** The `onchain tx` command queries Etherscan (EVM) or Solscan (Solana) APIs directly and returns all available data.
+
+**DO NOT:**
+- Use curl to hit Etherscan/Basescan APIs directly
+- Use `cast` or other CLI tools as "fallbacks"
+- Use WebFetch to scrape block explorer websites
+- Assume the CLI is missing data - it returns everything available
+
+**DO:**
+- Use `onchain tx <hash>` or `onchain tx <explorer-url>`
+- Use `--json` for structured data parsing
+- Interpret the output directly to answer user questions
+
+**Example interpretation:**
+```bash
+onchain tx 0x... --chain base
+```
+If output shows `Status: SUCCESS`, `From: 0x...`, `To: 0x...`, `Method ID: 0x6a761202` - that's a successful contract interaction. The method ID `0x6a761202` is `execTransaction` (Gnosis Safe). No additional lookups needed.

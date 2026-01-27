@@ -1,0 +1,23 @@
+{
+  "name": "x-articles",
+  "version": "1.0.1",
+  "description": "Create and publish X (Twitter) Articles with viral formatting, hook patterns, and browser automation",
+  "author": "Next Frontier",
+  "repository": "https://github.com/NextFrontierBuilds/x-articles-skill",
+  "keywords": [
+    "x",
+    "twitter",
+    "articles",
+    "long-form",
+    "viral",
+    "publishing",
+    "browser-automation",
+    "content-creation"
+  ],
+  "dependencies": {
+    "cli": ["agent-browser"],
+    "optional": ["pbcopy"]
+  },
+  "platforms": ["macos", "linux"],
+  "category": "social-media"
+}

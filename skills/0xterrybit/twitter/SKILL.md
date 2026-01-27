@@ -1,7 +1,7 @@
 ---
 name: twitter
 description: Twitter/X platform integration. Post tweets, read timeline, manage followers, and analyze engagement.
-metadata: {"clawdbot":{"emoji":"🐦","requires":{"bins":["curl","jq"],"env":["TWITTER_API_KEY"]},"primaryEnv":"TWITTER_API_KEY"}}
+metadata: {"clawdbot":{"emoji":"🐦","always":true,"requires":{"bins":["curl","jq"]},"primaryEnv":"TWITTER_API_KEY"}}
 ---
 
 # Twitter 🐦

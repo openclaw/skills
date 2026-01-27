@@ -1,13 +1,13 @@
 ---
 name: mechanic
-description: "Vehicle maintenance tracker and mechanic advisor. Tracks mileage, service intervals, fuel economy, costs, warranties, and recalls. Researches manufacturer schedules, estimates costs, projects service dates, tracks providers, and proactively reminds about upcoming/overdue services. Supports NHTSA recall monitoring, MPG tracking with anomaly detection, warranty expiration alerts, pre-trip/seasonal checklists, mileage projection, service provider history, tax deduction integration, emergency info cards, and cost-per-mile analysis. Use when discussing vehicle maintenance, oil changes, service intervals, mileage tracking, fuel economy, warranties, recalls, RV maintenance, roof sealing, generator service, slide-outs, winterization, or anything mechanic-related. Supports any vehicle type including trucks, cars, motorcycles, dirt bikes, ATVs, RVs, and boats."
+description: "Vehicle maintenance tracker and mechanic advisor. Tracks mileage, service intervals, fuel economy, costs, warranties, and recalls. Researches manufacturer schedules, estimates costs, projects service dates, tracks providers, and proactively reminds about upcoming/overdue services. Supports VIN decode and auto-population of vehicle specs, NHTSA recall monitoring, MPG tracking with anomaly detection, warranty expiration alerts, pre-trip/seasonal checklists, mileage projection, service provider history, tax deduction integration, emergency info cards, and cost-per-mile analysis. Use when discussing vehicle maintenance, oil changes, service intervals, mileage tracking, fuel economy, warranties, recalls, RV maintenance, roof sealing, generator service, slide-outs, winterization, or anything mechanic-related. Supports any vehicle type including trucks, cars, motorcycles, dirt bikes, ATVs, RVs, and boats."
 homepage: https://github.com/ScotTFO/mechanic-skill
 metadata: {"clawdbot":{"emoji":"🔧"}}
 ---
 
 # Mechanic — Vehicle Maintenance Tracker
 
-Track mileage and service intervals for any combination of vehicles — trucks, cars, motorcycles, RVs, dirt bikes, ATVs, boats, and more. Researches manufacturer-recommended maintenance schedules, tracks service history, estimates costs, monitors recalls, tracks fuel economy, manages warranties, and proactively reminds about upcoming and overdue services.
+Track mileage and service intervals for any combination of vehicles — trucks, cars, motorcycles, RVs, dirt bikes, ATVs, boats, and more. Decodes VINs to auto-populate vehicle specs, researches manufacturer-recommended maintenance schedules, tracks service history, estimates costs, monitors recalls, tracks fuel economy, manages warranties, and proactively reminds about upcoming and overdue services.
 
 ## Data Storage
 
@@ -55,6 +55,28 @@ If `<workspace>/data/mechanic/state.json` doesn't exist:
       "last_updated": "2026-01-26",
       "last_check_in": "2026-01-26",
       "vin": "1FT8W3BT0MED12345",
+      "vin_data": {
+        "decoded": true,
+        "decoded_date": "2026-01-26",
+        "year": 2021,
+        "make": "Ford",
+        "model": "F-350",
+        "trim": "Lariat",
+        "body_class": "Pickup",
+        "drive_type": "4WD",
+        "engine": "6.7L Power Stroke V8 Turbo Diesel",
+        "displacement_l": 6.7,
+        "cylinders": 8,
+        "fuel_type": "Diesel",
+        "transmission": "10-Speed Automatic",
+        "doors": 4,
+        "gvwr_class": "Class 3",
+        "bed_length": "8 ft",
+        "wheel_base": "176 in",
+        "plant_country": "United States",
+        "plant_city": "Louisville",
+        "raw_response": {}
+      },
       "business_use": false,
       "business_use_percent": 0,
       "mileage_history": [
@@ -142,7 +164,8 @@ If `<workspace>/data/mechanic/state.json` doesn't exist:
 - `check_in_frequency` — how often to ask for mileage (weekly/biweekly/monthly/quarterly)
 - `current_miles` / `current_hours` — latest known readings
 - `last_updated` / `last_check_in` — date tracking
-- `vin` — Vehicle Identification Number (for recalls and emergency info)
+- `vin` — Vehicle Identification Number (for recalls, VIN decode, and emergency info)
+- `vin_data` — decoded VIN data from NHTSA VPIC API (specs, engine, transmission, etc.)
 - `business_use` — whether vehicle is used for business (boolean)
 - `business_use_percent` — percentage of business use (0-100)
 - `mileage_history` — chronological array of mileage/hours entries
@@ -163,15 +186,19 @@ On skill load, read:
 When the user wants to track a new vehicle:
 
 ### 1. Gather Vehicle Info
+**Ask for the VIN first.** If the user provides a VIN, run the **VIN Decode** (see below) to auto-populate year, make, model, engine, transmission, drive type, and other specs. This saves the user from answering questions you can look up automatically.
+
 Ask for:
-- **Year, make, model** (e.g., 2021 Ford F-350, 2023 Honda CRF450R)
-- **Engine/trim** if it affects maintenance (diesel vs gas, 4WD vs 2WD)
+- **VIN** (strongly recommended — auto-populates specs, enables recall monitoring, emergency info)
+- **Year, make, model** (only ask if no VIN provided)
+- **Engine/trim** (only ask if no VIN or VIN decode was incomplete)
 - **Usage pattern** — daily driver, towing, off-road, weekend toy, etc.
 - **Current mileage/hours**
-- **VIN** (optional but recommended — enables recall monitoring and emergency info)
 - **Business use?** — if yes, what percentage? (enables tax deduction tracking)
 - **Warranty info** — any active factory or extended warranties? Expiration date/mileage?
 - **Emergency info** — insurance provider, roadside assistance number, tire sizes (can be filled in later)
+
+If the user doesn't have the VIN handy, proceed with manual info and note that VIN can be added later to unlock auto-population and recall monitoring.
 
 ### 2. Determine Duty Level
 Ask about usage to classify the maintenance schedule:
@@ -267,6 +294,9 @@ Add the vehicle to `state.json` under the `vehicles` object:
     "last_updated": "2026-01-26",
     "last_check_in": "2026-01-26",
     "vin": null,
+    "vin_data": {
+      "decoded": false
+    },
     "business_use": false,
     "business_use_percent": 0,
     "mileage_history": [
@@ -308,7 +338,10 @@ Add the vehicle to `state.json` under the `vehicles` object:
 ### 7. Update Cron Job
 Update the cron job prompt to include the new vehicle. If this vehicle's frequency is higher than the current cron schedule, update the cron to fire at the higher frequency.
 
-### 8. Run Initial Recall Check
+### 8. VIN Decode & Auto-Populate
+If a VIN was provided, run the **VIN Decode** to auto-populate vehicle specs, emergency info fields, and the schedule file's vehicle section. Present the decoded info to the user for confirmation.
+
+### 9. Run Initial Recall Check
 If a VIN was provided, immediately check for open recalls (see **NHTSA Recall Monitoring**). If no VIN, check by make/model/year.
 
 ## Vehicle Types and Special Considerations
@@ -332,6 +365,149 @@ Services can use any combination of:
 - `interval_rides` — per-use (e.g., dirt bike air filter = every ride)
 
 **Whichever interval is reached first triggers the service.**
+
+---
+
+## VIN Decode & Auto-Population
+
+When a user provides a VIN (during vehicle setup or later), decode it using the free NHTSA VPIC API to automatically look up and store vehicle specifications.
+
+### NHTSA VPIC API (VIN Decoder)
+
+**Endpoint:** `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/{VIN}?format=json`
+
+No API key required. Free and unlimited.
+
+**Example:**
+```
+GET https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/1FT8W3BT0MED12345?format=json
+```
+
+### Key Fields to Extract
+
+The API returns a `Results` array with one object containing ~140+ fields. Extract and map these:
+
+| VPIC Field | Maps To | Notes |
+|------------|---------|-------|
+| `ModelYear` | `vin_data.year` | Vehicle year |
+| `Make` | `vin_data.make` | Manufacturer |
+| `Model` | `vin_data.model` | Model name |
+| `Trim` | `vin_data.trim` | Trim level (Lariat, XLT, etc.) |
+| `BodyClass` | `vin_data.body_class` | Pickup, SUV, Motorcycle, etc. |
+| `DriveType` | `vin_data.drive_type` | 4WD, AWD, RWD, FWD |
+| `DisplacementL` | `vin_data.displacement_l` | Engine displacement in liters |
+| `EngineCylinders` | `vin_data.cylinders` | Number of cylinders |
+| `FuelTypePrimary` | `vin_data.fuel_type` | Gasoline, Diesel, Electric, etc. |
+| `EngineModel` | `vin_data.engine` | Combine with displacement for label |
+| `TransmissionStyle` | `vin_data.transmission` | Automatic, Manual, CVT |
+| `TransmissionSpeeds` | (append to transmission) | "10-Speed Automatic" |
+| `Doors` | `vin_data.doors` | Number of doors |
+| `GVWR` | `vin_data.gvwr_class` | Gross Vehicle Weight Rating class |
+| `WheelBaseShort` | `vin_data.wheel_base` | Wheelbase in inches |
+| `BedLengthIN` | `vin_data.bed_length` | Truck bed length (if applicable) |
+| `PlantCountry` | `vin_data.plant_country` | Assembly country |
+| `PlantCity` | `vin_data.plant_city` | Assembly city |
+
+**Note:** Many fields return empty strings `""` if not applicable. Only store non-empty values.
+
+### VIN Data Storage
+
+Store decoded data in the vehicle's `vin_data` object in `state.json`:
+
+```json
+{
+  "vin_data": {
+    "decoded": true,
+    "decoded_date": "2026-01-27",
+    "year": 2021,
+    "make": "Ford",
+    "model": "F-350",
+    "trim": "Lariat",
+    "body_class": "Pickup",
+    "drive_type": "4WD",
+    "engine": "6.7L Power Stroke V8 Turbo Diesel",
+    "displacement_l": 6.7,
+    "cylinders": 8,
+    "fuel_type": "Diesel",
+    "transmission": "10-Speed Automatic",
+    "doors": 4,
+    "gvwr_class": "Class 3",
+    "bed_length": "8 ft",
+    "wheel_base": "176 in",
+    "plant_country": "United States",
+    "plant_city": "Louisville",
+    "raw_response": {}
+  }
+}
+```
+
+Store `raw_response` as the full VPIC result object for reference — it contains additional fields that may be useful later (e.g., `AirBagLocFront`, `SeatBeltsAll`, `TPMS`, `ActiveSafetySysNote`, etc.).
+
+If `vin_data.decoded` is `false` or missing, the VIN hasn't been decoded yet.
+
+### Auto-Population Workflow
+
+When a VIN is decoded:
+
+1. **Update `vin_data`** — store all decoded fields
+2. **Update `label`** — build from decoded year/make/model/engine (e.g., "2021 Ford F-350 6.7L Power Stroke")
+3. **Update `emergency_info`** — auto-fill fields that can be derived:
+   - `fuel_type` from `FuelTypePrimary`
+   - `gvwr_lbs` from `GVWR` (parse weight class to approximate lbs)
+4. **Update schedule file** — populate the `vehicle` section with decoded specs
+5. **Present to user** — show what was decoded, confirm accuracy, ask about anything the VIN couldn't tell us (usage pattern, duty level, insurance, etc.)
+
+### When to Decode
+
+| Trigger | Action |
+|---------|--------|
+| New vehicle added with VIN | Decode immediately, auto-populate |
+| User provides VIN for existing vehicle | Decode, backfill `vin_data` and any empty fields |
+| User says "look up my VIN" | Decode and display specs |
+| User changes/corrects VIN | Re-decode and update |
+
+### Adding VIN Later
+
+If a vehicle was added without a VIN and the user provides one later:
+1. Decode the VIN
+2. Store in `vin_data`
+3. Update `vin` field
+4. Backfill any empty `emergency_info` fields
+5. Update `label` if the decoded info is more specific
+6. Run an immediate recall check with the new VIN
+7. Confirm what was updated
+
+### VIN Decode Presentation Format
+
+When presenting decoded VIN data to the user:
+```
+🔍 VIN Decoded — [VIN]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📋 Vehicle
+Year: [year] | Make: [make] | Model: [model]
+Trim: [trim] | Body: [body_class]
+Drive: [drive_type] | Doors: [doors]
+
+🔧 Powertrain
+Engine: [engine] ([displacement]L, [cylinders] cyl)
+Fuel: [fuel_type]
+Transmission: [transmission]
+
+📏 Specs
+GVWR: [gvwr_class]
+Wheel Base: [wheel_base]
+Bed Length: [bed_length] (if truck)
+
+🏭 Built in [plant_city], [plant_country]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### Limitations
+- **VPIC is NHTSA data** — best for US-market vehicles. Import/foreign-market VINs may have incomplete data.
+- **Trailers and RVs** — VIN decode may return limited data for trailers, fifth wheels, and RVs since they're built by different manufacturers with varying VIN encoding.
+- **Motorcycles and powersports** — coverage varies. Japanese brands (Honda, Yamaha, Kawasaki, Suzuki) generally decode well. Smaller manufacturers may not.
+- **Pre-1981 vehicles** — VINs weren't standardized until 1981. Older VINs won't decode.
+- If decode returns sparse data, fall back to manual entry and web search for specs.
 
 ---
 
@@ -1115,6 +1291,8 @@ Handle questions about any tracked vehicle. If ambiguous, ask which vehicle.
 - "When will my trans fluid be due?" → Mileage projection
 - "Where did I get my last oil change?" → Provider lookup
 - "What's my VIN?" → Emergency info
+- "Look up my VIN" / "Decode my VIN" → Run VIN decode, show specs
+- "Here's my VIN: [VIN]" → Decode, store, auto-populate, run recall check
 - "What are my tire specs?" → Emergency info
 - "Cost per mile?" → Operating cost analysis
 - "How much will I spend on maintenance in the next 6 months?" → Budget projection

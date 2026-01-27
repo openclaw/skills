@@ -3,9 +3,15 @@
   "slug": "mechanic",
   "displayName": "Mechanic",
   "latest": {
-    "version": "1.0.2",
-    "publishedAt": 1769408375450,
-    "commit": "https://github.com/clawdbot/skills/commit/e134c5ceaa01e8bd4b662f038c04b65bb039646e"
+    "version": "1.1.0",
+    "publishedAt": 1769485402941,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.2",
+      "publishedAt": 1769408375450,
+      "commit": "https://github.com/clawdbot/skills/commit/e134c5ceaa01e8bd4b662f038c04b65bb039646e"
+    }
+  ]
 }

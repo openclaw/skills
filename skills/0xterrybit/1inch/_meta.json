@@ -3,9 +3,15 @@
   "slug": "1inch",
   "displayName": "1inch",
   "latest": {
-    "version": "1.2.0",
-    "publishedAt": 1769539678501,
-    "commit": "https://github.com/clawdbot/skills/commit/fd43386d877952982f23beda7b9a3a618dec75b0"
+    "version": "2.0.0",
+    "publishedAt": 1769539717719,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.2.0",
+      "publishedAt": 1769539678501,
+      "commit": "https://github.com/clawdbot/skills/commit/fd43386d877952982f23beda7b9a3a618dec75b0"
+    }
+  ]
 }

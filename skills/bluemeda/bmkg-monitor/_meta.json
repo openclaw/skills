@@ -1,0 +1,11 @@
+{
+  "owner": "bluemeda",
+  "slug": "bmkg-monitor",
+  "displayName": "BMKG Monitor",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769504729794,
+    "commit": null
+  },
+  "history": []
+}

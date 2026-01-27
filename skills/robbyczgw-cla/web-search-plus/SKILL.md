@@ -1,6 +1,6 @@
 ---
 name: web-search-plus
-version: 2.1.3
+version: 2.1.5
 description: Unified search skill with Intelligent Auto-Routing. Uses multi-signal analysis to automatically select between Serper (Google), Tavily (Research), and Exa (Neural) with confidence scoring.
 tags: [search, web-search, serper, tavily, exa, google, research, semantic-search, auto-routing, multi-provider, shopping, free-tier]
 ---
@@ -10,6 +10,31 @@ tags: [search, web-search, serper, tavily, exa, google, research, semantic-searc
 Multi-provider web search with **Intelligent Auto-Routing**: Serper (Google), Tavily (Research), Exa (Neural).
 
 **NEW in v2.1.0**: Intelligent multi-signal analysis with confidence scoring!
+
+---
+
+## ⚠️ Important: Don't Modify Core Clawdbot Config
+
+**Tavily, Serper, and Exa are NOT core Clawdbot providers.**
+
+❌ **DON'T** add this to `~/.clawdbot/clawdbot.json`:
+```json
+"tools": {
+  "web": {
+    "search": {
+      "provider": "tavily"  // WRONG - will cause errors!
+    }
+  }
+}
+```
+
+✅ **DO** use this skill's scripts with environment variables:
+```bash
+export TAVILY_API_KEY="your-key"
+python3 scripts/search.py -q "your query"
+```
+
+Core Clawdbot only supports `brave` or `perplexity` as built-in providers. This skill adds Serper, Tavily, and Exa as **additional** options via its own scripts.
 
 ---
 
@@ -182,7 +207,7 @@ python3 scripts/search.py -p exa --similar-url "https://stripe.com" --category c
     "disabled_providers": []
   },
   "serper": {"country": "us", "language": "en"},
-  "tavily": {"depth": "basic"},
+  "tavily": {"depth": "advanced"},
   "exa": {"type": "neural"}
 }
 ```

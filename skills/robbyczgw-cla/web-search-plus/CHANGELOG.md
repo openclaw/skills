@@ -1,5 +1,13 @@
 # Changelog - Web Search Plus
 
+## [2.1.5] - 2026-01-27
+
+### 📝 Documentation
+
+- Added warning about NOT using Tavily/Serper/Exa in core Clawdbot config
+- Core Clawdbot only supports `brave` or `perplexity` as providers
+- This skill's providers must be used via environment variables and scripts, not `clawdbot.json`
+
 ## [2.1.0] - 2026-01-23
 
 ### 🧠 Intelligent Multi-Signal Routing

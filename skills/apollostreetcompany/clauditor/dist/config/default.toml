@@ -1,0 +1,52 @@
+# Clauditor Configuration
+# Security audit watchdog for Clawdbot
+
+# Key path for HMAC chain verification
+key_path = "/etc/sysaudit/key"
+
+[collector]
+# Directories to monitor for file activity
+# IMPORTANT: fanotify FAN_OPEN_EXEC only catches executables LOCATED in the
+# marked path, not executables RUN FROM that path. To catch when UID 1000
+# runs /usr/bin/curl, we must mark "/" to monitor system binaries.
+# The UID filter ensures we only log events from the target user.
+watch_paths = ["/", "/home/clawdbot"]
+
+# UID of the user to monitor (find with: id -u clawdbot)
+target_uid = 1000
+
+[writer]
+# Path to the append-only log file
+log_path = "/var/lib/.sysd/.audit/events.log"
+
+# Sync mode: "none", "periodic", or "every"
+fsync = "periodic"
+
+# How often to sync (if periodic), in number of writes
+fsync_interval = 100
+
+# Maximum log size before rotation (100MB)
+max_size_bytes = 104857600
+
+[alerter]
+# Minimum severity to alert on: "low", "medium", "high", "critical"
+min_severity = "medium"
+
+# Queue file for pending alerts
+queue_path = "/var/lib/.sysd/.audit/alerts.queue"
+
+# Alert channels - uncomment/modify as needed
+
+# Wake Clawdbot when alerts fire
+[[alerter.channels]]
+type = "clawdbot_wake"
+
+# Also log to syslog
+[[alerter.channels]]
+type = "syslog"
+facility = "local0"
+
+# Optionally write alerts to a file
+# [[alerter.channels]]
+# type = "file"
+# path = "/var/lib/.sysd/.audit/alerts.log"

@@ -1,0 +1,23 @@
+# Clauditor dev config - watches clawdbot workspace
+
+key_path = "/home/clawdbot/clawd/skills/clauditor/dev-data/key"
+
+[collector]
+# Include "/" to catch exec events for system binaries (curl, wget, etc.)
+# fanotify FAN_OPEN_EXEC only fires for executables WITHIN the marked path
+watch_paths = ["/", "/home/clawdbot/clawd"]
+target_uid = 1000  # clawdbot user
+
+[writer]
+log_path = "/home/clawdbot/clawd/skills/clauditor/dev-data/events.log"
+fsync = "periodic"
+fsync_interval = 100
+max_size_bytes = 10485760  # 10MB for dev
+
+[alerter]
+min_severity = "low"  # See everything in dev
+queue_path = "/home/clawdbot/clawd/skills/clauditor/dev-data/alerts.queue"
+
+[[alerter.channels]]
+type = "file"
+path = "/home/clawdbot/clawd/skills/clauditor/dev-data/alerts.log"

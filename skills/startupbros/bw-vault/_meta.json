@@ -1,0 +1,11 @@
+{
+  "owner": "startupbros",
+  "slug": "bw-vault",
+  "displayName": "Bitwarden CLI",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769479269603,
+    "commit": null
+  },
+  "history": []
+}

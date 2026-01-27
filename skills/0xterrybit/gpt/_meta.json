@@ -1,0 +1,11 @@
+{
+  "owner": "0xterrybit",
+  "slug": "gpt",
+  "displayName": "GPT",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769514599241,
+    "commit": null
+  },
+  "history": []
+}

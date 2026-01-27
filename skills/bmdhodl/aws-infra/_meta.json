@@ -1,0 +1,11 @@
+{
+  "owner": "bmdhodl",
+  "slug": "aws-infra",
+  "displayName": "AWS Infra",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769526133525,
+    "commit": null
+  },
+  "history": []
+}

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Cloud terminal icon">
+  <defs>
+    <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#1f2937"/>
+      <stop offset="100%" stop-color="#0b1220"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="96" fill="url(#g)"/>
+  <g fill="#111827" stroke="#111827" stroke-width="0">
+    <path d="M171 356h188a71 71 0 0 0 12-141 96 96 0 0 0-187-24 79 79 0 0 0-13-1 68 68 0 0 0 0 136z" fill="#0f172a"/>
+  </g>
+  <g>
+    <path d="M176 300h160a60 60 0 0 0 10-119 81 81 0 0 0-157-20 67 67 0 0 0-13-1 57 57 0 0 0 0 113z" fill="#111827"/>
+    <rect x="190" y="206" width="132" height="72" rx="12" fill="#0b1220" stroke="#2dd4bf" stroke-width="3"/>
+    <path d="M205 244l16 10-16 10" fill="none" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="232" y1="264" x2="265" y2="264" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round"/>
+  </g>
+</svg>

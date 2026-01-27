@@ -3,9 +3,15 @@
   "slug": "stripe",
   "displayName": "Stripe",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769513798424,
-    "commit": "https://github.com/clawdbot/skills/commit/92f4d3d3e9021a8299e49e3a38e9388cfbb4da09"
+    "version": "1.1.0",
+    "publishedAt": 1769539209931,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769513798424,
+      "commit": "https://github.com/clawdbot/skills/commit/92f4d3d3e9021a8299e49e3a38e9388cfbb4da09"
+    }
+  ]
 }

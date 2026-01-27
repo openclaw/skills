@@ -1,7 +1,7 @@
 ---
 name: stripe
 description: Stripe payment platform integration. Manage payments, subscriptions, invoices, and customers via Stripe API.
-metadata: {"clawdbot":{"emoji":"💵","requires":{"bins":["curl","jq"],"env":["STRIPE_API_KEY"]},"primaryEnv":"STRIPE_API_KEY"}}
+metadata: {"clawdbot":{"emoji":"💵","always":true,"requires":{"bins":["curl","jq"]},"primaryEnv":"STRIPE_API_KEY"}}
 ---
 
 # Stripe 💵

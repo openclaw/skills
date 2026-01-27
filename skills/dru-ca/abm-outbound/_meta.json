@@ -1,0 +1,11 @@
+{
+  "owner": "dru-ca",
+  "slug": "abm-outbound",
+  "displayName": "ABM Outbound",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769522990232,
+    "commit": null
+  },
+  "history": []
+}

@@ -1,0 +1,18 @@
+{
+  "name": "feishu-clawdbot-bridge",
+  "version": "1.0.0",
+  "description": "Connect Feishu/Lark bot to Clawdbot agent via WebSocket — no public server needed",
+  "type": "module",
+  "scripts": {
+    "start": "node bridge.mjs",
+    "setup": "node setup-service.mjs"
+  },
+  "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.56.1",
+    "ws": "^8.18.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT"
+}

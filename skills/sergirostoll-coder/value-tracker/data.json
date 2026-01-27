@@ -1,0 +1,257 @@
+{
+  "entries": [
+    {
+      "timestamp": "2026-01-26T22:05:08.819698",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "integration_setup",
+      "hours": 2.0,
+      "notes": "Toast API"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:08.855879",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "integration_setup",
+      "hours": 1.5,
+      "notes": "Pipedrive API"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:08.888779",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "integration_setup",
+      "hours": 1.5,
+      "notes": "Microsoft Graph (Outlook)"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:08.921466",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "integration_setup",
+      "hours": 1.0,
+      "notes": "Gmail/gog"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:08.953448",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "integration_setup",
+      "hours": 1.0,
+      "notes": "Asana"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:08.985280",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "integration_setup",
+      "hours": 1.0,
+      "notes": "Bird CLI (Twitter)"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.017237",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "integration_setup",
+      "hours": 0.5,
+      "notes": "ElevenLabs TTS"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.049343",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "integration_setup",
+      "hours": 0.5,
+      "notes": "Whisper STT"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.081477",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "automation_created",
+      "hours": 1.0,
+      "notes": "Morning Briefing cron"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.113846",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "automation_created",
+      "hours": 0.75,
+      "notes": "Email Check cron"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.146970",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "automation_created",
+      "hours": 0.75,
+      "notes": "Scottsdale Daily cron"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.179606",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "automation_created",
+      "hours": 0.5,
+      "notes": "Mr. Card Daily cron"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.212262",
+      "date": "2026-01-26",
+      "category": "tech",
+      "task": "automation_created",
+      "hours": 0.5,
+      "notes": "Hunter Weekly cron"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.244674",
+      "date": "2026-01-26",
+      "category": "research",
+      "task": "competitive_analysis",
+      "hours": 3.0,
+      "notes": "Bulla Gastrobar deep dive"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.277083",
+      "date": "2026-01-26",
+      "category": "research",
+      "task": "market_research",
+      "hours": 2.0,
+      "notes": "Scottsdale market"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.308753",
+      "date": "2026-01-26",
+      "category": "research",
+      "task": "report_generation",
+      "hours": 1.0,
+      "notes": "Campfire vs Rillet"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.341037",
+      "date": "2026-01-26",
+      "category": "research",
+      "task": "report_generation",
+      "hours": 1.5,
+      "notes": "Toast CAB briefing"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.372729",
+      "date": "2026-01-26",
+      "category": "strategy",
+      "task": "business_planning",
+      "hours": 3.0,
+      "notes": "Clawdbot Hospitality docs"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.405092",
+      "date": "2026-01-26",
+      "category": "strategy",
+      "task": "project_planning",
+      "hours": 1.0,
+      "notes": "Clawdbot Hospitality tracker"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.436801",
+      "date": "2026-01-26",
+      "category": "ops",
+      "task": "morning_briefing",
+      "hours": 0.75,
+      "notes": "Jan 26"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.469527",
+      "date": "2026-01-26",
+      "category": "ops",
+      "task": "morning_briefing",
+      "hours": 0.75,
+      "notes": "Jan 25"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.502034",
+      "date": "2026-01-26",
+      "category": "ops",
+      "task": "email_triage",
+      "hours": 1.5,
+      "notes": "Multiple email checks"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.534618",
+      "date": "2026-01-26",
+      "category": "ops",
+      "task": "meeting_prep",
+      "hours": 0.5,
+      "notes": "PR Call, Torres, etc"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.566566",
+      "date": "2026-01-26",
+      "category": "finance",
+      "task": "earnings_analysis",
+      "hours": 0.5,
+      "notes": "Earnings Autopilot setup"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.598956",
+      "date": "2026-01-26",
+      "category": "finance",
+      "task": "investment_research",
+      "hours": 1.0,
+      "notes": "Clawdbot Infrastructure thesis"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.631587",
+      "date": "2026-01-26",
+      "category": "sales",
+      "task": "pipeline_review",
+      "hours": 0.5,
+      "notes": "Pipedrive analysis"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.664222",
+      "date": "2026-01-26",
+      "category": "sales",
+      "task": "lead_scoring",
+      "hours": 0.5,
+      "notes": "Lead Scoring setup"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.696291",
+      "date": "2026-01-26",
+      "category": "marketing",
+      "task": "content_curation",
+      "hours": 0.5,
+      "notes": "Rostoll Weekly setup"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.728965",
+      "date": "2026-01-26",
+      "category": "marketing",
+      "task": "social_digest",
+      "hours": 0.5,
+      "notes": "X Daily Digest"
+    },
+    {
+      "timestamp": "2026-01-26T22:05:09.761054",
+      "date": "2026-01-26",
+      "category": "marketing",
+      "task": "competitive_intel",
+      "hours": 0.75,
+      "notes": "Competitive Intel weekly"
+    },
+    {
+      "timestamp": "2026-01-26T22:25:34.351093",
+      "date": "2026-01-26",
+      "category": "research",
+      "description": "Testing auto-detection for market research",
+      "hours": 0.5,
+      "rate": 100,
+      "value": 50.0
+    }
+  ],
+  "totals": {
+    "hours": 31.75,
+    "tasks": 30
+  }
+}

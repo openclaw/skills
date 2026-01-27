@@ -1,0 +1,13 @@
+{
+  "currency": "$",
+  "default_rate": 75,
+  "rates_by_category": {
+    "strategy": 150,
+    "research": 100,
+    "finance": 100,
+    "tech": 85,
+    "sales": 75,
+    "marketing": 65,
+    "ops": 50
+  }
+}

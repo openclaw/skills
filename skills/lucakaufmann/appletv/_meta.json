@@ -1,0 +1,11 @@
+{
+  "owner": "lucakaufmann",
+  "slug": "appletv",
+  "displayName": "Apple TV",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769521301416,
+    "commit": null
+  },
+  "history": []
+}

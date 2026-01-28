@@ -1,0 +1,33 @@
+{
+  "name": "prism-alerts",
+  "version": "1.0.0",
+  "description": "Pump.fun token alerts using Strykr PRISM API - new launches, graduations, volume spikes",
+  "author": {
+    "name": "Next Frontier",
+    "url": "https://x.com/NextXFrontier"
+  },
+  "repository": "https://github.com/NextFrontierBuilds/prism-alerts-skill",
+  "keywords": [
+    "prism",
+    "pump-fun",
+    "solana",
+    "alerts",
+    "memecoins",
+    "trading",
+    "telegram-bot"
+  ],
+  "config": {
+    "PRISM_URL": {
+      "description": "PRISM API base URL",
+      "default": "https://strykr-prism.up.railway.app"
+    }
+  },
+  "triggers": [
+    "pump fun trending",
+    "new pump tokens",
+    "bonding tokens",
+    "graduated tokens"
+  ],
+  "platforms": ["macos", "linux"],
+  "category": "trading"
+}

@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "@aluvia/sdk": "^1.1.0",
+    "@mozilla/readability": "^0.6.0",
+    "got": "^14.6.6",
+    "jsdom": "^27.4.0",
+    "turndown": "^7.2.2",
+    "turndown-plugin-gfm": "^1.0.2"
+  }
+}

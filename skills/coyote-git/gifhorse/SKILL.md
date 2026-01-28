@@ -11,7 +11,7 @@ Create reaction GIFs from your video library by searching dialogue and adding ti
 
 ## What GifHorse Does
 
-1. **Transcribe videos** - Extract dialogue with timestamps using subtitle files (.srt) or Whisper AI
+1. **Transcribe videos** - Extract dialogue with timestamps by downloading subtitles, using local .srt files, or Whisper AI
 2. **Search dialogue** - Find quotes across your entire video library instantly
 3. **Preview clips** - See exactly what will be captured before creating the GIF
 4. **Create GIFs** - Generate GIFs with perfectly timed subtitles and optional watermarks
@@ -22,11 +22,11 @@ Create reaction GIFs from your video library by searching dialogue and adding ti
 
 1. Install gifhorse (via install button above)
 2. Install FFmpeg-full for subtitle rendering (via install button above)
-3. Transcribe your video library:
+3. Transcribe your video library (downloads subtitles automatically):
 
 ```bash
 cd ~/gifhorse && source venv/bin/activate
-gifhorse transcribe ~/Movies --use-subtitles
+gifhorse transcribe ~/Movies
 ```
 
 The gifhorse command must be run from within its virtual environment. You can activate it with:
@@ -48,14 +48,24 @@ source ~/gifhorse/activate.sh
 Extract dialogue from your videos (one-time per video):
 
 ```bash
-# Fast: Using existing subtitle files (.srt)
+# Default: downloads subtitles from online providers (fast, recommended)
+gifhorse transcribe /path/to/videos
+
+# Use only local .srt files (no downloading, no Whisper)
 gifhorse transcribe /path/to/videos --use-subtitles
 
-# Slow but thorough: Using Whisper AI (if no subtitles available)
-gifhorse transcribe /path/to/video.mp4
+# Use Whisper AI (slow but works for any video)
+gifhorse transcribe /path/to/video.mp4 --use-whisper
 ```
 
-**Pro tip:** Use `--use-subtitles` when available - it's 100x faster than Whisper!
+### Download Subtitles Only
+
+Download .srt files without storing in the database:
+
+```bash
+gifhorse fetch-subtitles /path/to/videos
+gifhorse fetch-subtitles /path/to/videos --skip-existing
+```
 
 ### Search Dialogue
 
@@ -86,11 +96,8 @@ Generate the GIF with subtitles:
 # Basic GIF
 gifhorse create "memorable quote" 1 --output reaction.gif
 
-# With watermark
-gifhorse create "quote" 1 --watermark "@username"
-
 # High quality for social media
-gifhorse create "quote" 1 --width 720 --fps 24 --quality high --watermark "@handle"
+gifhorse create "quote" 1 --width 720 --fps 24 --quality high
 
 # Include conversation context
 gifhorse create "quote" 1 --include-before 2 --include-after 1
@@ -126,13 +133,7 @@ Control exactly what gets captured:
 - `--width N` - Width in pixels (default: 480, use 720 for HD)
 - `--no-subtitles` - Create GIF without subtitle overlay
 
-## Watermark Options
-
-Add branding to your GIFs:
-
-- `--watermark TEXT` - Watermark text (e.g., "@gifhorse")
-- `--watermark-position tl|tr|bl|br` - Position: top-left, top-right, bottom-left, bottom-right (default: br)
-- `--watermark-opacity N` - Opacity from 0.0 to 1.0 (default: 0.7)
+**Note:** All GIFs automatically include a subtle "gifhorse" watermark in the bottom-right corner.
 
 ## Common Workflows
 
@@ -154,23 +155,22 @@ gifhorse create "key phrase" 1 --include-before 2 --include-after 1
 ### High Quality for Twitter/X
 
 ```bash
-gifhorse create "quote" 1 --width 720 --fps 24 --quality high --watermark "@handle" --output tweet.gif
+gifhorse create "quote" 1 --width 720 --fps 24 --quality high --output tweet.gif
 ```
 
 ### Scene with Reaction After Dialogue
 
 ```bash
-gifhorse create "memorable line" 1 --padding-after 3.0 --watermark "@me"
+gifhorse create "memorable line" 1 --padding-after 3.0
 ```
 
 ## Tips & Tricks
 
 1. **Always preview first** - Use `preview` to verify timing before creating
-2. **Use subtitle files** - 100x faster than Whisper transcription
+2. **Default downloads subtitles** - Just run `gifhorse transcribe` and subtitles are fetched automatically
 3. **Watch file sizes** - High quality + long duration = large files (20s can be 20+ MB)
 4. **Padding vs Include** - For reactions, use `--padding-after` not `--include-after`
 5. **Search with context** - Add `--context 2` to see surrounding dialogue
-6. **Test watermark position** - Bottom-right (br) usually works best
 
 ## File Size Guide
 

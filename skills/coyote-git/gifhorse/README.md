@@ -10,7 +10,7 @@ This is the ClawdHub skill package for [gifhorse](https://github.com/Coyote-git/
 
 - 🔍 **Search dialogue** across your entire video library instantly
 - 🎬 **Create GIFs** with perfectly timed subtitles
-- 🏷️ **Add watermarks** for social media
+- 🏷️ **Automatic branding** - all GIFs include a subtle "gifhorse" watermark
 - 📝 **Transcribe videos** using subtitle files or Whisper AI
 - 👀 **Preview** before creating to verify timing
 
@@ -63,7 +63,7 @@ You can also use gifhorse commands directly:
 ```bash
 gifhorse search "memorable quote"
 gifhorse preview "memorable quote" 1
-gifhorse create "memorable quote" 1 --watermark "@me"
+gifhorse create "memorable quote" 1
 ```
 
 ## Publishing to ClawdHub

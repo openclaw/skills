@@ -1,0 +1,11 @@
+{
+  "name": "onchat-ai-agent",
+  "version": "1.0.0",
+  "description": "AI agent CLI for interacting with OnChat on Base L2",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "tsx": "^4.19.2",
+    "viem": "^2.23.2"
+  }
+}

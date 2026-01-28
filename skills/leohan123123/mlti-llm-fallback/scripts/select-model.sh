@@ -1,137 +1,223 @@
 #!/bin/bash
-# 多模型智能选择脚本
-# 触发指令: mlti llm
-# 默认: 始终使用 Claude Opus 4.5
+# Multi-LLM Intelligent Model Selection v1.1.0
+# Trigger: multi llm
+# Default: Always use Claude Opus 4.5
 
 DEFAULT_MODEL="github-copilot/claude-opus-4.5"
-TRIGGER_KEYWORD="mlti llm"
+TRIGGER_KEYWORD="multi llm"
 
-# 颜色
+# Colors
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
+RED='\033[0;31m'
 NC='\033[0m'
 
-# 检查是否包含触发指令
-check_trigger() {
-    local input="$1"
-    if echo "$input" | grep -qi "mlti llm"; then
-        return 0  # 包含触发指令
+# Model definitions with fallback chains
+declare -A PRIMARY_MODELS=(
+    ["coding"]="qwen2.5-coder:32b"
+    ["reasoning"]="deepseek-r1:70b"
+    ["chinese"]="glm4:9b"
+    ["general"]="qwen3:32b"
+)
+
+declare -A FALLBACK_MODELS=(
+    ["coding"]="qwen2.5-coder:14b qwen3:32b"
+    ["reasoning"]="deepseek-r1:32b qwen3:32b"
+    ["chinese"]="qwen3:8b qwen3:32b"
+    ["general"]="qwen3:14b qwen3:8b"
+)
+
+# Check if Ollama is running
+check_ollama() {
+    if curl -s --connect-timeout 2 http://localhost:11434/api/tags >/dev/null 2>&1; then
+        return 0
     else
-        return 1  # 不包含
+        return 1
     fi
 }
 
-# 检查强制模型指令
+# Check if a specific model is available
+check_model_available() {
+    local model="$1"
+    if ! check_ollama; then
+        return 1
+    fi
+    
+    # Get list of available models and check exact match
+    local available=$(curl -s http://localhost:11434/api/tags 2>/dev/null | grep -o '"name":"[^"]*"' | cut -d'"' -f4)
+    
+    if echo "$available" | grep -qx "$model"; then
+        return 0
+    fi
+    
+    # Also check partial match (model without tag)
+    local base_model=$(echo "$model" | cut -d':' -f1)
+    if echo "$available" | grep -q "^${base_model}:"; then
+        return 0
+    fi
+    
+    return 1
+}
+
+# Get available model with fallback chain
+get_available_model() {
+    local category="$1"
+    local primary="${PRIMARY_MODELS[$category]}"
+    local fallbacks="${FALLBACK_MODELS[$category]}"
+    
+    # Try primary model first
+    if check_model_available "$primary"; then
+        echo "$primary"
+        return 0
+    fi
+    
+    # Try fallback models
+    for fallback in $fallbacks; do
+        if check_model_available "$fallback"; then
+            echo "$fallback"
+            return 0
+        fi
+    done
+    
+    # Return primary anyway (caller should handle unavailability)
+    echo "$primary"
+    return 1
+}
+
+# Check if input contains trigger keyword
+check_trigger() {
+    local input="$1"
+    if echo "$input" | grep -qi "multi llm"; then
+        return 0  # Contains trigger
+    else
+        return 1  # No trigger
+    fi
+}
+
+# Check for force model command
 check_force_model() {
     local input="$1"
     
-    if echo "$input" | grep -qi "mlti llm coding"; then
-        echo "qwen2.5-coder:32b"
+    if echo "$input" | grep -qi "multi llm coding"; then
+        echo "coding"
         return 0
     fi
     
-    if echo "$input" | grep -qi "mlti llm reasoning"; then
-        echo "deepseek-r1:70b"
+    if echo "$input" | grep -qi "multi llm reasoning"; then
+        echo "reasoning"
         return 0
     fi
     
-    if echo "$input" | grep -qi "mlti llm chinese"; then
-        echo "glm4:9b"
+    if echo "$input" | grep -qi "multi llm chinese"; then
+        echo "chinese"
         return 0
     fi
     
-    if echo "$input" | grep -qi "mlti llm general"; then
-        echo "qwen3:32b"
+    if echo "$input" | grep -qi "multi llm general"; then
+        echo "general"
         return 0
     fi
     
-    return 1  # 无强制指令
+    return 1  # No force command
 }
 
-# 根据任务类型选择本地模型
-select_local_model() {
+# Detect task category from input
+detect_task_category() {
     local task="$1"
     
-    # 移除触发指令后分析任务
-    task=$(echo "$task" | sed -E 's/mlti llm (coding|reasoning|chinese|general)?//gi')
+    # Remove trigger keyword for analysis
+    task=$(echo "$task" | sed -E 's/multi llm (coding|reasoning|chinese|general)?//gi')
     
-    # 检测编程任务
-    if echo "$task" | grep -qiE "代码|编程|函数|调试|debug|code|program|script|python|java|javascript|typescript|api|bug|重构|refactor"; then
-        echo "qwen2.5-coder:32b"
+    # Detect coding task
+    if echo "$task" | grep -qiE "代码|编程|函数|调试|debug|code|program|script|python|java|javascript|typescript|api|bug|重构|refactor|compile|syntax|class|method|variable"; then
+        echo "coding"
         return
     fi
     
-    # 检测推理任务
-    if echo "$task" | grep -qiE "推理|分析|证明|逻辑|数学|计算|reasoning|analysis|math|solve|算法|evaluate"; then
-        echo "deepseek-r1:70b"
+    # Detect reasoning task
+    if echo "$task" | grep -qiE "推理|分析|证明|逻辑|数学|计算|reasoning|analysis|math|solve|算法|evaluate|proof|theorem|calculate|equation"; then
+        echo "reasoning"
         return
     fi
     
-    # 检测轻量中文任务
-    if echo "$task" | grep -qiE "翻译|总结|摘要|简单|快速|translate|summary"; then
-        echo "glm4:9b"
+    # Detect Chinese lightweight task
+    if echo "$task" | grep -qiE "翻译|总结|摘要|简单|快速|translate|summary|brief"; then
+        echo "chinese"
         return
     fi
     
-    # 默认使用通用模型
-    echo "qwen3:32b"
+    # Default to general
+    echo "general"
 }
 
-# 主函数
+# Main function
 main() {
     local input="$1"
+    local output_format="${2:-human}"  # human or json
     
     if [ -z "$input" ]; then
-        echo "用法: $0 \"你的任务\""
+        echo "Usage: $0 \"your task\" [human|json]"
         echo ""
-        echo "默认使用 Claude Opus 4.5"
-        echo "使用 'mlti llm' 指令启动多模型选择"
+        echo "Default: Claude Opus 4.5"
+        echo "Use 'multi llm' trigger to activate local model selection"
         echo ""
-        echo "示例:"
-        echo "  $0 \"帮我写代码\"                    -> Claude Opus 4.5"
-        echo "  $0 \"mlti llm 帮我写代码\"           -> qwen2.5-coder:32b"
-        echo "  $0 \"mlti llm coding 任意任务\"      -> qwen2.5-coder:32b"
+        echo "Examples:"
+        echo "  $0 \"Help me write code\"                -> Claude Opus 4.5"
+        echo "  $0 \"multi llm Help me write code\"      -> qwen2.5-coder:32b"
+        echo "  $0 \"multi llm coding any task\"         -> qwen2.5-coder:32b"
         exit 1
     fi
     
-    # 检查是否包含触发指令
+    local selected_model=""
+    local reason=""
+    local category=""
+    
+    # Check if trigger is present
     if ! check_trigger "$input"; then
-        # 无触发指令，使用默认模型
-        echo -e "${GREEN}选择模型: $DEFAULT_MODEL${NC}"
-        echo -e "${CYAN}原因: 默认使用最强模型（未使用 mlti llm 指令）${NC}"
-        exit 0
+        # No trigger, use default model
+        selected_model="$DEFAULT_MODEL"
+        reason="Default model (no 'multi llm' trigger)"
+        category="default"
+    else
+        # Trigger present, check for force command
+        forced_category=$(check_force_model "$input")
+        if [ -n "$forced_category" ]; then
+            category="$forced_category"
+            selected_model=$(get_available_model "$category")
+            reason="Force command 'multi llm $category'"
+        else
+            # Intelligent detection
+            category=$(detect_task_category "$input")
+            selected_model=$(get_available_model "$category")
+            reason="Detected $category task"
+        fi
+        
+        # Check if model is actually available
+        if ! check_model_available "$selected_model"; then
+            reason="$reason (WARNING: model may not be available)"
+        fi
     fi
     
-    # 包含触发指令，检查是否有强制模型
-    forced_model=$(check_force_model "$input")
-    if [ -n "$forced_model" ]; then
-        echo -e "${YELLOW}选择模型: $forced_model${NC}"
-        echo -e "${CYAN}原因: 使用强制指令指定模型${NC}"
-        exit 0
+    # Output
+    if [ "$output_format" = "json" ]; then
+        cat << EOF
+{
+  "model": "$selected_model",
+  "category": "$category",
+  "reason": "$reason",
+  "trigger_found": $(check_trigger "$input" && echo "true" || echo "false"),
+  "ollama_available": $(check_ollama && echo "true" || echo "false")
+}
+EOF
+    else
+        echo -e "${GREEN}Selected: $selected_model${NC}"
+        echo -e "${CYAN}Reason: $reason${NC}"
+        
+        if [ "$category" != "default" ] && ! check_ollama; then
+            echo -e "${RED}Warning: Ollama service not running${NC}"
+        fi
     fi
-    
-    # 智能选择本地模型
-    selected_model=$(select_local_model "$input")
-    
-    # 确定原因
-    case "$selected_model" in
-        "qwen2.5-coder:32b")
-            reason="检测到编程任务"
-            ;;
-        "deepseek-r1:70b")
-            reason="检测到推理任务"
-            ;;
-        "glm4:9b")
-            reason="检测到轻量中文任务"
-            ;;
-        *)
-            reason="使用通用模型"
-            ;;
-    esac
-    
-    echo -e "${YELLOW}选择模型: $selected_model${NC}"
-    echo -e "${CYAN}原因: $reason (mlti llm 已触发)${NC}"
 }
 
 main "$@"

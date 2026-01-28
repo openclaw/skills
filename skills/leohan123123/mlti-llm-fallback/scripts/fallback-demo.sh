@@ -1,180 +1,216 @@
 #!/bin/bash
-# 本地模型故障转移演示脚本
-# 模拟网络模型不可用，自动切换到本地 Ollama 模型
+# Multi-LLM Fallback Demo Script v1.1.0
+# Demonstrates intelligent model selection with actual Ollama calls
 
 set -e
 
-# 颜色定义
+# Colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 CYAN='\033[0;36m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# 模型配置
+# Model configuration
 NETWORK_MODEL="github-copilot/claude-opus-4.5"
-LOCAL_MODELS=("qwen3:32b" "qwen2.5-coder:32b" "deepseek-r1:70b" "glm4:9b")
 
-# 检查 Ollama 服务
+# Fallback chains
+declare -A PRIMARY_MODELS=(
+    ["coding"]="qwen2.5-coder:32b"
+    ["reasoning"]="deepseek-r1:70b"
+    ["chinese"]="glm4:9b"
+    ["general"]="qwen3:32b"
+)
+
+declare -A FALLBACK_CHAINS=(
+    ["coding"]="qwen2.5-coder:14b qwen2.5-coder:7b qwen3:32b"
+    ["reasoning"]="deepseek-r1:32b deepseek-r1:14b qwen3:32b"
+    ["chinese"]="qwen3:8b qwen3:4b qwen3:32b"
+    ["general"]="qwen3:14b qwen3:8b qwen3:4b"
+)
+
+# Check Ollama service
 check_ollama() {
-    if curl -s http://localhost:11434/api/tags >/dev/null 2>&1; then
+    if curl -s --connect-timeout 3 http://localhost:11434/api/tags >/dev/null 2>&1; then
         return 0
     else
         return 1
     fi
 }
 
-# 检查网络模型可用性（模拟）
-check_network_model() {
-    local simulate_failure="${1:-false}"
-    
-    if [ "$simulate_failure" = "true" ]; then
-        return 1  # 模拟失败
-    fi
-    
-    # 实际检查可以添加真实的 API 调用
-    return 0
+# Check if specific model is available
+check_model() {
+    local model="$1"
+    local available=$(curl -s http://localhost:11434/api/tags 2>/dev/null | grep -o '"name":"[^"]*"' | cut -d'"' -f4)
+    echo "$available" | grep -q "$model"
 }
 
-# 根据任务类型选择本地模型
-select_local_model() {
+# Get best available model in category
+get_best_model() {
+    local category="$1"
+    local primary="${PRIMARY_MODELS[$category]}"
+    local fallbacks="${FALLBACK_CHAINS[$category]}"
+    
+    if check_model "$primary"; then
+        echo "$primary"
+        return 0
+    fi
+    
+    for model in $fallbacks; do
+        if check_model "$model"; then
+            echo "$model"
+            return 0
+        fi
+    done
+    
+    echo "$primary"
+    return 1
+}
+
+# Detect task category
+detect_category() {
     local task="$1"
+    task=$(echo "$task" | sed -E 's/multi llm (coding|reasoning|chinese|general)?//gi')
     
-    # 检测编程任务
-    if echo "$task" | grep -qiE "代码|编程|函数|调试|debug|code|program|script|python|java|javascript|typescript|api|bug"; then
-        echo "qwen2.5-coder:32b"
-        return
+    if echo "$task" | grep -qiE "代码|编程|函数|调试|debug|code|program|script|python|java|javascript|api|bug|refactor"; then
+        echo "coding"
+    elif echo "$task" | grep -qiE "推理|分析|证明|逻辑|数学|计算|reasoning|analysis|math|solve|algorithm|proof"; then
+        echo "reasoning"
+    elif echo "$task" | grep -qiE "翻译|总结|摘要|简单|快速|translate|summary"; then
+        echo "chinese"
+    else
+        echo "general"
     fi
-    
-    # 检测推理任务
-    if echo "$task" | grep -qiE "推理|分析|证明|逻辑|数学|计算|reasoning|analysis|math|solve|算法"; then
-        echo "deepseek-r1:70b"
-        return
-    fi
-    
-    # 检测轻量中文任务
-    if echo "$task" | grep -qiE "翻译|总结|摘要|简单|快速|translate|summary"; then
-        echo "glm4:9b"
-        return
-    fi
-    
-    # 默认使用通用模型
-    echo "qwen3:32b"
 }
 
-# 调用本地模型
-call_local_model() {
+# Call local model via Ollama
+call_model() {
     local model="$1"
     local prompt="$2"
     
-    echo -e "${CYAN}正在调用本地模型: $model${NC}"
-    echo -e "${YELLOW}提示: $prompt${NC}"
+    echo -e "${CYAN}Calling: $model${NC}"
+    echo -e "${YELLOW}Prompt: $prompt${NC}"
     echo ""
     
-    # 使用 Ollama API 调用
-    response=$(echo "$prompt" | ollama run "$model" --nowordwrap 2>/dev/null | head -20)
+    response=$(echo "$prompt" | timeout 60 ollama run "$model" --nowordwrap 2>/dev/null | head -30)
     
     if [ -n "$response" ]; then
-        echo -e "${GREEN}模型响应:${NC}"
+        echo -e "${GREEN}Response:${NC}"
         echo "$response"
         return 0
     else
-        echo -e "${RED}模型响应失败${NC}"
+        echo -e "${RED}No response from model${NC}"
         return 1
     fi
 }
 
-# 主函数：智能故障转移
-smart_fallback() {
+# Main demo function
+demo() {
     local task="$1"
     local force_local="${2:-false}"
     
     echo ""
-    echo -e "${BLUE}╔══════════════════════════════════════════════════════════════╗${NC}"
-    echo -e "${BLUE}║           本地模型故障转移演示 - Local Model Fallback        ║${NC}"
-    echo -e "${BLUE}╚══════════════════════════════════════════════════════════════╝${NC}"
+    echo -e "${BLUE}+----------------------------------------------------------+${NC}"
+    echo -e "${BLUE}|         Multi-LLM Intelligent Switching Demo             |${NC}"
+    echo -e "${BLUE}+----------------------------------------------------------+${NC}"
     echo ""
     
-    # 步骤1: 检查 Ollama 服务
-    echo -e "${CYAN}[1/4] 检查 Ollama 服务状态...${NC}"
+    # Step 1: Check Ollama
+    echo -e "${CYAN}[1/4] Checking Ollama service...${NC}"
     if check_ollama; then
-        echo -e "${GREEN}  ✓ Ollama 服务运行中${NC}"
+        echo -e "${GREEN}  Ollama running${NC}"
     else
-        echo -e "${RED}  ✗ Ollama 服务未运行，请先启动: ollama serve${NC}"
+        echo -e "${RED}  Ollama not running. Start with: ollama serve${NC}"
         exit 1
     fi
     
-    # 步骤2: 检查网络模型
-    echo -e "${CYAN}[2/4] 检查网络模型可用性...${NC}"
-    if [ "$force_local" = "true" ]; then
-        echo -e "${YELLOW}  ⚠ 强制使用本地模型模式${NC}"
-        echo -e "${RED}  ✗ 网络模型: $NETWORK_MODEL (已禁用)${NC}"
+    # Step 2: Check trigger
+    echo -e "${CYAN}[2/4] Checking for 'multi llm' trigger...${NC}"
+    if echo "$task" | grep -qi "multi llm"; then
+        echo -e "${GREEN}  Trigger found - activating local model selection${NC}"
+    elif [ "$force_local" = "true" ]; then
+        echo -e "${YELLOW}  No trigger, but --force-local specified${NC}"
     else
-        if check_network_model "false"; then
-            echo -e "${GREEN}  ✓ 网络模型: $NETWORK_MODEL (可用)${NC}"
-            echo -e "${YELLOW}  → 使用 --force-local 参数强制使用本地模型${NC}"
-            return 0
-        else
-            echo -e "${RED}  ✗ 网络模型: $NETWORK_MODEL (不可用)${NC}"
-        fi
+        echo -e "${GREEN}  No trigger - would use: $NETWORK_MODEL${NC}"
+        echo -e "${YELLOW}  Use 'multi llm' prefix or --force-local to test local models${NC}"
+        return 0
     fi
     
-    # 步骤3: 选择本地模型
-    echo -e "${CYAN}[3/4] 根据任务智能选择本地模型...${NC}"
-    local selected_model=$(select_local_model "$task")
-    echo -e "${GREEN}  → 任务: \"$task\"${NC}"
-    echo -e "${GREEN}  → 选择模型: $selected_model${NC}"
+    # Step 3: Select model
+    echo -e "${CYAN}[3/4] Selecting best model...${NC}"
+    local category=$(detect_category "$task")
+    local selected=$(get_best_model "$category")
+    echo -e "${GREEN}  Category: $category${NC}"
+    echo -e "${GREEN}  Selected: $selected${NC}"
     
-    # 检查选中的模型是否可用
-    if ! ollama list | grep -q "$selected_model"; then
-        echo -e "${YELLOW}  ⚠ 首选模型不可用，切换到备用模型...${NC}"
-        selected_model="qwen3:32b"  # 使用通用备用
+    if ! check_model "$selected"; then
+        echo -e "${YELLOW}  Warning: Model not available locally${NC}"
+        echo -e "${YELLOW}  Pull with: ollama pull $selected${NC}"
+        return 1
     fi
     
-    # 步骤4: 调用本地模型
-    echo -e "${CYAN}[4/4] 调用本地模型处理任务...${NC}"
+    # Step 4: Call model
+    echo -e "${CYAN}[4/4] Calling model...${NC}"
     echo ""
-    echo -e "${BLUE}────────────────────────────────────────────────────────────────${NC}"
+    echo -e "${BLUE}----------------------------------------------------------${NC}"
     
-    call_local_model "$selected_model" "$task"
+    # Clean task (remove trigger)
+    local clean_task=$(echo "$task" | sed -E 's/multi llm (coding|reasoning|chinese|general)?//gi' | xargs)
+    call_model "$selected" "$clean_task"
     
-    echo -e "${BLUE}────────────────────────────────────────────────────────────────${NC}"
+    echo -e "${BLUE}----------------------------------------------------------${NC}"
     echo ""
-    echo -e "${GREEN}✓ 故障转移完成！本地模型已成功响应。${NC}"
+    echo -e "${GREEN}Demo complete${NC}"
 }
 
-# 显示帮助
+# Show help
 show_help() {
-    echo "用法: $0 [选项] \"任务描述\""
+    echo "Multi-LLM Demo - Test intelligent model switching"
     echo ""
-    echo "选项:"
-    echo "  --force-local, -f    强制使用本地模型（模拟网络故障）"
-    echo "  --help, -h           显示帮助信息"
+    echo "Usage: $0 [OPTIONS] \"task description\""
     echo ""
-    echo "示例:"
-    echo "  $0 \"帮我写一个Python函数\"                  # 正常模式"
-    echo "  $0 --force-local \"帮我分析这段代码\"        # 强制本地模式"
-    echo "  $0 -f \"解释一下这个数学公式\"               # 强制本地模式"
+    echo "Options:"
+    echo "  --force-local, -f    Force local model (skip network model)"
+    echo "  --list-models        List available Ollama models"
+    echo "  --help, -h           Show this help"
     echo ""
-    echo "任务类型自动识别:"
-    echo "  - 编程任务 → qwen2.5-coder:32b"
-    echo "  - 推理任务 → deepseek-r1:70b"
-    echo "  - 轻量中文 → glm4:9b"
-    echo "  - 通用任务 → qwen3:32b"
+    echo "Examples:"
+    echo "  $0 \"Help me write code\"                    # Uses Claude (no trigger)"
+    echo "  $0 \"multi llm write a Python function\"    # Uses qwen2.5-coder"
+    echo "  $0 --force-local \"explain recursion\"      # Force local model"
+    echo ""
+    echo "Task categories:"
+    echo "  Coding    -> qwen2.5-coder:32b"
+    echo "  Reasoning -> deepseek-r1:70b"
+    echo "  Chinese   -> glm4:9b"
+    echo "  General   -> qwen3:32b"
 }
 
-# 入口
+# List available models
+list_models() {
+    echo -e "${CYAN}Available Ollama models:${NC}"
+    if check_ollama; then
+        ollama list 2>/dev/null | tail -n +2
+    else
+        echo -e "${RED}Ollama not running${NC}"
+    fi
+}
+
+# Entry point
 main() {
     local force_local="false"
     local task=""
     
-    # 解析参数
     while [[ $# -gt 0 ]]; do
         case $1 in
             --force-local|-f)
                 force_local="true"
                 shift
+                ;;
+            --list-models)
+                list_models
+                exit 0
                 ;;
             --help|-h)
                 show_help
@@ -192,7 +228,7 @@ main() {
         exit 1
     fi
     
-    smart_fallback "$task" "$force_local"
+    demo "$task" "$force_local"
 }
 
 main "$@"

@@ -10,9 +10,10 @@ Use xAI's agentic search to query X/Twitter and the web in real-time. This lever
 
 **Docs:** https://docs.x.ai/docs/
 
-## Environment
+## Requirements
 
-Set `XAI_API_KEY` in your environment.
+- `XAI_API_KEY` environment variable
+- Python 3 + xai-sdk: `pip install xai-sdk`
 
 ## Quick Usage (curl)
 
@@ -57,17 +58,17 @@ curl -s https://api.x.ai/v1/chat/completions \
 
 ## Helper Script
 
-For convenience, use the `xai-search` script in this skill folder:
+For convenience, use the `xai-search.py` script in the `scripts/` folder:
 
 ```bash
-# Web search
-xai-search web "latest news about AI"
+# Web search (adjust path to your skill location)
+python ~/.clawdbot/skills/xai-search/scripts/xai-search.py web "latest news about AI"
 
 # X/Twitter search  
-xai-search x "what are people saying about Clawdbot"
+python ~/.clawdbot/skills/xai-search/scripts/xai-search.py x "what are people saying about Clawdbot"
 
 # Both
-xai-search both "current events today"
+python ~/.clawdbot/skills/xai-search/scripts/xai-search.py both "current events today"
 ```
 
 ## Models

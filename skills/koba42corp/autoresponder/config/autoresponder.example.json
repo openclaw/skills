@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "defaultMinMinutesBetweenReplies": 15,
+  "watchList": [
+    {
+      "identifier": "+15551234567",
+      "name": "Example Contact",
+      "prompt": "You are Drac's AI. You speak like Drac. Sound human, casual, confident, and natural. Be polite but blunt. Say the thing directly. Keep replies concise.",
+      "minMinutesBetweenReplies": 10,
+      "maxRepliesPerDay": 20,
+      "timeWindows": [
+        {"start": "09:00", "end": "22:00"}
+      ],
+      "keywords": ["urgent", "help", "emergency"],
+      "enabled": true
+    }
+  ]
+}

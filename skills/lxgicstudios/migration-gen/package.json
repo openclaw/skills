@@ -1,0 +1,44 @@
+{
+  "name": "ai-migrate",
+  "version": "1.0.0",
+  "description": "Generate database migration SQL from your ORM schemas",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-migrate": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "ai",
+    "openai",
+    "gpt",
+    "database",
+    "migration",
+    "sql",
+    "prisma",
+    "drizzle",
+    "knex",
+    "developer-tools",
+    "cli",
+    "automation",
+    "typescript",
+    "orm"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "glob": "^11.0.0",
+    "openai": "^4.73.0",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  },
+  "author": "LXGIC Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxgicstudios/ai-migrate"
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "name": "zoom-meeting-assistance-rtms-unofficial-community",
+  "version": "1.1.0",
+  "description": "Zoom RTMS Meeting Assistant — on-demand capture and AI analysis of Zoom meetings via Real-Time Media Streams. Records audio, video, transcript, screenshare, and chat with live AI summaries and WhatsApp notifications.",
+  "author": "tanchunsiong",
+  "license": "MIT",
+  "repository": "https://github.com/tanchunsiong/zoom-meeting-assistance-with-rtms-unofficial-community-skill",
+  "keywords": [
+    "zoom",
+    "rtms",
+    "meeting",
+    "recording",
+    "transcript",
+    "ai",
+    "assistant",
+    "clawdbot"
+  ],
+  "clawdbot": {
+    "emoji": "🎙️",
+    "webhookEvents": ["meeting.rtms_started", "meeting.rtms_stopped"],
+    "forwardPort": 4048,
+    "forwardPath": "/",
+    "requires": {
+      "env": [
+        "ZOOM_SECRET_TOKEN",
+        "ZOOM_CLIENT_ID",
+        "ZOOM_CLIENT_SECRET"
+      ],
+      "bins": ["node", "ffmpeg"]
+    }
+  }
+}

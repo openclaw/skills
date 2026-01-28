@@ -1,0 +1,11 @@
+{
+  "owner": "lxgicstudios",
+  "slug": "adr-gen",
+  "displayName": "ADR Generator",
+  "latest": {
+    "version": "1.0.1",
+    "publishedAt": 1769632098179,
+    "commit": null
+  },
+  "history": []
+}

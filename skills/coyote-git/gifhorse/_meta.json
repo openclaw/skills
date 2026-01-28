@@ -3,9 +3,15 @@
   "slug": "gifhorse",
   "displayName": "GifHorse",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769379801078,
-    "commit": "https://github.com/clawdbot/skills/commit/e260029e1cd7e16dfa2a47b6701d2d7d199ca8d7"
+    "version": "1.0.1",
+    "publishedAt": 1769616449259,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769379801078,
+      "commit": "https://github.com/clawdbot/skills/commit/e260029e1cd7e16dfa2a47b6701d2d7d199ca8d7"
+    }
+  ]
 }

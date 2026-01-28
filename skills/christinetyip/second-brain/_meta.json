@@ -3,9 +3,15 @@
   "slug": "second-brain",
   "displayName": "Second Brain: Turn conversations into lasting knowledge",
   "latest": {
-    "version": "0.1.0",
-    "publishedAt": 1768239999250,
-    "commit": "https://github.com/clawdbot/skills/commit/2e9a8030f6a974fbc140322ffaee53fd0d876338"
+    "version": "0.1.4",
+    "publishedAt": 1769624897135,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "0.1.0",
+      "publishedAt": 1768239999250,
+      "commit": "https://github.com/clawdbot/skills/commit/2e9a8030f6a974fbc140322ffaee53fd0d876338"
+    }
+  ]
 }

@@ -1,0 +1,14 @@
+{
+  "name": "ai-roast",
+  "version": "1.0.0",
+  "description": "Get your code roasted with humor and actually useful feedback",
+  "main": "dist/index.js",
+  "bin": { "ai-roast": "dist/cli.js" },
+  "scripts": { "build": "tsc" },
+  "keywords": ["code-review", "roast", "humor", "ai", "cli", "feedback"],
+  "license": "MIT",
+  "dependencies": { "commander": "^12.1.0", "openai": "^4.73.0", "ora": "^5.4.1" },
+  "devDependencies": { "typescript": "^5.6.0", "@types/node": "^22.0.0" },
+  "author": "LXGIC Studios",
+  "repository": { "type": "git", "url": "https://github.com/lxgicstudios/ai-roast" }
+}

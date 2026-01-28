@@ -1,12 +1,15 @@
 ---
 name: strykr-prism
-description: Strykr PRISM API for canonical asset resolution, price lookups, token security scanning, and cross-market intelligence. 120+ endpoints covering crypto, stocks, ETFs, forex, commodities, and DeFi.
-version: 1.0.0
+description: Real-time financial data API for AI agents. Stocks, crypto, forex, ETFs in one unified feed. Powers trading bots, market dashboards, and fintech apps. Alternative to Alpha Vantage, Polygon.io, CoinGecko. 120+ endpoints.
+version: 1.1.0
+keywords: finance-api, market-data, stock-api, crypto-api, trading-bot, real-time-data, alpha-vantage-alternative, polygon-alternative, coingecko-alternative, ai-trading, fintech, defi, ai, llm, cursor, claude, gpt, mcp, langchain, vibe-coding
 ---
 
-# Strykr PRISM Skill
+# Finance Data API (Strykr PRISM)
 
-Access the Strykr PRISM API for unified financial data across crypto, stocks, ETFs, forex, commodities, and DeFi.
+**One API for all markets.** Real-time financial data for AI agents, trading bots, and fintech apps.
+
+Powered by Strykr PRISM — unified data across crypto, stocks, ETFs, forex, commodities, and DeFi.
 
 ## Configuration
 

@@ -1,11 +1,17 @@
 {
   "owner": "nextfrontierbuilds",
   "slug": "strykr-prism",
-  "displayName": "Strykr PRISM",
+  "displayName": "Strykr Prism",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769577273717,
-    "commit": "https://github.com/clawdbot/skills/commit/3fe8492351cc17117b32b8b87058cd06329b43e7"
+    "version": "1.1.0",
+    "publishedAt": 1769592890159,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769577273717,
+      "commit": "https://github.com/clawdbot/skills/commit/3fe8492351cc17117b32b8b87058cd06329b43e7"
+    }
+  ]
 }

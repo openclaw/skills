@@ -1,0 +1,39 @@
+{
+  "name": "@lxgicstudios/ai-docs",
+  "version": "1.0.0",
+  "description": "Add JSDoc/TSDoc comments to your source files using OpenAI",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-docs": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/cli.ts"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.4.0",
+    "openai": "^4.52.0",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "typescript": "^5.5.0",
+    "@types/node": "^20.14.0"
+  },
+  "license": "MIT",
+  "author": "LXGIC Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxgicstudios/ai-docs"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "developer-tools"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "tickers": [
+    "AAPL",
+    "MSFT",
+    "TSLA"
+  ],
+  "formTypes": [
+    "10-K",
+    "10-Q",
+    "8-K",
+    "4"
+  ]
+}

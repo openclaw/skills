@@ -1,0 +1,34 @@
+{
+  "name": "ai-branch",
+  "version": "1.0.0",
+  "description": "Generate descriptive git branch names from plain English descriptions",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-branch": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "git",
+    "branch",
+    "ai",
+    "cli"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "openai": "^4.73.0",
+    "ora": "^5.4.1",
+    "simple-git": "^3.27.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  },
+  "author": "LXGIC Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxgicstudios/ai-branch"
+  }
+}

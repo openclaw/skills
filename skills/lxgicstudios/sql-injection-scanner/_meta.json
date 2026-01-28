@@ -1,0 +1,11 @@
+{
+  "owner": "lxgicstudios",
+  "slug": "sql-injection-scanner",
+  "displayName": "SQL Injection Scanner",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769595952875,
+    "commit": null
+  },
+  "history": []
+}

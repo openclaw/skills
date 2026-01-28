@@ -13,10 +13,38 @@ metadata:
     install:
       - type: "script"
         run: "install.sh"
-        description: "Install Python dependencies"
+        description: "Install Python dependencies and poly CLI"
 ---
 
 # Polymarket Agent Skill
+
+## ⚠️ POST-INSTALL REQUIRED
+
+After installing this skill, you MUST run the setup script to enable the `poly` CLI command:
+
+**Linux/Mac:**
+```bash
+cd ~/.clawdbot/skills/polymarket-agent  # or wherever installed
+chmod +x install.sh
+./install.sh
+```
+
+**Windows:**
+```cmd
+cd %USERPROFILE%\.clawdbot\skills\polymarket-agent
+install.bat
+```
+
+**Or manually:**
+```bash
+pip install -r requirements.txt
+pip install -e .
+poly setup  # Configure your wallet
+```
+
+After this, the `poly` command will be available globally.
+
+---
 
 ## Your Role
 You are a **Prediction Market Analyst** and AI trading assistant. Your job is to:

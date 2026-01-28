@@ -1,34 +1,44 @@
 #!/bin/bash
-# Polymarket Agent - Post-Install Script
-# This script is automatically executed after `clawdhub install polymarket-agent`
+# Polymarket Agent - Installation Script
+# Works with Ubuntu 24.04+ (PEP 668 compliant)
 
 set -e
 
+echo "🎰 Polymarket Agent - Installing..."
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-REQUIREMENTS_FILE="$SCRIPT_DIR/requirements.txt"
+VENV_DIR="$SCRIPT_DIR/.venv"
 
-echo "🎰 Polymarket Agent - Installing Dependencies..."
-
-# Check if pip is available
-if ! command -v pip &> /dev/null; then
-    echo "❌ pip not found. Please install Python and pip first."
+# Check for python3
+if ! command -v python3 &> /dev/null; then
+    echo "❌ Python 3 not found. Install with: sudo apt install python3 python3-pip python3-venv"
     exit 1
 fi
 
-# Check if uv is available (faster), fallback to pip
-if command -v uv &> /dev/null; then
-    echo "✨ Using uv for fast installation..."
-    uv pip install -r "$REQUIREMENTS_FILE"
-else
-    echo "📦 Using pip..."
-    pip install -r "$REQUIREMENTS_FILE" --quiet
+# Create virtual environment if it doesn't exist
+if [ ! -d "$VENV_DIR" ]; then
+    echo "📦 Creating virtual environment..."
+    python3 -m venv "$VENV_DIR"
 fi
 
-echo "✅ Dependencies installed successfully!"
-echo ""
-echo "📦 Installing 'poly' command globally..."
+# Activate venv and install
+echo "📦 Installing dependencies..."
+source "$VENV_DIR/bin/activate"
+pip install --upgrade pip --quiet
+pip install -r "$SCRIPT_DIR/requirements.txt" --quiet
 pip install -e "$SCRIPT_DIR" --quiet
-echo "✅ 'poly' command is now available!"
+
 echo ""
-echo "🔧 Next step: Run the setup wizard to configure your API keys:"
-echo "   poly setup"
+echo "✅ Installation complete!"
+echo ""
+echo "To use the 'poly' command, activate the environment first:"
+echo ""
+echo "  source $VENV_DIR/bin/activate"
+echo "  poly --help"
+echo ""
+echo "Or run directly:"
+echo ""
+echo "  $VENV_DIR/bin/poly --help"
+echo ""
+echo "💡 Tip: Add this to your ~/.bashrc for easy access:"
+echo "  alias poly='$VENV_DIR/bin/poly'"

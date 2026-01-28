@@ -87,26 +87,9 @@ _"The athlete's swim data shows 5000m sessions at avg HR 125 with suffer_score o
 
 Before asking, analyze their Strava data to identify patterns:
 
-```sql
--- Find preferred days for long rides (>90 min)
-SELECT
-  strftime('%w', start_date) as day_of_week,
-  COUNT(*) as count
-FROM activities
-WHERE sport_type = 'Ride'
-  AND moving_time > 5400
-GROUP BY day_of_week
-ORDER BY count DESC;
-
--- Find preferred days for long runs (>60 min)
-SELECT
-  strftime('%w', start_date) as day_of_week,
-  COUNT(*) as count
-FROM activities
-WHERE sport_type IN ('Run', 'Trail Run')
-  AND moving_time > 3600
-GROUP BY day_of_week
-ORDER BY count DESC;
+```bash
+# Preferred days for long rides (>90 min) and long runs (>60 min)
+npx -y endurance-coach@latest schedule-preferences --ride-minutes 90 --run-minutes 60
 ```
 
 Day mapping: 0=Sunday, 1=Monday, ..., 6=Saturday

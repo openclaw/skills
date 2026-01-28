@@ -6,26 +6,20 @@ The v2.0 plan format uses workout templates to dramatically reduce verbosity. In
 
 ### Basic Syntax
 
+All templates are referenced by ID, and IDs include a sport prefix (e.g., `run.`, `bike.`, `swim.`, `strength.`, `brick.`):
+
 ```yaml
 # Template reference syntax
 workouts:
-  Mon: rest # No parameters
-  Tue: easy(40) # Single parameter
-  Wed: tempo(20, 10, 10) # Multiple parameters
+  Mon: run.rest # No parameter
+  Tue: run.easy(40) # Single parameter
+  Wed: run.tempo(20, 10, 10) # Multiple parameters
   Thu: swim.threshold(10) # Sport-prefixed template
 ```
 
 ### Template Resolution
 
-1. **Running templates** (default): Use template name directly
-   - `easy(40)` → `templates/run/easy.yaml`
-   - `intervals.400(6)` → `templates/run/intervals.400.yaml`
-
-2. **Other sports**: Use sport prefix
-   - `swim.threshold(10)` → `templates/swim/threshold.yaml`
-   - `bike.sweetspot(60)` → `templates/bike/sweetspot.yaml`
-   - `brick.olympic(90, 30)` → `templates/brick/olympic.yaml`
-   - `strength.core(15)` → `templates/strength/core.yaml`
+You do not need to resolve template files manually. Always discover and validate templates using the CLI commands below.
 
 ### Parameter Passing
 
@@ -63,104 +57,6 @@ estimatedDuration: "${warmup_mins + tempo_mins + cooldown_mins}"
 paces:
   tempo: "8:15/mi"
 ```
-
----
-
-## Complete Template Reference
-
-### Running Templates
-
-Located in `templates/run/`
-
-| Template                     | File                | Required Params   | Optional Params            | Description                  |
-| ---------------------------- | ------------------- | ----------------- | -------------------------- | ---------------------------- |
-| `rest`                       | rest.yaml           | -                 | -                          | Complete rest day            |
-| `easy(duration)`             | easy.yaml           | duration (mins)   | -                          | Zone 2 easy run              |
-| `recovery(duration)`         | recovery.yaml       | duration (mins)   | -                          | Zone 1 recovery run          |
-| `long(duration)`             | long.yaml           | duration (mins)   | -                          | Long run, progressive finish |
-| `tempo(tempo_mins)`          | tempo.yaml          | tempo_mins        | warmup_mins, cooldown_mins | Continuous tempo at T pace   |
-| `threshold(threshold_mins)`  | threshold.yaml      | threshold_mins    | warmup_mins, cooldown_mins | Threshold-pace running       |
-| `intervals.400(reps)`        | intervals.400.yaml  | reps              | recovery                   | 400m repeats at R pace       |
-| `intervals.800(reps)`        | intervals.800.yaml  | reps              | recovery                   | 800m repeats at I pace       |
-| `intervals.1k(reps)`         | intervals.1k.yaml   | reps              | recovery                   | 1K repeats at I pace         |
-| `intervals.mile(reps)`       | intervals.mile.yaml | reps              | recovery                   | Mile repeats at T pace       |
-| `fartlek(duration)`          | fartlek.yaml        | duration (mins)   | -                          | Unstructured speed play      |
-| `progression(duration)`      | progression.yaml    | duration (mins)   | -                          | Easy → tempo progression     |
-| `strides(duration, strides)` | strides.yaml        | duration, strides | -                          | Easy run with strides        |
-| `hills(reps)`                | hills.yaml          | reps              | -                          | Hill repeats                 |
-| `race.5k`                    | race.5k.yaml        | -                 | -                          | 5K race day                  |
-
-**Required Paces for Running:**
-
-- `paces.easy` - Used by: easy, recovery, long, warmups/cooldowns
-- `paces.tempo` - Used by: tempo
-- `paces.threshold` - Used by: threshold
-- `paces.long` - Used by: long
-- `paces.r400` - Used by: intervals.400
-- `paces.r800` - Used by: intervals.800
-- `paces.r1k` - Used by: intervals.1k
-- `paces.rMile` - Used by: intervals.mile
-
-### Swimming Templates
-
-Located in `templates/swim/`
-
-| Template                   | File           | Required Params | Optional Params | Description              |
-| -------------------------- | -------------- | --------------- | --------------- | ------------------------ |
-| `swim.rest`                | rest.yaml      | -               | -               | Rest day                 |
-| `swim.easy(duration)`      | easy.yaml      | duration (mins) | -               | Zone 2 continuous swim   |
-| `swim.technique(duration)` | technique.yaml | duration (mins) | -               | Drill-focused session    |
-| `swim.aerobic(reps)`       | aerobic.yaml   | reps (400m)     | rest_secs       | 400m @ CSS+10s repeats   |
-| `swim.threshold(reps)`     | threshold.yaml | reps (100m)     | rest_secs       | 100m @ CSS repeats       |
-| `swim.vo2max(reps)`        | vo2max.yaml    | reps (100m)     | rest_secs       | 100m @ CSS-5s repeats    |
-| `swim.openwater(duration)` | openwater.yaml | duration (mins) | -               | Open water with sighting |
-
-**Required Paces for Swimming:**
-
-- `paces.css` - Critical Swim Speed (e.g., "1:45/100m")
-- `paces.swim_easy` - Easy swim pace (e.g., "2:00/100m")
-
-### Cycling Templates
-
-Located in `templates/bike/`
-
-| Template                   | File            | Required Params | Optional Params                  | Description            |
-| -------------------------- | --------------- | --------------- | -------------------------------- | ---------------------- |
-| `bike.rest`                | rest.yaml       | -               | -                                | Rest day               |
-| `bike.easy(duration)`      | easy.yaml       | duration (mins) | -                                | Zone 1-2 easy spin     |
-| `bike.endurance(duration)` | endurance.yaml  | duration (mins) | -                                | Zone 2 endurance       |
-| `bike.tempo(tempo_mins)`   | tempo.yaml      | tempo_mins      | sets, warmup_mins, cooldown_mins | 76-90% FTP             |
-| `bike.sweetspot(ss_mins)`  | sweetspot.yaml  | ss_mins         | sets, warmup_mins, cooldown_mins | 88-93% FTP             |
-| `bike.threshold(reps)`     | threshold.yaml  | reps            | interval_mins, rest_mins         | 95-105% FTP intervals  |
-| `bike.vo2max(reps)`        | vo2max.yaml     | reps            | interval_mins, rest_mins         | 106-120% FTP intervals |
-| `bike.overunders(sets)`    | overunders.yaml | sets            | cycles_per_set                   | Threshold extension    |
-| `bike.hills(reps)`         | hills.yaml      | reps            | climb_mins                       | Hill repeat climbs     |
-
-**Required Zones for Cycling:**
-
-- `zones.power.ftp` - Functional Threshold Power in watts
-
-### Brick Templates
-
-Located in `templates/brick/`
-
-| Template                                | File             | Required Params     | Description            |
-| --------------------------------------- | ---------------- | ------------------- | ---------------------- |
-| `brick.sprint(bike_mins, run_mins)`     | sprint.yaml      | bike_mins, run_mins | Sprint tri simulation  |
-| `brick.olympic(bike_mins, run_mins)`    | olympic.yaml     | bike_mins, run_mins | Olympic tri simulation |
-| `brick.halfironman(bike_hrs, run_mins)` | halfironman.yaml | bike_hrs, run_mins  | 70.3 simulation        |
-| `brick.ironman(bike_hrs, run_mins)`     | ironman.yaml     | bike_hrs, run_mins  | Ironman simulation     |
-
-### Strength Templates
-
-Located in `templates/strength/`
-
-| Template                         | File             | Required Params | Description                   |
-| -------------------------------- | ---------------- | --------------- | ----------------------------- |
-| `strength.foundation(duration)`  | foundation.yaml  | duration (mins) | Bodyweight, base phase        |
-| `strength.full(duration)`        | full.yaml        | duration (mins) | Complete session, build phase |
-| `strength.maintenance(duration)` | maintenance.yaml | duration (mins) | Light, taper/race week        |
-| `strength.core(duration)`        | core.yaml        | duration (mins) | Core-focused session          |
 
 ---
 
@@ -226,13 +122,25 @@ notes: Builds lactate threshold and race-pace feel
 
 ## Creating Custom Templates
 
-To add a custom template:
+Custom templates live in `$HOME/.endurance-coach/workout-templates` and can override built-ins with the same ID.
 
-1. Create a YAML file in the appropriate `templates/{sport}/` directory
+### Recommended (CLI Scaffold)
+
+```bash
+npx -y endurance-coach@latest templates create my-tempo --type run --category tempo --example
+npx -y endurance-coach@latest templates validate my-tempo
+```
+
+### Manual (Advanced)
+
+To add a custom template by hand:
+
+1. Create a YAML file in `$HOME/.endurance-coach/workout-templates/{sport}/`
 2. Follow the structure above
 3. Define params with types, defaults, and constraints
 4. Use `${variable}` interpolation for dynamic values
-5. Test with `npx endurance-coach templates show your-template`
+5. Test with `npx -y endurance-coach@latest templates show your-template`
+6. Validate with `npx -y endurance-coach@latest templates validate your-template`
 
 **Available interpolation variables:**
 
@@ -247,17 +155,29 @@ To add a custom template:
 
 ```bash
 # List all templates
-npx endurance-coach templates
+npx -y endurance-coach@latest templates
+
+# List templates with usage examples
+npx -y endurance-coach@latest templates --verbose
 
 # Filter by sport
-npx endurance-coach templates --sport run
-npx endurance-coach templates --sport swim
-npx endurance-coach templates --sport bike
+npx -y endurance-coach@latest templates list --sport run
+npx -y endurance-coach@latest templates list --sport swim
+npx -y endurance-coach@latest templates list --sport bike
+
+# Filter by workout category
+npx -y endurance-coach@latest templates list --type tempo
+
+# Filter by source
+npx -y endurance-coach@latest templates list --source user
 
 # Show template details
-npx endurance-coach templates show intervals.400
-npx endurance-coach templates show swim.threshold
+npx -y endurance-coach@latest templates show run.intervals.400
+npx -y endurance-coach@latest templates show swim.threshold
 
-# Expand a plan to see full workouts
-npx endurance-coach expand plan.yaml --verbose
+# Create template scaffold
+npx -y endurance-coach@latest templates create newWorkout --type run --category tempo
+
+# Validate a template
+npx -y endurance-coach@latest templates validate run.intervals.400
 ```

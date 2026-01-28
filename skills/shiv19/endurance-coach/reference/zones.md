@@ -178,7 +178,7 @@ Athletes should perform field tests (see protocols above) to establish accurate 
 To see the expanded zones, use:
 
 ```bash
-npx endurance-coach expand plan.yaml --verbose
+npx -y endurance-coach@latest expand plan.yaml --verbose
 ```
 
 This shows the full expanded plan including all calculated zone ranges

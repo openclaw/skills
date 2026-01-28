@@ -1,6 +1,6 @@
 {
   "name": "@clawdbot/web-search-plus",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Unified search skill with Intelligent Auto-Routing. Uses multi-signal analysis (intent classification, linguistic patterns, URL/brand detection) to automatically select between Serper (Google), Tavily (Research), and Exa (Neural) with confidence scoring.",
   "keywords": [
     "clawdbot",

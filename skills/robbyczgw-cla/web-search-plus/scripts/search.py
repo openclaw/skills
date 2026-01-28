@@ -32,6 +32,29 @@ from urllib.error import HTTPError, URLError
 
 
 # =============================================================================
+# Auto-load .env from skill directory (if exists)
+# =============================================================================
+def _load_env_file():
+    """Load .env file from skill root directory if it exists."""
+    env_path = Path(__file__).parent.parent / ".env"
+    if env_path.exists():
+        with open(env_path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    # Handle export VAR=value or VAR=value
+                    if line.startswith("export "):
+                        line = line[7:]
+                    key, _, value = line.partition("=")
+                    key = key.strip()
+                    value = value.strip().strip('"').strip("'")
+                    if key and key not in os.environ:
+                        os.environ[key] = value
+
+_load_env_file()
+
+
+# =============================================================================
 # Configuration
 # =============================================================================
 
@@ -85,8 +108,20 @@ def load_config() -> Dict[str, Any]:
     return config
 
 
-def get_env_key(provider: str) -> Optional[str]:
-    """Get API key for provider from environment."""
+def get_api_key(provider: str, config: Dict[str, Any] = None) -> Optional[str]:
+    """Get API key for provider from config.json or environment.
+    
+    Priority: config.json > .env > environment variable
+    """
+    # Check config.json first
+    if config:
+        provider_config = config.get(provider, {})
+        if isinstance(provider_config, dict):
+            key = provider_config.get("api_key") or provider_config.get("apiKey")
+            if key:
+                return key
+    
+    # Then check environment
     key_map = {
         "serper": "SERPER_API_KEY",
         "tavily": "TAVILY_API_KEY",
@@ -95,9 +130,15 @@ def get_env_key(provider: str) -> Optional[str]:
     return os.environ.get(key_map.get(provider, ""))
 
 
-def validate_api_key(provider: str) -> str:
+# Backward compatibility alias
+def get_env_key(provider: str) -> Optional[str]:
+    """Get API key for provider from environment (legacy function)."""
+    return get_api_key(provider)
+
+
+def validate_api_key(provider: str, config: Dict[str, Any] = None) -> str:
     """Validate and return API key, with helpful error messages."""
-    key = get_env_key(provider)
+    key = get_api_key(provider, config)
     
     if not key:
         env_var = {
@@ -117,8 +158,8 @@ def validate_api_key(provider: str) -> str:
             "env_var": env_var,
             "how_to_fix": [
                 f"1. Get your API key from {urls[provider]}",
-                f"2. Set the environment variable:",
-                f"   export {env_var}=\"your-key\"",
+                f"2. Add to config.json: \"{provider}\": {{\"api_key\": \"your-key\"}}",
+                f"3. Or set environment variable: export {env_var}=\"your-key\"",
             ],
             "provider": provider
         }
@@ -1194,7 +1235,7 @@ Full docs: See README.md and SKILL.md
         routing_info = {"auto_routed": False, "provider": provider}
     
     # Validate API key
-    api_key = validate_api_key(provider)
+    api_key = validate_api_key(provider, config)
     
     try:
         if provider == "serper":

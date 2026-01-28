@@ -1,0 +1,11 @@
+{
+  "owner": "lxgicstudios",
+  "slug": "terraform-gen",
+  "displayName": "Terraform Config Generator",
+  "latest": {
+    "version": "1.0.1",
+    "publishedAt": 1769632953402,
+    "commit": null
+  },
+  "history": []
+}

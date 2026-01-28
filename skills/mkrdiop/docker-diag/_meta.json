@@ -1,0 +1,11 @@
+{
+  "owner": "mkrdiop",
+  "slug": "docker-diag",
+  "displayName": "Docker Diag",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769626284425,
+    "commit": null
+  },
+  "history": []
+}

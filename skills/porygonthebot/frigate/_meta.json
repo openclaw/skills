@@ -1,0 +1,11 @@
+{
+  "owner": "porygonthebot",
+  "slug": "frigate",
+  "displayName": "Frigate",
+  "latest": {
+    "version": "1.0.3",
+    "publishedAt": 1769575862992,
+    "commit": null
+  },
+  "history": []
+}

@@ -1,0 +1,11 @@
+{
+  "owner": "flyfoxci",
+  "slug": "twitter-search-skill",
+  "displayName": "Twitter Search",
+  "latest": {
+    "version": "0.1.0",
+    "publishedAt": 1769597534927,
+    "commit": null
+  },
+  "history": []
+}

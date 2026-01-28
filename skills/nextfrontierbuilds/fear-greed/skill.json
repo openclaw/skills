@@ -1,0 +1,31 @@
+{
+  "name": "fear-greed",
+  "version": "1.0.0",
+  "description": "Crypto Fear & Greed Index widget using Strykr PRISM API",
+  "author": {
+    "name": "Next Frontier",
+    "url": "https://x.com/NextXFrontier"
+  },
+  "repository": "https://github.com/NextFrontierBuilds/fear-greed-skill",
+  "keywords": [
+    "prism",
+    "fear-greed",
+    "sentiment",
+    "crypto",
+    "widget",
+    "market-data"
+  ],
+  "config": {
+    "PRISM_URL": {
+      "description": "PRISM API base URL",
+      "default": "https://strykr-prism.up.railway.app"
+    }
+  },
+  "triggers": [
+    "fear and greed",
+    "market sentiment",
+    "crypto sentiment"
+  ],
+  "platforms": ["macos", "linux"],
+  "category": "market-data"
+}

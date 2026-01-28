@@ -5,89 +5,83 @@ description: Locus payment tools for AI agents. Use when asked to send payments,
 
 # Locus Payment Skill
 
-Locus MCP provides crypto payment tools for AI agents via `mcporter`. Tools are dynamic — each user sees only what their permission group allows.
+Locus connects AI agents to crypto wallets via MCP. Tools are **dynamic** — each user gets different tools based on their permission group.
 
-## Setup
+## Setup (Agent-Guided)
 
-On first use, check if locus is configured:
+When the user asks to set up Locus, use payments, or anything payment-related — check if Locus is configured and walk them through setup interactively:
+
+### Step 1: Check if mcporter is installed
+```bash
+command -v mcporter || npm i -g mcporter
+```
+
+### Step 2: Check if Locus is already configured
 ```bash
 mcporter config get locus 2>/dev/null
 ```
+If configured, skip to **Usage**. If the user wants to reconfigure, run:
+```bash
+mcporter config remove locus
+```
 
-If not configured, run the setup script:
+### Step 3: Ask the user for their API key
+Tell them:
+> You'll need a Locus API key to connect your wallet. Get one at **https://app.paywithlocus.com** — each key is tied to your wallet and permission group. Paste it here when you're ready.
+
+Wait for the user to provide their key. It should start with `locus_`. If it doesn't, warn them and confirm before proceeding.
+
+### Step 4: Configure mcporter
+```bash
+mcporter config add locus \
+  --url "https://mcp.paywithlocus.com/mcp" \
+  --header "Authorization=Bearer <API_KEY>" \
+  --scope home
+```
+
+### Step 5: Verify the connection
+```bash
+mcporter list locus
+```
+If tools appear, setup is complete — tell the user they're ready. If it fails, ask them to double-check their API key and try again.
+
+### Alternative: Script-based setup
+Users can also run the setup script directly from the Clawdbot workspace root:
 ```bash
 bash skills/locus/scripts/setup.sh
 ```
 
-Or configure manually:
-```bash
-mcporter config add locus \
-  --url "https://mcp.paywithlocus.com/mcp" \
-  --header "Authorization=Bearer <YOUR_LOCUS_API_KEY>" \
-  --scope home
-```
+## Usage
 
-Get your API key at https://paywithlocus.com — each agent gets its own key tied to a wallet and permission group.
-
-### Requirements
-- `mcporter` CLI installed (`npm i -g mcporter`)
-
-## Discovering Available Tools
-
-Tools are dynamically exposed based on your permission group. Always discover what's available first:
+**Always discover available tools first:**
 ```bash
 mcporter list locus --schema
 ```
 
-### Common Built-in Tools
+This returns all tools the user's permission group allows. Tools vary per user — do not assume which tools exist. Use the schema output to understand parameters.
 
-These may be available depending on your permissions:
-
-**get_payment_context** — Check budget status, balance, and whitelisted contacts.
+**Call any discovered tool:**
 ```bash
-mcporter call locus.get_payment_context
+mcporter call locus.<tool_name> param1=value1 param2=value2
 ```
 
-**list_tokens** — List approved tokens with balances and spending limits.
+For array/object parameters:
 ```bash
-mcporter call locus.list_tokens
+mcporter call locus.<tool_name> --args '{"key": "value"}'
 ```
-
-**send_token** — Send a token to a wallet address, ENS name, or email.
-```bash
-mcporter call locus.send_token token_symbol=USDC recipient=alice@example.com amount=10 memo="Invoice payment"
-```
-- Wallet addresses (0x...) → direct on-chain (Base network)
-- Email addresses → escrow (recipient gets email to claim)
-- ENS names (vitalik.eth) → resolved on-chain
-
-**send_token_multi** — Send multiple tokens to one recipient.
-```bash
-mcporter call locus.send_token_multi recipient=0x742d... --args '{"tokens":[{"symbol":"USDC","amount":10},{"symbol":"ETH","amount":0.01}],"memo":"Multi-token payment"}'
-```
-
-**approve_token** — Approve a smart contract to spend tokens (ERC-20 allowance).
-```bash
-mcporter call locus.approve_token token_symbol=USDC spender_address=0x... amount=100
-```
-
-### x402 Tools
-
-Your permission group may also include x402 micropayment tools — dynamically generated from approved API endpoints. These let your agent pay for and consume external APIs autonomously. Run `mcporter list locus --schema` to see all available tools.
 
 ## Email → Payment Flow
 
 1. Scan inbox for payment-related emails (invoices, bills, splits, reimbursements)
 2. Identify actionable items with amounts, recipients, and context
 3. Summarize findings to user
-4. On user approval, execute payments via available send tools
+4. On user approval, execute payments via available tools
 5. **Always confirm with user before sending any payment**
 
 ## Safety Rules
 
 - **Never send payments without explicit user confirmation**
 - Always show: recipient, token, amount, and memo before executing
-- Use `list_tokens` first to verify available balance
-- Use `get_payment_context` to check budget limits
+- Check available balance before attempting payments
 - Double-check recipient addresses — typos mean lost funds
 - Confirm large payments (>$100) with extra care

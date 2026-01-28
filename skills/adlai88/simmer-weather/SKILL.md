@@ -1,10 +1,11 @@
 ---
 name: simmer-weather
-description: Trade Polymarket weather markets using NOAA forecasts via Simmer API. Inspired by gopfan2's $2M+ strategy.
+description: Trade Polymarket weather markets using NOAA forecasts via Simmer API. Inspired by gopfan2's $2M+ strategy. Use when user wants to trade temperature markets, automate weather bets, check NOAA forecasts, or run gopfan2-style trading.
 metadata: {"clawdbot":{"emoji":"🌡️","requires":{"env":["SIMMER_API_KEY"]},"cron":"0 */2 * * *"}}
 authors:
   - Simmer (@simmer_markets)
 attribution: "Strategy inspired by gopfan2"
+version: "1.1.0"
 ---
 
 # Simmer Weather Trading
@@ -19,6 +20,13 @@ Use this skill when the user wants to:
 - Buy low on weather predictions
 - Check their weather trading positions
 - Configure trading thresholds or locations
+
+## What's New in v1.1.0
+
+- **Source Tagging**: All trades tagged with `sdk:weather` for portfolio tracking
+- **Smart Sizing**: Position sizing based on available balance (`--smart-sizing`)
+- **Context Safeguards**: Checks for flip-flop warnings, slippage, time decay
+- **Price Trend Detection**: Detects recent price drops for stronger signals
 
 ## Setup Flow
 
@@ -35,155 +43,134 @@ When user asks to install or configure this skill:
    - Locations: Which cities to trade (default NYC)
 
 3. **Save settings to environment variables**
-   - `SIMMER_WEATHER_ENTRY` - entry threshold (e.g., "0.15" for 15¢)
-   - `SIMMER_WEATHER_EXIT` - exit threshold (e.g., "0.45" for 45¢)
-   - `SIMMER_WEATHER_MAX_POSITION` - max per trade (e.g., "2.00")
-   - `SIMMER_WEATHER_LOCATIONS` - comma-separated cities (e.g., "NYC,Chicago")
 
-4. **Set up cron**
-   - Runs every 2 hours by default
-   - User can request different frequency
+4. **Set up cron** (runs every 2 hours by default)
 
 ## Configuration
 
-All settings can be customized via environment variables:
-
 | Setting | Environment Variable | Default | Description |
 |---------|---------------------|---------|-------------|
-| Entry threshold | `SIMMER_WEATHER_ENTRY` | 0.15 | Buy when price below this (0.15 = 15¢) |
-| Exit threshold | `SIMMER_WEATHER_EXIT` | 0.45 | Sell when price above this (0.45 = 45¢) |
+| Entry threshold | `SIMMER_WEATHER_ENTRY` | 0.15 | Buy when price below this |
+| Exit threshold | `SIMMER_WEATHER_EXIT` | 0.45 | Sell when price above this |
 | Max position | `SIMMER_WEATHER_MAX_POSITION` | 2.00 | Maximum USD per trade |
-| Locations | `SIMMER_WEATHER_LOCATIONS` | NYC | Comma-separated: NYC,Chicago,Miami,Seattle,Dallas,Atlanta |
+| Locations | `SIMMER_WEATHER_LOCATIONS` | NYC | Comma-separated cities |
+| Smart sizing % | `SIMMER_WEATHER_SIZING_PCT` | 0.05 | % of balance per trade |
 
-**Supported locations:**
-- NYC (New York - LaGuardia)
-- Chicago (O'Hare)
-- Seattle (Sea-Tac)
-- Atlanta (Hartsfield)
-- Dallas (DFW)
-- Miami (MIA)
+**Supported locations:** NYC, Chicago, Seattle, Atlanta, Dallas, Miami
 
-To view current config, run:
+## Running the Skill
+
 ```bash
+# Standard scan
+python weather_trader.py
+
+# Dry run (no trades)
+python weather_trader.py --dry-run
+
+# With smart position sizing (uses portfolio balance)
+python weather_trader.py --smart-sizing
+
+# Check positions only
+python weather_trader.py --positions
+
+# View config
 python weather_trader.py --config
+
+# Disable safeguards (not recommended)
+python weather_trader.py --no-safeguards
+
+# Disable trend detection
+python weather_trader.py --no-trends
 ```
 
 ## How It Works
 
 Each cycle the script:
-1. Fetches active weather markets from Simmer API (tagged with "weather")
-2. Groups markets by event (each temperature day is one event with multiple buckets)
+1. Fetches active weather markets from Simmer API
+2. Groups markets by event (each temperature day is one event)
 3. Parses event names to get location and date
 4. Fetches NOAA forecast for that location/date
 5. Finds the temperature bucket that matches the forecast
-6. **Entry:** If bucket price < entry threshold → executes BUY via Simmer SDK
-7. **Exit:** Checks open positions, sells if price > exit threshold
-8. Reports results back to user
+6. **Safeguards**: Checks context for flip-flop warnings, slippage, time decay
+7. **Trend Detection**: Looks for recent price drops (stronger buy signal)
+8. **Entry**: If bucket price < threshold and safeguards pass → BUY
+9. **Exit**: Checks open positions, sells if price > exit threshold
+10. **Tagging**: All trades tagged with `sdk:weather` for tracking
 
-## Running the Skill
+## Smart Sizing
 
-**Run a scan:**
-```bash
-python weather_trader.py
+With `--smart-sizing`, position size is calculated as:
+- 5% of available USDC balance (configurable via `SIMMER_WEATHER_SIZING_PCT`)
+- Capped at 5x the max position setting
+- Falls back to fixed size if portfolio unavailable
+
+This prevents over-deployment and scales with your account size.
+
+## Safeguards
+
+Before trading, the skill checks:
+- **Flip-flop warning**: Skips if you've been reversing too much
+- **Slippage**: Skips if estimated slippage > 15%
+- **Time decay**: Skips if market resolves in < 2 hours
+- **Market status**: Skips if market already resolved
+
+Disable with `--no-safeguards` (not recommended).
+
+## Source Tagging
+
+All trades are tagged with `source: "sdk:weather"`. This means:
+- Portfolio shows breakdown by strategy
+- Copytrading skill won't sell your weather positions
+- You can track weather P&L separately
+
+## Example Output
+
 ```
+🌤️ Simmer Weather Trading Skill
+==================================================
 
-**Dry run (no actual trades):**
-```bash
-python weather_trader.py --dry-run
+⚙️ Configuration:
+  Entry threshold: 15% (buy below this)
+  Exit threshold:  45% (sell above this)
+  Max position:    $2.00
+  Locations:       NYC
+  Smart sizing:    ✓ Enabled
+  Safeguards:      ✓ Enabled
+  Trend detection: ✓ Enabled
+
+💰 Portfolio:
+  Balance: $150.00
+  Exposure: $45.00
+  Positions: 8
+
+📍 NYC 2026-01-28 (high temp)
+  NOAA forecast: 34°F
+  Matching bucket: 34-35°F @ $0.12
+  💡 Smart sizing: $7.50 (5% of $150.00 balance)
+  ✅ Below threshold ($0.15) - BUY opportunity! 📉 (dropped 15% in 24h)
+  Executing trade...
+  ✅ Bought 62.5 shares @ $0.12
+
+📊 Summary:
+  Events scanned: 12
+  Entry opportunities: 1
+  Trades executed: 1
 ```
-
-**Check positions only:**
-```bash
-python weather_trader.py --positions
-```
-
-**View current config:**
-```bash
-python weather_trader.py --config
-```
-
-## Reporting Results
-
-After each run, message the user with:
-- Current configuration
-- Number of weather markets found
-- NOAA forecast for each location
-- Entry opportunities (and trades executed)
-- Exit opportunities (and sells executed)
-- Current positions
-
-Example output to share:
-```
-🌤️ Weather Trading Scan Complete
-
-Configuration: Entry <15¢, Exit >45¢, Max $2.00, Locations: NYC
-
-Found 12 active weather markets across 4 events
-
-NYC Jan 28: NOAA forecasts 34°F (high)
-→ Bucket "34-35°F" trading at $0.12
-→ Below 15¢ threshold - BUY opportunity!
-→ Executed: Bought 16.6 shares @ $0.12 ($2.00)
-
-Checked 2 open positions:
-→ NYC Jan 27 "32-33°F" @ $0.52 - SELL opportunity!
-→ Executed: Sold 15.0 shares @ $0.52
-
-Summary: 1 buy, 1 sell executed
-Next scan in 2 hours.
-```
-
-## Example Conversations
-
-**User: "Set up weather trading"**
-→ Walk through setup flow:
-1. Ask for API key
-2. Ask for entry threshold (suggest 15¢ as default)
-3. Ask for exit threshold (suggest 45¢ as default)
-4. Ask for max position size (suggest $2)
-5. Ask which locations (NYC default, can add more)
-6. Save settings and set up cron
-
-**User: "Run my weather skill"**
-→ Execute the script immediately and report results
-
-**User: "How are my weather trades doing?"**
-→ Run script with --positions flag and summarize
-
-**User: "Make it more aggressive"**
-→ Explain current thresholds and offer options:
-- Increase entry threshold to 20¢ (more opportunities)
-- Increase max position to $5 (bigger trades)
-→ Update the relevant environment variable
-
-**User: "Add Chicago to my weather trading"**
-→ Update SIMMER_WEATHER_LOCATIONS to include Chicago
-→ Example: "NYC,Chicago"
-
-**User: "What are my current settings?"**
-→ Run script with --config flag and show settings
-
-**User: "Change my exit threshold to 50 cents"**
-→ Update SIMMER_WEATHER_EXIT to "0.50"
 
 ## Troubleshooting
 
+**"Safeguard blocked: Severe flip-flop warning"**
+- You've been changing direction too much on this market
+- Wait before trading again
+
+**"Slippage too high"**
+- Market is illiquid, reduce position size or skip
+
+**"Resolves in Xh - too soon"**
+- Market resolving soon, risk is elevated
+
 **"No weather markets found"**
 - Weather markets may not be active (seasonal)
-- Check simmer.markets to see if weather markets exist
 
 **"API key invalid"**
-- Verify SIMMER_API_KEY environment variable is set
-- Get a new key from simmer.markets/dashboard → SDK tab
-
-**"NOAA request failed"**
-- NOAA API may be rate-limited, wait a few minutes
-- Check if weather.gov is accessible
-
-**"Max position too small for 5 shares"**
-- Polymarket requires minimum 5 shares per order
-- Increase SIMMER_WEATHER_MAX_POSITION or wait for lower prices
-
-**"Price below min tick"**
-- Market is at an extreme (near 0% or 100%)
-- These are skipped automatically to avoid issues
+- Get new key from simmer.markets/dashboard → SDK tab

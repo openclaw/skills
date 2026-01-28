@@ -1,0 +1,26 @@
+{
+  "name": "discord-voice-memo-upgrades",
+  "version": "1.0.0",
+  "description": "Core patch for Clawdbot/Moltbot to enable TTS auto-replies for voice memo messages",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "clawdbot",
+    "moltbot",
+    "tts",
+    "voice",
+    "audio",
+    "patch"
+  ],
+  "author": "k121",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "peerDependencies": {
+    "clawdbot": ">=1.0.0"
+  }
+}

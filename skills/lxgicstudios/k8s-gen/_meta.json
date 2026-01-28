@@ -1,0 +1,11 @@
+{
+  "owner": "lxgicstudios",
+  "slug": "k8s-gen",
+  "displayName": "Kubernetes Manifest Generator",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769626027225,
+    "commit": null
+  },
+  "history": []
+}

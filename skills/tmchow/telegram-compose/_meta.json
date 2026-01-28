@@ -1,0 +1,11 @@
+{
+  "owner": "tmchow",
+  "slug": "telegram-compose",
+  "displayName": "Telegram Compose",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769575509137,
+    "commit": null
+  },
+  "history": []
+}

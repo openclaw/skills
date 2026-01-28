@@ -1,11 +1,33 @@
-# Name Gen
+# ai-stash-name
 
-Suggest better variable and function names in your code.
+Stop naming stashes "WIP" or leaving them unnamed. Get meaningful stash names from your actual changes.
 
-## Quick Start
+## Install
 
 ```bash
-npx ai-naming src/utils.ts
+npm install -g ai-stash-name
 ```
 
-MIT License
+## Usage
+
+```bash
+npx ai-stash-name
+# → Stashed as: refactor auth middleware error handling
+
+npx ai-stash-name --dry-run
+# → Suggested name: add user avatar upload endpoint
+```
+
+## Setup
+
+```bash
+export OPENAI_API_KEY=sk-...
+```
+
+## Options
+
+- `-d, --dry-run` - Show the suggested name without actually stashing
+
+## License
+
+MIT

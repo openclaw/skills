@@ -3,9 +3,15 @@
   "slug": "name-gen",
   "displayName": "Name Gen",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769593970056,
-    "commit": "https://github.com/clawdbot/skills/commit/44b26b9ebb2695f5a76d3793957620108cc73c70"
+    "version": "1.0.2",
+    "publishedAt": 1769633078323,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769593970056,
+      "commit": "https://github.com/clawdbot/skills/commit/44b26b9ebb2695f5a76d3793957620108cc73c70"
+    }
+  ]
 }

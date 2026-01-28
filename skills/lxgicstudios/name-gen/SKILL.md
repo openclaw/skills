@@ -1,53 +1,50 @@
 ---
-name: name-gen
-description: Suggest better variable and function names in your code. Use when your code needs clearer naming.
+name: stash-namer
+description: Generate meaningful git stash names from your changes. Use when stashing work.
 ---
 
-# Name Gen
+# Stash Namer
 
-Bad variable names make code unreadable. We've all written "temp", "data", "result", or "x" when we couldn't think of something better. This tool reads your code file and suggests clearer, more descriptive names for variables, functions, and classes. It's like a naming code review.
+Stop naming stashes "WIP" or leaving them unnamed. This reads your changes and creates a meaningful stash name.
 
 **One command. Zero config. Just works.**
 
 ## Quick Start
 
 ```bash
-npx ai-naming src/utils.ts
+npx ai-stash-name
 ```
 
 ## What It Does
 
-- Analyzes code files for poorly named variables and functions
-- Suggests clearer, more descriptive alternatives
-- Understands context to provide meaningful recommendations
-- Works with any programming language
-- Prints suggestions right to your terminal
+- Reads your staged and unstaged changes
+- Generates a descriptive stash name
+- Actually runs git stash with the name
+- No more mystery stashes
 
 ## Usage Examples
 
 ```bash
-# Analyze a TypeScript file
-npx ai-naming src/utils.ts
+# Stash with auto-generated name
+npx ai-stash-name
 
-# Check a Python script
-npx ai-naming scripts/process_data.py
-
-# Review a component file
-npx ai-naming src/components/Card.tsx
+# Preview without stashing
+npx ai-stash-name --dry-run
 ```
 
 ## Best Practices
 
-- **Run it on old code first** - Your oldest code probably has the worst names. Start there for the biggest impact
-- **Focus on public APIs** - Public function and class names matter most since other developers read them
-- **Use it during refactoring** - When you're already changing code, it's the perfect time to improve names too
+- **Stash early, stash often** - it's free
+- **Name them well** - future you will thank you
+- **Don't hoard stashes** - apply or drop them
+- **Pop, don't apply** - unless you need to keep it
 
 ## When to Use This
 
-- Cleaning up code before a big refactor
-- Improving readability of code you inherited
-- Getting a second opinion on your naming choices
-- Preparing code for open source where clarity matters
+- Switching contexts quickly
+- Saving work before pulling
+- Experimenting with changes
+- Any time you'd use git stash
 
 ## Part of the LXGIC Dev Toolkit
 
@@ -57,19 +54,19 @@ This is one of 110+ free developer tools built by LXGIC Studios. No paywalls, no
 - GitHub: https://github.com/LXGIC-Studios
 - Twitter: https://x.com/lxgicstudios
 - Substack: https://lxgicstudios.substack.com
-- Website: https://lxgic.dev
+- Website: https://lxgicstudios.com
 
 ## Requirements
 
-No install needed. Just run with npx. Node.js 18+ recommended.
+No install needed. Just run with npx. Node.js 18+ recommended. Needs OPENAI_API_KEY environment variable.
 
 ```bash
-npx ai-naming --help
+npx ai-stash-name --help
 ```
 
 ## How It Works
 
-The tool reads your source file and sends it to an AI model that understands programming conventions and naming patterns. It identifies variables, functions, and classes with unclear names and suggests specific alternatives with explanations.
+Runs git diff to see your changes, sends the diff summary to GPT-4o-mini to generate a descriptive name, then runs git stash push -m with that name.
 
 ## License
 

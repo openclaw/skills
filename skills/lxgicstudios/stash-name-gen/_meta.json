@@ -1,0 +1,11 @@
+{
+  "owner": "lxgicstudios",
+  "slug": "stash-name-gen",
+  "displayName": "Git Stash Name Generator",
+  "latest": {
+    "version": "1.0.1",
+    "publishedAt": 1769632905564,
+    "commit": null
+  },
+  "history": []
+}

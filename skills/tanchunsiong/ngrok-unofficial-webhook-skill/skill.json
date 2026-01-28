@@ -1,0 +1,22 @@
+{
+  "name": "ngrok-unofficial-webhook-skill",
+  "version": "1.1.0",
+  "description": "Ngrok webhook listener — start a public tunnel to receive incoming webhooks. Notifies the user via WhatsApp with a list of matching webhook-capable skills to handle each event. Auto-discovers skills that declare webhookEvents in their skill.json.",
+  "author": "tanchunsiong",
+  "license": "MIT",
+  "repository": "https://github.com/tanchunsiong/ngrok-unofficial-webhook-skill",
+  "keywords": [
+    "ngrok",
+    "webhook",
+    "tunnel",
+    "clawdbot",
+    "notification"
+  ],
+  "clawdbot": {
+    "emoji": "🔗",
+    "requires": {
+      "env": ["NGROK_AUTHTOKEN"],
+      "bins": ["node"]
+    }
+  }
+}

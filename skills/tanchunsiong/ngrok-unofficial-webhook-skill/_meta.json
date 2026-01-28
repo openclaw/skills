@@ -1,0 +1,11 @@
+{
+  "owner": "tanchunsiong",
+  "slug": "ngrok-unofficial-webhook-skill",
+  "displayName": "Ngrok Unofficial Webhook Skill",
+  "latest": {
+    "version": "0.1.2",
+    "publishedAt": 1769575996469,
+    "commit": null
+  },
+  "history": []
+}

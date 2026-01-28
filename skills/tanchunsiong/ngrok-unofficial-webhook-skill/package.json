@@ -1,0 +1,10 @@
+{
+  "name": "ngrok-unofficial-webhook-skill",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "@ngrok/ngrok": "^1.4.1",
+    "dotenv": "^16.4.1",
+    "express": "^4.21.2"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ai-prefetch",
+  "version": "1.0.0",
+  "description": "AI suggests routes and data to prefetch for better UX",
+  "main": "dist/index.js",
+  "bin": { "ai-prefetch": "dist/cli.js" },
+  "scripts": { "build": "tsc" },
+  "keywords": ["prefetch","performance","ai","cli","ux"],
+  "license": "MIT",
+  "dependencies": { "commander": "^12.1.0", "openai": "^4.73.0", "ora": "^5.4.1", "glob": "^10.3.0" },
+  "devDependencies": { "typescript": "^5.6.0", "@types/node": "^22.0.0" },
+  "author": "LXGIC Studios",
+  "repository": { "type": "git", "url": "https://github.com/LXGIC-Studios/ai-prefetch" }
+}

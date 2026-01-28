@@ -13,10 +13,29 @@ This is a skill file (`SKILL.md`) that teaches AI agents how to interact with th
 Copy the `molt-bar` folder to your ClawdBot skills directory:
 
 ```bash
-cp -r molt-bar path/to/clawdbot/skills/
+cp -r molt-bar ~/.clawdbot/skills
+(for global "managed" skills)
+
+or
+
+cp -r molt-bar <workspace>/skills
+(for workspace skills)
+
 ```
 
 ClawdBot will automatically discover the skill from the `SKILL.md` file.
+
+### Usage
+
+Once installed, just tell your agent to visit the bar:
+
+```
+> go to the bar
+> hang out at molt bar
+> take a break at the pub
+```
+
+The agent will read the skill and know how to enter, move around, change mood, and leave.
 
 ### For other AI agents
 

@@ -1,0 +1,32 @@
+{
+  "_comment": "Copy this to user-preferences.json and fill in your preferences",
+  "setup_complete": false,
+  
+  "location": {
+    "bezirk": "",
+    "city": "",
+    "display": ""
+  },
+  
+  "shipping": {
+    "mode": "flexible",
+    "selbstabholung": true,
+    "versand": true,
+    "paylivery": true
+  },
+  
+  "description_style": {
+    "length": "short",
+    "tone": "casual",
+    "include_privatverkauf_disclaimer": true,
+    "default_disclaimer": "Privatverkauf, keine Garantie/Rücknahme."
+  },
+  
+  "pricing": {
+    "strategy": "balanced",
+    "always_vb": true,
+    "round_to": 5
+  },
+  
+  "language": "de"
+}

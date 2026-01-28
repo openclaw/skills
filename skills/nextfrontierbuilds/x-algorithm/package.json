@@ -1,0 +1,29 @@
+{
+  "name": "x-algorithm",
+  "version": "1.0.0",
+  "description": "X (Twitter) algorithm rules, viral strategies, and article best practices. Boost engagement, avoid reach death, write posts that perform.",
+  "main": "SKILL.md",
+  "keywords": [
+    "x",
+    "twitter",
+    "algorithm",
+    "viral",
+    "engagement",
+    "social-media",
+    "growth",
+    "content-strategy",
+    "ai-agent",
+    "moltbot",
+    "clawdbot",
+    "marketing",
+    "creator",
+    "influencer"
+  ],
+  "author": "tytaninc7",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NextFrontierBuilds/x-algorithm"
+  },
+  "homepage": "https://github.com/NextFrontierBuilds/x-algorithm#readme"
+}

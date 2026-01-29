@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Basic Audio Test</title>
+</head>
+<body>
+  <h1>Browser Audio Test</h1>
+  
+  <h2>Test 1: HTML5 Audio Element</h2>
+  <audio controls>
+    <source src="./sounds/notification.mp3" type="audio/mpeg">
+  </audio>
+  <p>👆 Can you hear anything when you press play?</p>
+  
+  <hr>
+  
+  <h2>Test 2: JavaScript Play</h2>
+  <button onclick="playDirect()">Play with JavaScript</button>
+  <div id="status"></div>
+  
+  <script>
+    function playDirect() {
+      const audio = new Audio('./sounds/notification.mp3');
+      audio.volume = 1.0;
+      
+      audio.play()
+        .then(() => {
+          document.getElementById('status').textContent = '✅ Audio.play() succeeded';
+        })
+        .catch(err => {
+          document.getElementById('status').textContent = '❌ Error: ' + err.message;
+        });
+    }
+  </script>
+  
+  <hr>
+  
+  <h2>Test 3: Louder Alert Sound</h2>
+  <audio controls>
+    <source src="./sounds/alert.mp3" type="audio/mpeg">
+  </audio>
+  <p>👆 This one is louder - can you hear it?</p>
+  
+  <hr>
+  
+  <p><strong>Instructions:</strong></p>
+  <ol>
+    <li>Try the HTML5 audio player (Test 1) - does it play?</li>
+    <li>Click the JavaScript button (Test 2) - do you hear anything?</li>
+    <li>Try the louder alert sound (Test 3)</li>
+    <li>Check your system volume is up</li>
+    <li>Check browser isn't muted (right-click browser tab)</li>
+  </ol>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Sound Upload Test</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 700px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f7fa;
+    }
+    
+    h1 { color: #2c3e50; }
+    
+    .container {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .info-box {
+      background: #e8f4fd;
+      border-left: 4px solid #3498db;
+      padding: 16px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    
+    .info-box h3 {
+      margin: 0 0 8px 0;
+      color: #2980b9;
+    }
+    
+    .info-box ul {
+      margin: 8px 0 0 20px;
+      padding: 0;
+    }
+    
+    .info-box li {
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎵 Custom Sound Upload Test</h1>
+
+  <div class="info-box">
+    <h3>📋 Supported Formats</h3>
+    <ul>
+      <li><strong>MP3</strong> - Most common, best compatibility</li>
+      <li><strong>WAV</strong> - High quality, larger file size</li>
+      <li><strong>OGG</strong> - Good quality, smaller size</li>
+      <li><strong>WebM</strong> - Modern format</li>
+    </ul>
+    <p style="margin: 12px 0 0 0;"><strong>Max file size:</strong> 500KB</p>
+  </div>
+
+  <div class="container">
+    <h2 style="margin-top: 0;">⚙️ Notification Settings</h2>
+    
+    <!-- Settings Panel will be inserted here -->
+    <div id="settings-container"></div>
+  </div>
+
+  <div class="container">
+    <h3 style="margin-top: 0;">💡 How It Works</h3>
+    <ol>
+      <li>Click "Upload Sound" button above</li>
+      <li>Select an audio file (MP3, WAV, OGG, or WebM)</li>
+      <li>File is converted to base64 and stored in browser localStorage</li>
+      <li>"Custom Sound" option appears in the dropdown</li>
+      <li>Select it and click "Test Sound" to hear it</li>
+      <li>Custom sound persists across page refreshes</li>
+      <li>Click 🗑️ to remove custom sound</li>
+    </ol>
+    
+    <p><strong>Note:</strong> Custom sounds are stored locally in your browser. They don't upload to any server!</p>
+  </div>
+
+  <!-- Load libraries -->
+  <script src="./howler.min.js"></script>
+  <script src="./notification.js"></script>
+
+  <!-- Initialize -->
+  <script>
+    let notifier = null;
+    
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Initialize notifier
+      notifier = new WebchatNotifications({
+        soundPath: './sounds',
+        soundName: 'level3',
+        defaultVolume: 0.7,
+        debug: true
+      });
+      
+      await notifier.init();
+      console.log('✅ Notifier ready');
+      
+      // Check if custom sound exists
+      const customSound = notifier.getCustomSound();
+      if (customSound) {
+        console.log('Custom sound found:', customSound.name);
+      }
+      
+      // Load settings panel
+      fetch('./settings-panel.html')
+        .then(r => r.text())
+        .then(html => {
+          document.getElementById('settings-container').innerHTML = html;
+          
+          // Extract and execute scripts from the loaded HTML
+          const scripts = document.getElementById('settings-container').querySelectorAll('script');
+          scripts.forEach(script => {
+            const newScript = document.createElement('script');
+            newScript.textContent = script.textContent;
+            document.body.appendChild(newScript);
+          });
+        })
+        .catch(err => {
+          console.error('Failed to load settings panel:', err);
+          document.getElementById('settings-container').innerHTML = 
+            '<p style="color: red;">Failed to load settings panel. Check console for errors.</p>';
+        });
+    });
+  </script>
+</body>
+</html>

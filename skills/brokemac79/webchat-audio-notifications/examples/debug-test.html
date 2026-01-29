@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug WebchatNotifications</title>
+</head>
+<body>
+  <h1>Debug WebchatNotifications</h1>
+  
+  <button onclick="testNotifier()">Test Notifier</button>
+  <button onclick="inspectNotifier()">Inspect Notifier</button>
+  <div id="log" style="margin-top: 20px; font-family: monospace; background: #f0f0f0; padding: 10px; white-space: pre-wrap;"></div>
+  
+  <script src="./howler.min.js"></script>
+  <script src="./notification.js"></script>
+  <script>
+    const logDiv = document.getElementById('log');
+    let notifier = null;
+    
+    function log(msg) {
+      logDiv.innerHTML += msg + '\n';
+      console.log(msg);
+    }
+    
+    window.addEventListener('DOMContentLoaded', async () => {
+      log('Initializing notifier...');
+      
+      notifier = new WebchatNotifications({
+        soundPath: './sounds/notification',
+        debug: true,
+        defaultVolume: 1.0  // Max volume
+      });
+      
+      await notifier.init();
+      log('✅ Notifier initialized');
+    });
+    
+    function testNotifier() {
+      log('\n--- Testing notifier.test() ---');
+      
+      if (!notifier) {
+        log('ERROR: notifier is null');
+        return;
+      }
+      
+      if (!notifier.sound) {
+        log('ERROR: notifier.sound is null/undefined');
+        return;
+      }
+      
+      log('notifier.initialized: ' + notifier.initialized);
+      log('notifier.enabled: ' + notifier.enabled);
+      log('notifier.volume: ' + notifier.volume);
+      log('notifier.sound exists: ' + (notifier.sound ? 'YES' : 'NO'));
+      
+      if (notifier.sound) {
+        log('sound._src: ' + JSON.stringify(notifier.sound._src));
+        log('sound.state(): ' + notifier.sound.state());
+        log('sound.volume(): ' + notifier.sound.volume());
+      }
+      
+      log('Calling notifier.test()...');
+      notifier.test();
+      log('test() called');
+    }
+    
+    function inspectNotifier() {
+      log('\n--- Full Notifier Inspection ---');
+      log(JSON.stringify({
+        initialized: notifier.initialized,
+        enabled: notifier.enabled,
+        volume: notifier.volume,
+        isMobile: notifier.isMobile,
+        soundExists: !!notifier.sound,
+        soundSrc: notifier.sound ? notifier.sound._src : null
+      }, null, 2));
+    }
+  </script>
+</body>
+</html>

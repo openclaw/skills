@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Easy Setup Example - Webchat Audio Notifications</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #f5f7fa;
+    }
+    
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      color: #7f8c8d;
+      margin-bottom: 30px;
+    }
+    
+    .demo-container {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .demo-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .demo-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #34495e;
+    }
+    
+    .trigger-btn {
+      padding: 10px 20px;
+      background: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .trigger-btn:hover {
+      background: #c0392b;
+      transform: translateY(-1px);
+    }
+    
+    .instructions {
+      background: #e8f4fd;
+      border-left: 4px solid #3498db;
+      padding: 16px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+    
+    .instructions h3 {
+      margin: 0 0 8px 0;
+      color: #2980b9;
+    }
+    
+    .instructions p {
+      margin: 0;
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔔 Easy Setup Example</h1>
+  <div class="subtitle">Drop-in notification settings panel</div>
+
+  <div class="instructions">
+    <h3>📋 How to Use:</h3>
+    <p>
+      <strong>1.</strong> Configure your preferences below<br>
+      <strong>2.</strong> Open another tab/window<br>
+      <strong>3.</strong> Click "Trigger Notification" button<br>
+      <strong>4.</strong> Switch to the other tab → you'll hear a sound!
+    </p>
+  </div>
+
+  <div class="demo-container">
+    <div class="demo-header">
+      <span class="demo-title">⚙️ Notification Settings</span>
+      <button class="trigger-btn" onclick="triggerNotif()">🔔 Trigger Notification</button>
+    </div>
+    
+    <!-- 
+      SETTINGS PANEL - Just include this one line in your webchat!
+      All styling and logic is self-contained.
+    -->
+    <div id="settings-container"></div>
+  </div>
+
+  <div class="demo-container">
+    <h3 style="margin-top: 0;">💡 Integration Code</h3>
+    <p style="color: #7f8c8d; margin-bottom: 12px;">
+      To add this to your webchat, just include these scripts:
+    </p>
+    <pre style="background: #2c3e50; color: #ecf0f1; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px;"><code>&lt;!-- Load Howler.js --&gt;
+&lt;script src="./howler.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Load WebchatNotifications --&gt;
+&lt;script src="./notification.js"&gt;&lt;/script&gt;
+
+&lt;!-- Initialize --&gt;
+&lt;script&gt;
+  let notifier = null;
+  
+  window.addEventListener('DOMContentLoaded', async () => {
+    notifier = new WebchatNotifications({
+      soundPath: './sounds',
+      soundName: 'level3',
+      defaultVolume: 0.7
+    });
+    await notifier.init();
+    
+    // Trigger on new messages
+    socket.on('message', () => {
+      notifier.notify();
+    });
+  });
+&lt;/script&gt;
+
+&lt;!-- Load Settings Panel (optional but recommended) --&gt;
+&lt;script&gt;
+  fetch('./settings-panel.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('settings-container').innerHTML = html;
+    });
+&lt;/script&gt;</code></pre>
+  </div>
+
+  <!-- Load Howler.js -->
+  <script src="./howler.min.js"></script>
+  
+  <!-- Load WebchatNotifications -->
+  <script src="./notification.js"></script>
+
+  <!-- Initialize -->
+  <script>
+    let notifier = null;
+    
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Initialize notifier
+      notifier = new WebchatNotifications({
+        soundPath: './sounds',
+        soundName: 'level3',
+        defaultVolume: 0.7,
+        debug: true
+      });
+      
+      await notifier.init();
+      console.log('✅ Notifier ready');
+      
+      // Load settings panel
+      fetch('./settings-panel.html')
+        .then(r => r.text())
+        .then(html => {
+          document.getElementById('settings-container').innerHTML = html;
+          
+          // Extract and execute scripts from the loaded HTML
+          const scripts = document.getElementById('settings-container').querySelectorAll('script');
+          scripts.forEach(script => {
+            const newScript = document.createElement('script');
+            newScript.textContent = script.textContent;
+            document.body.appendChild(newScript);
+          });
+        });
+    });
+    
+    function triggerNotif() {
+      if (notifier) {
+        notifier.notify();
+        console.log('🔔 Notification triggered');
+      }
+    }
+  </script>
+</body>
+</html>

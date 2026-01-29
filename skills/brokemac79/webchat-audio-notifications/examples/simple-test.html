@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simple Audio Test</title>
+</head>
+<body>
+  <h1>Simple Audio Test</h1>
+  <button id="test-btn" onclick="testIt()">Click to Test Sound</button>
+  <div id="status">Loading...</div>
+  <div id="console" style="margin-top: 20px; background: #f0f0f0; padding: 10px; font-family: monospace;"></div>
+
+  <script src="./howler.min.js"></script>
+  <script src="./notification.js"></script>
+  
+  <script>
+    let notifier = null;
+    const consoleDiv = document.getElementById('console');
+    
+    function log(msg) {
+      consoleDiv.innerHTML += msg + '<br>';
+      console.log(msg);
+    }
+    
+    window.addEventListener('DOMContentLoaded', async () => {
+      log('DOMContentLoaded fired');
+      
+      // Check if Howler loaded
+      if (typeof Howl === 'undefined') {
+        log('ERROR: Howler.js not loaded!');
+        document.getElementById('status').textContent = 'ERROR: Howler.js failed to load';
+        return;
+      }
+      log('✅ Howler.js loaded');
+      
+      // Check if WebchatNotifications loaded
+      if (typeof WebchatNotifications === 'undefined') {
+        log('ERROR: WebchatNotifications not loaded!');
+        document.getElementById('status').textContent = 'ERROR: notification.js failed to load';
+        return;
+      }
+      log('✅ WebchatNotifications class loaded');
+      
+      try {
+        // Create notifier
+        log('Creating notifier...');
+        notifier = new WebchatNotifications({
+          soundPath: './sounds/notification',
+          debug: true,
+          defaultVolume: 0.7
+        });
+        log('✅ Notifier created');
+        
+        // Initialize
+        log('Initializing...');
+        await notifier.init();
+        log('✅ Notifier initialized');
+        
+        document.getElementById('status').textContent = '✅ Ready! Click the button to test.';
+        
+      } catch (err) {
+        log('ERROR during init: ' + err.message);
+        console.error(err);
+        document.getElementById('status').textContent = 'ERROR: ' + err.message;
+      }
+    });
+    
+    function testIt() {
+      log('Test button clicked');
+      if (!notifier) {
+        log('ERROR: notifier is null!');
+        alert('Notifier not initialized - check console');
+        return;
+      }
+      
+      log('Playing test sound...');
+      notifier.test();
+      log('Test sound triggered');
+    }
+  </script>
+</body>
+</html>

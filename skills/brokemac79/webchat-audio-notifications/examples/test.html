@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Webchat Audio Notifications - Test Page</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f5f7fa;
+      padding: 20px;
+      color: #2c3e50;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    header {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #2c3e50;
+    }
+
+    .subtitle {
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+
+    .section {
+      background: white;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 16px;
+      color: #34495e;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .status-item {
+      padding: 12px;
+      background: #ecf0f1;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .status-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #7f8c8d;
+      font-size: 12px;
+      text-transform: uppercase;
+    }
+
+    .status-value {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .status-value.enabled {
+      color: #27ae60;
+    }
+
+    .status-value.disabled {
+      color: #e74c3c;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    button {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: #3498db;
+      color: white;
+    }
+
+    .btn-success {
+      background: #27ae60;
+      color: white;
+    }
+
+    .btn-warning {
+      background: #f39c12;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #95a5a6;
+      color: white;
+    }
+
+    .slider-group {
+      margin-bottom: 16px;
+    }
+
+    .slider-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #ecf0f1;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #3498db;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #3498db;
+      cursor: pointer;
+      border: none;
+    }
+
+    .console {
+      background: #2c3e50;
+      color: #ecf0f1;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .console-entry {
+      margin-bottom: 4px;
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .console-timestamp {
+      color: #95a5a6;
+      margin-right: 8px;
+    }
+
+    .instructions {
+      background: #e8f4fd;
+      border-left: 4px solid #3498db;
+      padding: 16px;
+      border-radius: 4px;
+      margin-bottom: 16px;
+    }
+
+    .instructions h3 {
+      color: #2980b9;
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+
+    .instructions ol {
+      margin-left: 20px;
+    }
+
+    .instructions li {
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+
+    .alert {
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      font-size: 14px;
+    }
+
+    .alert-warning {
+      background: #fff3cd;
+      border-left: 4px solid #f39c12;
+      color: #856404;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🔔 Webchat Audio Notifications</h1>
+      <div class="subtitle">Test Page - POC v1.0.0</div>
+    </header>
+
+    <div class="section">
+      <h2>📊 System Status</h2>
+      <div class="status-grid">
+        <div class="status-item">
+          <strong>Initialized</strong>
+          <div class="status-value" id="status-initialized">-</div>
+        </div>
+        <div class="status-item">
+          <strong>Notifications</strong>
+          <div class="status-value" id="status-enabled">-</div>
+        </div>
+        <div class="status-item">
+          <strong>Tab Status</strong>
+          <div class="status-value" id="status-tab">Visible</div>
+        </div>
+        <div class="status-item">
+          <strong>Mobile</strong>
+          <div class="status-value" id="status-mobile">-</div>
+        </div>
+        <div class="status-item">
+          <strong>Volume</strong>
+          <div class="status-value" id="status-volume">-</div>
+        </div>
+        <div class="status-item">
+          <strong>Sound</strong>
+          <div class="status-value" id="status-sound">-</div>
+        </div>
+        <div class="status-item">
+          <strong>Autoplay Policy</strong>
+          <div class="status-value" id="status-autoplay">-</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>🧪 Test Controls</h2>
+      
+      <div class="instructions">
+        <h3>How to Test:</h3>
+        <ol>
+          <li><strong>Test sounds:</strong> Click "Test Sound" to hear the current intensity level</li>
+          <li><strong>Try different levels:</strong> Use the "Sound Intensity" dropdown (Level 1 = whisper, Level 5 = impossible to miss)</li>
+          <li><strong>Find your preference:</strong> Test each level to find what works best for you</li>
+          <li><strong>Switch tabs:</strong> Open another tab/window</li>
+          <li><strong>Trigger notification:</strong> Click "Trigger Notification" button</li>
+          <li><strong>Expected:</strong> You should hear a sound (since this tab is hidden)</li>
+        </ol>
+      </div>
+
+      <div id="browser-warning" class="alert alert-warning" style="display: none;">
+        ⚠️ Your browser may have blocked audio autoplay. Click "Test Sound" to enable.
+      </div>
+
+      <div class="controls">
+        <button class="btn-primary" onclick="testNotification()">🔔 Trigger Notification</button>
+        <button class="btn-success" onclick="testSound()">🔊 Test Sound (Ignore Tab State)</button>
+        <button class="btn-warning" onclick="simulateMessages()">📨 Simulate 5 Messages</button>
+      </div>
+
+      <div class="slider-group">
+        <label for="volume-slider">
+          Volume: <span id="volume-display">70%</span>
+        </label>
+        <input 
+          type="range" 
+          id="volume-slider" 
+          min="0" 
+          max="100" 
+          value="70"
+          oninput="updateVolume(this.value)"
+        >
+      </div>
+
+      <div class="slider-group">
+        <label for="sound-selector">
+          Sound Intensity:
+        </label>
+        <select id="sound-selector" onchange="changeSound(this.value)" style="
+          width: 100%;
+          padding: 8px;
+          border-radius: 4px;
+          border: 1px solid #ddd;
+          font-size: 14px;
+        ">
+          <option value="level1">🔕 Level 1 - Whisper (Most subtle, 9KB)</option>
+          <option value="level2">🔔 Level 2 - Soft (Gentle chime, 12KB)</option>
+          <option value="level3" selected>🔔 Level 3 - Medium (Balanced, 13KB)</option>
+          <option value="level4">🔊 Level 4 - Loud (Attention-getting, 43KB)</option>
+          <option value="level5">📢 Level 5 - Very Loud (Impossible to miss, 63KB)</option>
+        </select>
+      </div>
+
+      <div class="controls">
+        <button class="btn-success" onclick="enableNotifications()">✅ Enable Notifications</button>
+        <button class="btn-danger" onclick="disableNotifications()">🔇 Disable Notifications</button>
+        <button class="btn-secondary" onclick="clearConsole()">🗑️ Clear Console</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>📝 Console Log</h2>
+      <div class="console" id="console"></div>
+    </div>
+  </div>
+
+  <!-- Load Howler.js -->
+  <script src="./howler.min.js"></script>
+  
+  <!-- Load WebchatNotifications -->
+  <script src="./notification.js"></script>
+
+  <script>
+    // Global instance
+    let notifier = null;
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', async () => {
+      log('Page loaded, initializing...');
+      
+      // Create notifier with debug enabled
+      notifier = new WebchatNotifications({
+        soundPath: './sounds',
+        soundName: 'level3',
+        debug: true,
+        defaultVolume: 0.7
+      });
+
+      // Initialize
+      await notifier.init();
+      
+      updateStatus();
+      
+      // Check for autoplay blocking
+      if (Howler.ctx && Howler.ctx.state === 'suspended') {
+        document.getElementById('browser-warning').style.display = 'block';
+        log('⚠️ Autoplay is blocked - user interaction required');
+      }
+
+      log('✅ Initialization complete');
+    });
+
+    // Update status display
+    function updateStatus() {
+      const settings = notifier.getSettings();
+      
+      document.getElementById('status-initialized').textContent = 
+        settings.initialized ? '✅ Yes' : '❌ No';
+      document.getElementById('status-initialized').className = 
+        settings.initialized ? 'status-value enabled' : 'status-value disabled';
+      
+      document.getElementById('status-enabled').textContent = 
+        settings.enabled ? '✅ Enabled' : '❌ Disabled';
+      document.getElementById('status-enabled').className = 
+        settings.enabled ? 'status-value enabled' : 'status-value disabled';
+      
+      document.getElementById('status-mobile').textContent = 
+        settings.isMobile ? '📱 Yes' : '🖥️ No';
+      
+      document.getElementById('status-volume').textContent = 
+        Math.round(settings.volume * 100) + '%';
+      
+      // Display sound level
+      const soundLabels = {
+        'level1': '🔕 Level 1',
+        'level2': '🔔 Level 2',
+        'level3': '🔔 Level 3',
+        'level4': '🔊 Level 4',
+        'level5': '📢 Level 5'
+      };
+      document.getElementById('status-sound').textContent = 
+        soundLabels[settings.soundName] || settings.soundName;
+      
+      // Update sound selector dropdown
+      document.getElementById('sound-selector').value = settings.soundName || 'level3';
+      
+      // Autoplay policy
+      if (Howler.ctx) {
+        const state = Howler.ctx.state;
+        document.getElementById('status-autoplay').textContent = 
+          state === 'running' ? '✅ Allowed' : '⚠️ Blocked';
+        document.getElementById('status-autoplay').className = 
+          state === 'running' ? 'status-value enabled' : 'status-value disabled';
+      }
+    }
+
+    // Track tab visibility
+    document.addEventListener('visibilitychange', () => {
+      const hidden = document.hidden;
+      document.getElementById('status-tab').textContent = 
+        hidden ? '🙈 Hidden' : '👁️ Visible';
+      document.getElementById('status-tab').className = 
+        hidden ? 'status-value enabled' : 'status-value disabled';
+      log(hidden ? 'Tab is now HIDDEN' : 'Tab is now VISIBLE');
+    });
+
+    // Test functions
+    function testNotification() {
+      log('🔔 Triggering notification...');
+      notifier.notify('message');
+      updateStatus();
+    }
+
+    function testSound() {
+      log('🔊 Testing sound (ignoring tab state)...');
+      notifier.test();
+      updateStatus();
+    }
+
+    function simulateMessages() {
+      log('📨 Simulating 5 messages (3s apart)...');
+      let count = 0;
+      const interval = setInterval(() => {
+        count++;
+        log(`  Message ${count}/5`);
+        notifier.notify('message');
+        if (count >= 5) {
+          clearInterval(interval);
+          log('✅ Simulation complete');
+        }
+      }, 3000);
+      updateStatus();
+    }
+
+    function updateVolume(value) {
+      const volume = parseInt(value) / 100;
+      notifier.setVolume(volume);
+      document.getElementById('volume-display').textContent = value + '%';
+      log(`🎚️ Volume set to ${value}%`);
+      updateStatus();
+    }
+
+    function changeSound(soundName) {
+      log(`🔊 Changing sound to: ${soundName}`);
+      notifier.setSound(soundName);
+      log(`✅ Sound changed to ${soundName}`);
+      updateStatus();
+    }
+
+    function enableNotifications() {
+      notifier.setEnabled(true);
+      log('✅ Notifications ENABLED');
+      updateStatus();
+    }
+
+    function disableNotifications() {
+      notifier.setEnabled(false);
+      log('🔇 Notifications DISABLED');
+      updateStatus();
+    }
+
+    function clearConsole() {
+      document.getElementById('console').innerHTML = '';
+      log('Console cleared');
+    }
+
+    // Console logging
+    function log(message) {
+      const consoleEl = document.getElementById('console');
+      const entry = document.createElement('div');
+      entry.className = 'console-entry';
+      
+      const timestamp = new Date().toLocaleTimeString();
+      entry.innerHTML = `<span class="console-timestamp">[${timestamp}]</span> ${message}`;
+      
+      consoleEl.appendChild(entry);
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    // Override console.log to capture library logs
+    const originalLog = console.log;
+    console.log = function(...args) {
+      if (args[0] && args[0].includes && args[0].includes('[WebchatNotifications]')) {
+        log(args.join(' '));
+      }
+      originalLog.apply(console, args);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug Custom Sound</title>
+</head>
+<body>
+  <h1>Debug Custom Sound</h1>
+  <button onclick="testInit()">Test Init</button>
+  <button onclick="testPlay()">Test Play</button>
+  <div id="log" style="font-family: monospace; white-space: pre; margin-top: 20px;"></div>
+
+  <script src="./howler.min.js"></script>
+  <script src="./notification.js"></script>
+  
+  <script>
+    let notifier = null;
+    
+    function log(msg) {
+      const logDiv = document.getElementById('log');
+      logDiv.textContent += new Date().toLocaleTimeString() + ' - ' + msg + '\n';
+      console.log(msg);
+    }
+    
+    async function testInit() {
+      log('Creating notifier...');
+      try {
+        notifier = new WebchatNotifications({
+          soundPath: './sounds',
+          soundName: 'level3',
+          defaultVolume: 1.0,
+          debug: true
+        });
+        log('Notifier created');
+        
+        log('Calling init()...');
+        await notifier.init();
+        log('Init complete');
+        
+        log('Initialized: ' + notifier.initialized);
+        log('Sound object exists: ' + (notifier.sound ? 'YES' : 'NO'));
+        
+        if (notifier.sound) {
+          log('Sound state: ' + notifier.sound.state());
+          log('Sound src: ' + JSON.stringify(notifier.sound._src));
+        }
+      } catch (err) {
+        log('ERROR: ' + err.message);
+        console.error(err);
+      }
+    }
+    
+    function testPlay() {
+      if (!notifier) {
+        log('ERROR: Notifier not initialized');
+        return;
+      }
+      
+      log('Calling test()...');
+      try {
+        notifier.test();
+        log('Test() called');
+      } catch (err) {
+        log('ERROR during test: ' + err.message);
+        console.error(err);
+      }
+    }
+    
+    // Auto-init on load
+    window.addEventListener('DOMContentLoaded', testInit);
+  </script>
+</body>
+</html>

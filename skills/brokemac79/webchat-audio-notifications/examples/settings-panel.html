@@ -1,0 +1,455 @@
+<!-- 
+  Webchat Audio Notifications - Settings Panel
+  Drop-in component for easy configuration
+  
+  Usage:
+  1. Include this file in your webchat HTML
+  2. Customize CSS variables to match your theme
+  3. That's it!
+-->
+
+<style>
+  :root {
+    /* Customize these colors to match your webchat theme */
+    --notif-primary: #3498db;
+    --notif-bg: #ffffff;
+    --notif-border: #e0e0e0;
+    --notif-text: #2c3e50;
+    --notif-text-muted: #7f8c8d;
+    --notif-success: #27ae60;
+    --notif-danger: #e74c3c;
+  }
+
+  .notif-settings-panel {
+    background: var(--notif-bg);
+    border: 1px solid var(--notif-border);
+    border-radius: 8px;
+    padding: 16px;
+    max-width: 400px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    color: var(--notif-text);
+  }
+
+  .notif-settings-panel h3 {
+    margin: 0 0 12px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--notif-text);
+  }
+
+  .notif-setting-row {
+    margin-bottom: 16px;
+  }
+
+  .notif-setting-row:last-child {
+    margin-bottom: 0;
+  }
+
+  .notif-label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--notif-text);
+  }
+
+  .notif-label-muted {
+    font-size: 12px;
+    color: var(--notif-text-muted);
+    font-weight: normal;
+  }
+
+  .notif-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .notif-toggle {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 24px;
+  }
+
+  .notif-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .notif-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.3s;
+    border-radius: 24px;
+  }
+
+  .notif-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+  }
+
+  .notif-toggle input:checked + .notif-toggle-slider {
+    background-color: var(--notif-success);
+  }
+
+  .notif-toggle input:checked + .notif-toggle-slider:before {
+    transform: translateX(24px);
+  }
+
+  .notif-toggle-label {
+    font-weight: 500;
+  }
+
+  .notif-select,
+  .notif-range {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--notif-border);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--notif-text);
+    background: var(--notif-bg);
+  }
+
+  .notif-select:focus,
+  .notif-range:focus {
+    outline: none;
+    border-color: var(--notif-primary);
+  }
+
+  .notif-range {
+    padding: 0;
+    height: 6px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--notif-border);
+  }
+
+  .notif-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--notif-primary);
+    cursor: pointer;
+  }
+
+  .notif-range::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--notif-primary);
+    cursor: pointer;
+    border: none;
+  }
+
+  .notif-volume-display {
+    display: inline-block;
+    min-width: 35px;
+    text-align: right;
+    color: var(--notif-text-muted);
+  }
+
+  .notif-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--notif-primary);
+    color: white;
+  }
+
+  .notif-btn:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  .notif-btn:active {
+    transform: translateY(0);
+  }
+
+  .notif-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: #f0f0f0;
+    font-size: 12px;
+    font-weight: 500;
+  }
+
+  .notif-status.enabled {
+    background: #d4edda;
+    color: #155724;
+  }
+
+  .notif-status.disabled {
+    background: #f8d7da;
+    color: #721c24;
+  }
+</style>
+
+<div class="notif-settings-panel" id="notif-settings-panel">
+  <h3>🔔 Notification Settings</h3>
+  
+  <!-- Enable/Disable Toggle -->
+  <div class="notif-setting-row">
+    <div class="notif-toggle-container">
+      <label class="notif-toggle">
+        <input type="checkbox" id="notif-enabled" checked>
+        <span class="notif-toggle-slider"></span>
+      </label>
+      <span class="notif-toggle-label">
+        Enable Notifications
+        <span class="notif-status enabled" id="notif-status">✓ Enabled</span>
+      </span>
+    </div>
+  </div>
+
+  <!-- Sound Intensity -->
+  <div class="notif-setting-row">
+    <label class="notif-label" for="notif-sound">
+      Sound Intensity
+      <span class="notif-label-muted">(Choose how loud notifications should be)</span>
+    </label>
+    <select class="notif-select" id="notif-sound">
+      <option value="level1">🔕 Level 1 - Whisper (most subtle)</option>
+      <option value="level2">🔔 Level 2 - Soft</option>
+      <option value="level3" selected>🔔 Level 3 - Medium (recommended)</option>
+      <option value="level4">🔊 Level 4 - Loud</option>
+      <option value="level5">📢 Level 5 - Very Loud (impossible to miss)</option>
+      <option value="custom" id="notif-custom-option" style="display: none;">🎵 Custom Sound</option>
+    </select>
+  </div>
+
+  <!-- Custom Sound Upload -->
+  <div class="notif-setting-row">
+    <label class="notif-label">
+      Custom Sound
+      <span class="notif-label-muted">(Upload your own: MP3, WAV, OGG, WebM - max 500KB)</span>
+    </label>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <input type="file" 
+             id="notif-custom-file" 
+             accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/webm"
+             style="display: none;"
+             onchange="handleCustomSoundUpload(this)">
+      <button class="notif-btn" onclick="document.getElementById('notif-custom-file').click()" style="flex: 1;">
+        📁 Upload Sound
+      </button>
+      <button class="notif-btn" 
+              id="notif-remove-custom" 
+              onclick="removeCustomSound()"
+              style="background: #e74c3c; display: none;">
+        🗑️
+      </button>
+    </div>
+    <div id="notif-custom-status" style="margin-top: 6px; font-size: 12px; color: #7f8c8d;"></div>
+  </div>
+
+  <!-- Volume Control -->
+  <div class="notif-setting-row">
+    <label class="notif-label" for="notif-volume">
+      Volume: <span class="notif-volume-display" id="notif-volume-display">70%</span>
+    </label>
+    <input type="range" class="notif-range" id="notif-volume" min="0" max="100" value="70">
+  </div>
+
+  <!-- Test Button -->
+  <div class="notif-setting-row">
+    <button class="notif-btn" id="notif-test-btn" onclick="testNotificationSound()">
+      🔊 Test Sound
+    </button>
+  </div>
+</div>
+
+<script>
+  // Initialize notification settings panel
+  (function() {
+    // Wait for notifier to be initialized
+    function waitForNotifier() {
+      if (typeof window.notifier !== 'undefined' && window.notifier.initialized) {
+        initSettingsPanel();
+      } else {
+        setTimeout(waitForNotifier, 100);
+      }
+    }
+
+    function initSettingsPanel() {
+      const settings = window.notifier.getSettings();
+      
+      // Restore saved settings
+      document.getElementById('notif-enabled').checked = settings.enabled;
+      document.getElementById('notif-sound').value = settings.soundName || 'level3';
+      document.getElementById('notif-volume').value = Math.round(settings.volume * 100);
+      document.getElementById('notif-volume-display').textContent = Math.round(settings.volume * 100) + '%';
+      
+      // Check for custom sound
+      updateCustomSoundUI();
+      
+      // Update status display
+      updateStatusDisplay(settings.enabled);
+      
+      // Enable/Disable toggle
+      document.getElementById('notif-enabled').addEventListener('change', function(e) {
+        window.notifier.setEnabled(e.target.checked);
+        updateStatusDisplay(e.target.checked);
+      });
+      
+      // Sound selection
+      document.getElementById('notif-sound').addEventListener('change', function(e) {
+        window.notifier.setSound(e.target.value);
+      });
+      
+      // Volume control
+      document.getElementById('notif-volume').addEventListener('input', function(e) {
+        const volume = parseInt(e.target.value) / 100;
+        window.notifier.setVolume(volume);
+        document.getElementById('notif-volume-display').textContent = e.target.value + '%';
+      });
+    }
+
+    function updateCustomSoundUI() {
+      const customSound = window.notifier.getCustomSound();
+      const customOption = document.getElementById('notif-custom-option');
+      const removeBtn = document.getElementById('notif-remove-custom');
+      const statusDiv = document.getElementById('notif-custom-status');
+      
+      if (customSound) {
+        // Show custom option in dropdown
+        customOption.style.display = 'block';
+        customOption.textContent = `🎵 Custom Sound (${customSound.name})`;
+        
+        // Show remove button
+        removeBtn.style.display = 'block';
+        
+        // Update status
+        statusDiv.textContent = `✓ Using: ${customSound.name}`;
+        statusDiv.style.color = '#27ae60';
+      } else {
+        // Hide custom option
+        customOption.style.display = 'none';
+        
+        // Hide remove button
+        removeBtn.style.display = 'none';
+        
+        // Clear status
+        statusDiv.textContent = '';
+      }
+    }
+
+    function updateStatusDisplay(enabled) {
+      const statusEl = document.getElementById('notif-status');
+      if (enabled) {
+        statusEl.className = 'notif-status enabled';
+        statusEl.textContent = '✓ Enabled';
+      } else {
+        statusEl.className = 'notif-status disabled';
+        statusEl.textContent = '✗ Disabled';
+      }
+    }
+
+    // Start initialization
+    waitForNotifier();
+  })();
+
+  // Test sound function (accessible globally)
+  function testNotificationSound() {
+    if (window.notifier && window.notifier.initialized) {
+      window.notifier.test();
+    }
+  }
+
+  // Handle custom sound upload
+  async function handleCustomSoundUpload(input) {
+    const file = input.files[0];
+    if (!file) return;
+    
+    const statusDiv = document.getElementById('notif-custom-status');
+    statusDiv.textContent = 'Uploading...';
+    statusDiv.style.color = '#3498db';
+    
+    const success = await window.notifier.uploadCustomSound(file);
+    
+    if (success) {
+      statusDiv.textContent = `✓ Uploaded: ${file.name}`;
+      statusDiv.style.color = '#27ae60';
+      
+      // Update UI
+      updateCustomSoundUI();
+      
+      // Auto-select custom sound
+      document.getElementById('notif-sound').value = 'custom';
+      window.notifier.setSound('custom');
+      
+      // Clear file input
+      input.value = '';
+    } else {
+      statusDiv.textContent = '✗ Upload failed (check file type/size)';
+      statusDiv.style.color = '#e74c3c';
+      input.value = '';
+    }
+  }
+
+  // Remove custom sound
+  function removeCustomSound() {
+    if (confirm('Remove your custom sound?')) {
+      window.notifier.removeCustomSound();
+      
+      // Update UI
+      updateCustomSoundUI();
+      
+      // Switch to default
+      document.getElementById('notif-sound').value = 'level3';
+      
+      const statusDiv = document.getElementById('notif-custom-status');
+      statusDiv.textContent = 'Custom sound removed';
+      statusDiv.style.color = '#7f8c8d';
+      
+      setTimeout(() => {
+        statusDiv.textContent = '';
+      }, 3000);
+    }
+  }
+
+  // Helper to update custom sound UI (accessible from init)
+  function updateCustomSoundUI() {
+    if (!window.notifier) return;
+    
+    const customSound = window.notifier.getCustomSound();
+    const customOption = document.getElementById('notif-custom-option');
+    const removeBtn = document.getElementById('notif-remove-custom');
+    const statusDiv = document.getElementById('notif-custom-status');
+    
+    if (customSound) {
+      customOption.style.display = 'block';
+      customOption.textContent = `🎵 Custom Sound (${customSound.name})`;
+      removeBtn.style.display = 'block';
+      statusDiv.textContent = `✓ Using: ${customSound.name}`;
+      statusDiv.style.color = '#27ae60';
+    } else {
+      customOption.style.display = 'none';
+      removeBtn.style.display = 'none';
+      statusDiv.textContent = '';
+    }
+  }
+</script>

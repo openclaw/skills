@@ -1,0 +1,27 @@
+{
+  "notifications": {
+    "enabled": true,
+    "soundPath": "./sounds",
+    "soundName": "level3",
+    "volume": 0.7,
+    "cooldownMs": 3000,
+    "showEnablePrompt": true,
+    "debug": false
+  },
+  "comments": {
+    "enabled": "Enable/disable notifications (true/false)",
+    "soundPath": "Path to sounds directory",
+    "soundName": "Sound intensity: level1 (whisper) through level5 (very loud)",
+    "volume": "Volume level from 0.0 (silent) to 1.0 (max)",
+    "cooldownMs": "Minimum milliseconds between notifications (prevents spam)",
+    "showEnablePrompt": "Show browser autoplay enable prompt if needed",
+    "debug": "Enable console logging for troubleshooting"
+  },
+  "soundLevels": {
+    "level1": "Whisper (9.5KB) - Most subtle, office-friendly",
+    "level2": "Soft (12KB) - Gentle chime",
+    "level3": "Medium (13KB) - Recommended default",
+    "level4": "Loud (43KB) - Attention-getting",
+    "level5": "Very Loud (63KB) - Impossible to miss"
+  }
+}

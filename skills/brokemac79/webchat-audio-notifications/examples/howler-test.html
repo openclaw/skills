@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Howler.js Test</title>
+</head>
+<body>
+  <h1>Howler.js Direct Test</h1>
+  
+  <button onclick="testHowler()">Test Howler.js</button>
+  <div id="log" style="margin-top: 20px; font-family: monospace; background: #f0f0f0; padding: 10px;"></div>
+  
+  <script src="./howler.min.js"></script>
+  <script>
+    const logDiv = document.getElementById('log');
+    
+    function log(msg) {
+      logDiv.innerHTML += msg + '<br>';
+      console.log(msg);
+    }
+    
+    log('Howler loaded: ' + (typeof Howl !== 'undefined'));
+    
+    if (typeof Howl !== 'undefined' && Howler.ctx) {
+      log('AudioContext state: ' + Howler.ctx.state);
+    }
+    
+    function testHowler() {
+      log('Creating Howl instance...');
+      
+      const sound = new Howl({
+        src: ['./sounds/notification.mp3'],
+        volume: 1.0,
+        html5: true,
+        onload: function() {
+          log('✅ Sound loaded successfully');
+        },
+        onloaderror: function(id, err) {
+          log('❌ Load error: ' + err);
+        },
+        onplay: function() {
+          log('✅ Sound started playing');
+        },
+        onplayerror: function(id, err) {
+          log('❌ Play error: ' + err);
+          log('Attempting to unlock...');
+          sound.once('unlock', function() {
+            log('Audio unlocked, trying again...');
+            sound.play();
+          });
+        },
+        onend: function() {
+          log('✅ Sound finished playing');
+        }
+      });
+      
+      log('Howl created, attempting play...');
+      log('AudioContext state: ' + Howler.ctx.state);
+      
+      // Try to resume AudioContext if suspended
+      if (Howler.ctx.state === 'suspended') {
+        log('AudioContext suspended, attempting resume...');
+        Howler.ctx.resume().then(() => {
+          log('AudioContext resumed, state: ' + Howler.ctx.state);
+          sound.play();
+        });
+      } else {
+        sound.play();
+      }
+    }
+  </script>
+</body>
+</html>

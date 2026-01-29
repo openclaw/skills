@@ -1,0 +1,11 @@
+{
+  "owner": "arnarsson",
+  "slug": "jq-json-processor",
+  "displayName": "Jq Json Processor",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769692010402,
+    "commit": null
+  },
+  "history": []
+}

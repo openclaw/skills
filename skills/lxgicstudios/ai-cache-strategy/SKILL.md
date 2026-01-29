@@ -74,3 +74,10 @@ Reads your API route files, understands the data patterns and access patterns fr
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-cache-strategy](https://github.com/lxgicstudios/ai-cache-strategy)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

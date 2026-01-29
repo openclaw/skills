@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-cache-strategy",
-  "displayName": "Ai Cache Strategy",
+  "displayName": "Caching Strategy Advisor",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769658152579,
-    "commit": "https://github.com/clawdbot/skills/commit/398390eef87185ed1fa642ae0d148af5c17f305b"
+    "version": "1.0.2",
+    "publishedAt": 1769665137259,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769658152579,
+      "commit": "https://github.com/clawdbot/skills/commit/398390eef87185ed1fa642ae0d148af5c17f305b"
+    }
+  ]
 }

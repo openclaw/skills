@@ -5,6 +5,7 @@ import path from 'node:path';
 import { afklFetchJson, getStateDir } from './afkl_http.mjs';
 
 const STATE_DIR = getStateDir();
+try { fs.mkdirSync(STATE_DIR, { recursive: true }); } catch {}
 const AIRCRAFT_CACHE_PATH = path.join(STATE_DIR, 'aircraft_intel_cache.json');
 const AIRCRAFT_STATIC_CACHE_PATH = path.join(STATE_DIR, 'aircraft_static_cache.json');
 
@@ -20,8 +21,9 @@ function prettyWhen(iso, { timeZone, locale = 'fr-FR' } = {}) {
   if (!Number.isFinite(d.getTime())) return iso;
 
   const now = new Date();
-  const ymdNow = timeZone ? ymdInTz(now, timeZone) : ymdInTz(now, 'Europe/Paris');
-  const ymdEvt = timeZone ? ymdInTz(d, timeZone) : ymdInTz(d, 'Europe/Paris');
+  const tz = timeZone || 'Europe/Paris';
+  const ymdNow = ymdInTz(now, tz);
+  const ymdEvt = ymdInTz(d, tz);
 
   const toDayNum = (ymd) => {
     const [Y,M,D] = ymd.split('-').map(Number);
@@ -30,15 +32,11 @@ function prettyWhen(iso, { timeZone, locale = 'fr-FR' } = {}) {
   const diff = toDayNum(ymdEvt) - toDayNum(ymdNow);
 
   let dayLabel;
-  if (diff === 0) dayLabel = "aujourd’hui";
-  else if (diff === 1) dayLabel = 'demain';
-  else if (diff === -1) dayLabel = 'hier';
-  else {
-    dayLabel = new Intl.DateTimeFormat(locale, { timeZone, weekday: 'long' }).format(d);
-  }
-
-  const time = new Intl.DateTimeFormat(locale, { timeZone, hour: '2-digit', minute: '2-digit' }).format(d).replace(':','h');
-  return `${dayLabel} ${time}`;
+  // User preference: always show weekday + date (no today/tomorrow wording).
+  const weekday = new Intl.DateTimeFormat(locale, { timeZone: tz, weekday: 'long' }).format(d);
+  const dayMonth = new Intl.DateTimeFormat(locale, { timeZone: tz, day: '2-digit', month: 'short' }).format(d);
+  const time = new Intl.DateTimeFormat(locale, { timeZone: tz, hour: '2-digit', minute: '2-digit' }).format(d).replace(':','h');
+  return `${weekday} ${dayMonth} ${time}`;
 }
 
 function normalizeRegs(r) {
@@ -130,9 +128,33 @@ function parseIso(s) {
   return Number.isFinite(t) ? t : null;
 }
 
-function pickFlight(data, { origin, carrier, flight }) {
+function originTimeZone(origin) {
+  // Minimal mapping; extend as needed.
+  if (origin === 'JFK' || origin === 'EWR') return 'America/New_York';
+  if (origin === 'CDG' || origin === 'ORY') return 'Europe/Paris';
+  return 'UTC';
+}
+
+function pickFlight(data, { origin, carrier, flight, depDate }) {
   const flights = data.operationalFlights || [];
-  return flights.find(f => (f.airline && f.airline.code) === carrier && String(f.flightNumber) === String(flight) && Array.isArray(f.route) && f.route[0] === origin) || flights[0];
+  const tz = originTimeZone(origin);
+
+  // Prefer the operational flight whose *departure local date* matches depDate.
+  const matches = flights.filter(f =>
+    (f.airline && f.airline.code) === carrier &&
+    String(f.flightNumber) === String(flight) &&
+    Array.isArray(f.route) && f.route[0] === origin
+  );
+
+  for (const f of matches) {
+    const leg = (f.flightLegs && f.flightLegs[0]) || {};
+    const depIso = leg?.departureInformation?.times?.scheduled;
+    if (!depIso) continue;
+    const ymd = ymdInTz(new Date(depIso), tz);
+    if (ymd === depDate) return f;
+  }
+
+  return matches[0] || flights[0];
 }
 
 function summarizeFlight(f) {
@@ -140,6 +162,7 @@ function summarizeFlight(f) {
   const depTimes = (leg.departureInformation && leg.departureInformation.times) || {};
   const arrTimes = (leg.arrivalInformation && leg.arrivalInformation.times) || {};
   const boardingTimes = (leg.departureInformation && leg.departureInformation.boardingTimes) || {};
+  const legStatuses = leg.otherFlightLegStatuses || {};
   const depPlaces = (((leg.departureInformation||{}).airport||{}).places) || {};
   const arrPlaces = (((leg.arrivalInformation||{}).airport||{}).places) || {};
   const route = Array.isArray(f.route) ? f.route : [];
@@ -175,6 +198,7 @@ function summarizeFlight(f) {
     depBest,
     boardingPlanned: boardingTimes.plannedBoardingTime || '',
     boardingClosed: boardingTimes.gateCloseTime || '',
+    boardingStatus: legStatuses.boardingStatus || '',
     arrScheduled: arrTimes.scheduled || '',
     arrBest,
     arrEstimated: arrTimes.estimated || '',
@@ -228,9 +252,12 @@ if (fs.existsSync(statePath)) {
 }
 
 if (state?.nextCheckAtMs && now < state.nextCheckAtMs) {
-  console.log(JSON.stringify({ shouldNotify: false }));
+  // No output = no notification.
   process.exit(0);
 }
+
+// Cache previous-flight path by tail to avoid extra API calls.
+const prevPathCache = state?.prevPathCache || {};
 
 // Query operational flights list
 const startRange = `${depDate}T00:00:00Z`;
@@ -257,7 +284,7 @@ try {
   process.exit(0);
 }
 
-const f = pickFlight(data, { origin, carrier, flight });
+const f = pickFlight(data, { origin, carrier, flight, depDate });
 if (!f) {
   console.log(JSON.stringify({ shouldNotify: true, message: `AF${flight} watcher: vol introuvable (API vide).` }));
   process.exit(0);
@@ -272,10 +299,17 @@ const depMs = parseIso(snap.depScheduled) || parseIso(snap.depBest);
 const nextInterval = computeNextIntervalMs(now, depMs);
 
 // Follow previous-flight chain (depth-limited)
+// Note: we already did 1 API call to list flights; respect 1 req/s by sleeping before the first chained call.
 const prevAlerts = [];
 const prevChain = [];
 let prevId = snap.prevId;
-for (let d=0; d<prevDepth && prevId; d++) {
+
+const tailKey = (snap.aircraftReg || '').replace(/^F([A-Z0-9]{4})$/, 'F-$1');
+const cachedPrevPath = tailKey ? prevPathCache[tailKey] : null;
+const effectivePrevDepth = cachedPrevPath ? Math.min(prevDepth, 1) : prevDepth;
+
+if (effectivePrevDepth > 0 && prevId) await new Promise(r => setTimeout(r, 1100));
+for (let d=0; d<effectivePrevDepth && prevId; d++) {
   // Respect 1 req/s: sleep 1100ms between calls when chaining
   if (d>0) await new Promise(r => setTimeout(r, 1100));
   let prev;
@@ -290,31 +324,59 @@ for (let d=0; d<prevDepth && prevId; d++) {
   prevId = prevSnap.prevId;
 }
 
+// Compute previous-flight summary + build/cache previous-flight path like: Dubai → Paris → New York
+if (prevChain.length) {
+  const p = prevChain[0].snap;
+  const prevArrBest = p.arrBest || p.arrScheduled;
+  const prevArrMs = parseIso(prevArrBest);
+  const prevArrSchedMs = parseIso(p.arrScheduled);
+  let delayMin = 0;
+  if (prevArrMs && prevArrSchedMs) delayMin = Math.round((prevArrMs - prevArrSchedMs) / 60000);
+  const city = p.depCity || p.route[0];
+  const st = (p.statusPublic || p.publishedStatus || '').toUpperCase();
+  const label = st.includes('DELAY') ? 'DELAYED' : (st.includes('CANCEL') ? 'CANCELLED' : (st.includes('ON_TIME') || st.includes('ONTIME') ? 'ON TIME' : st || ''));
+  snap.prevSummary = `${city}|${label}|${delayMin}`;
+}
+
+if (tailKey) {
+  if (cachedPrevPath) {
+    snap.prevPath = cachedPrevPath;
+  } else if (prevChain.length >= 2) {
+    const deep = prevChain[prevChain.length - 1].snap;
+    const first = prevChain[0].snap;
+    const cities = [deep.depCity || deep.route[0], deep.arrCity || deep.route[1], first.arrCity || first.route[1]].filter(Boolean);
+    const uniq = cities.filter((c, i) => i === 0 || c !== cities[i - 1]);
+    const pathStr = uniq.join(' → ');
+    snap.prevPath = pathStr;
+    prevPathCache[tailKey] = pathStr;
+  }
+}
+
 // Compare to previous state
 const prev = state?.snapshot || null;
 const changes = [];
 if (prev) {
-  for (const k of ['statusPublic','publishedStatus','depScheduled','depBest','boardingClosed','arrScheduled','arrBest','terminal','gate','arrivalPositionTerminal','aircraftReg','aircraftType','aircraftTypeName','physicalPaxConfiguration','operationalConfiguration','wifiEnabled','highSpeedWifi','satelliteConnectivityOnBoard','aircraftIntel','prevSummary']) {
+  for (const k of ['statusPublic','publishedStatus','depScheduled','depBest','boardingClosed','boardingStatus','arrScheduled','arrBest','terminal','gate','arrivalPositionTerminal','aircraftReg','aircraftType','aircraftTypeName','physicalPaxConfiguration','operationalConfiguration','wifiEnabled','highSpeedWifi','satelliteConnectivityOnBoard','aircraftIntel','prevSummary','prevPath']) {
     if ((prev[k]||'') !== (snap[k]||'')) changes.push(k);
   }
 }
 
-const nextState = { snapshot: snap, nextCheckAtMs: now + nextInterval, updatedAt: new Date().toISOString() };
+const nextState = { snapshot: snap, nextCheckAtMs: now + nextInterval, updatedAt: new Date().toISOString(), prevPathCache };
 fs.writeFileSync(statePath, JSON.stringify(nextState, null, 2));
 
 // simple airport→tz mapping (extend as needed)
-const tz = (origin === 'JFK' || origin === 'EWR') ? 'America/New_York' : 'Europe/Paris';
+const tz = originTimeZone(origin) === 'UTC' ? 'Europe/Paris' : originTimeZone(origin);
 
 if (!prev) {
   const depPretty = prettyWhen(snap.depScheduled || snap.depBest, { timeZone: tz });
   const routeStr = (snap.depCity && snap.arrCity) ? `${snap.depCity}→${snap.arrCity}` : snap.route.join('→');
   const where = `${snap.terminal ? ` • T${snap.terminal}` : ''}${snap.gate ? ` Gate ${snap.gate}` : ''}`;
-  console.log(JSON.stringify({ shouldNotify: true, message: `✈️ ${carrier}${snap.flightNumber} (${routeStr}) — suivi activé. Départ: ${depPretty}${where}` }));
+  console.log(`🛫 ${carrier}${snap.flightNumber} (${routeStr}) — suivi activé\n🕤 Départ: ${depPretty}${where}`);
   process.exit(0);
 }
 
 if (changes.length === 0 && prevAlerts.length === 0) {
-  console.log(JSON.stringify({ shouldNotify: false }));
+  // No output = no notification.
   process.exit(0);
 }
 
@@ -340,30 +402,78 @@ function wifiLine(snap) {
 
 const lines = [];
 
-// Emphasize aircraft/config changes
-if (changes.includes('aircraftReg') || changes.includes('aircraftType') || changes.includes('physicalPaxConfiguration') || changes.includes('operationalConfiguration')) {
-  const old = prev || {};
-  const oldCfg = old.operationalConfiguration || old.physicalPaxConfiguration || '';
-  const newCfg = snap.operationalConfiguration || snap.physicalPaxConfiguration || '';
-  lines.push(`🚨 Avion/config changé`);
-  if ((old.aircraftReg||'') && (snap.aircraftReg||'') && old.aircraftReg !== snap.aircraftReg) {
-    lines.push(`Ancien tail: ${old.aircraftReg} → Nouveau: ${snap.aircraftReg}`);
+// Headline: highlight what changed
+if (prev) {
+  const old = prev;
+
+  const headlineParts = [];
+
+  // Time changes
+  if (changes.includes('depBest') || changes.includes('depScheduled')) {
+    headlineParts.push('🟡 nouveau départ');
   }
-  if (oldCfg && newCfg && oldCfg !== newCfg) {
-    lines.push(`Config: ${oldCfg} → ${newCfg}`);
+  if (changes.includes('arrBest') || changes.includes('arrScheduled')) {
+    headlineParts.push('🟡 nouvelle arrivée');
+  }
+
+  // Gate/terminal
+  if (changes.includes('terminal') || changes.includes('gate')) {
+    headlineParts.push('🟦 gate/terminal update');
+  }
+
+  // Boarding started
+  if (changes.includes('boardingStatus') && String(old.boardingStatus||'').toLowerCase().includes('not') && !String(snap.boardingStatus||'').toLowerCase().includes('not')) {
+    headlineParts.push('🟢 boarding started');
+  }
+
+  // Aircraft/config
+  if (changes.includes('aircraftReg') || changes.includes('aircraftType') || changes.includes('physicalPaxConfiguration') || changes.includes('operationalConfiguration')) {
+    headlineParts.push('🚨 nouvel avion/config');
+  }
+
+  // Inbound impact
+  if (changes.includes('prevSummary')) {
+    const parts = String(snap.prevSummary||'').split('|');
+    const label = (parts[1]||'').toUpperCase();
+    const delayMin = Number(parts[2]||0);
+    if (label === 'DELAYED' && delayMin >= 10) headlineParts.push(`⚠️ inbound +${delayMin}m`);
+    if (label === 'CANCELLED') headlineParts.push('⚠️ inbound cancelled');
+  }
+
+  if (headlineParts.length) {
+    lines.push(headlineParts.join(' • '));
+  }
+
+  // Extra detail for aircraft/config change
+  if (changes.includes('aircraftReg') || changes.includes('aircraftType') || changes.includes('physicalPaxConfiguration') || changes.includes('operationalConfiguration')) {
+    const oldCfg = old.operationalConfiguration || old.physicalPaxConfiguration || '';
+    const newCfg = snap.operationalConfiguration || snap.physicalPaxConfiguration || '';
+    if ((old.aircraftReg||'') && (snap.aircraftReg||'') && old.aircraftReg !== snap.aircraftReg) {
+      lines.push(`Ancien tail: ${String(old.aircraftReg).replace(/^F([A-Z0-9]{4})$/, 'F-$1')} → Nouveau: ${String(snap.aircraftReg).replace(/^F([A-Z0-9]{4})$/, 'F-$1')}`);
+    }
+    if (oldCfg && newCfg && oldCfg !== newCfg) {
+      lines.push(`Config: ${oldCfg} → ${newCfg}`);
+    }
   }
 }
 
 const routeStr = (snap.depCity && snap.arrCity) ? `${snap.depCity}→${snap.arrCity}` : snap.route.join('→');
-lines.push(`🛫 ${carrier}${snap.flightNumber} (${routeStr}) — ${snap.statusPublic || snap.publishedStatus || '—'}`);
+const statusRaw = snap.statusPublic || snap.publishedStatus || '—';
+const statusPretty = String(statusRaw)
+  .split('_')
+  .map(w => w ? (w[0].toUpperCase() + w.slice(1).toLowerCase()) : '')
+  .join(' ');
+lines.push(`🛫 ${carrier}${snap.flightNumber} (${routeStr}) — ${statusPretty}`);
 if (snap.depScheduled) {
   const depPretty = prettyWhen(snap.depScheduled, { timeZone: tz });
   const depBestPretty = snap.depBest ? prettyWhen(snap.depBest, { timeZone: tz }) : '';
   const depStr = (depBestPretty && depBestPretty !== depPretty) ? `${depPretty} → ${depBestPretty}` : depPretty;
   const closed = snap.boardingClosed ? prettyWhen(snap.boardingClosed, { timeZone: tz }) : '';
-  const closedTime = closed ? closed.split(' ')[1] : '';
+  const closedTime = closed ? closed.split(' ').slice(-1)[0] : '';
   const where = `${origin}${snap.terminal ? ` T${snap.terminal}` : ''}${snap.gate ? ` Gate ${snap.gate}` : ''}`;
-  lines.push(`🕤 Départ: ${depStr}${closedTime ? ` (boarding close ${closedTime})` : ''} — ${where}`);
+  const bs = (snap.boardingStatus || '').trim();
+  const bsShow = bs && !/^not\s*open$/i.test(bs) ? ` • boarding: ${bs}` : '';
+  lines.push(`🕤 Départ: ${depStr}${closedTime ? ` (boarding close ${closedTime})` : ''}${bsShow} — ${where}`);
 }
 if (snap.arrScheduled) {
   const dstTz = (snap.route[1] === 'CDG') ? 'Europe/Paris' : tz;
@@ -388,22 +498,17 @@ if (snap.aircraftType || snap.aircraftReg) {
 
 }
 
-// Previous flight summary (short) + store into snapshot for change detection
-if (prevChain.length) {
-  const p = prevChain[0].snap;
-  const prevArrBest = p.arrBest || p.arrScheduled;
-  const prevArrMs = parseIso(prevArrBest);
-  const prevArrSchedMs = parseIso(p.arrScheduled);
-  let delayMin = 0;
-  let delayStr = '';
-  if (prevArrMs && prevArrSchedMs) {
-    delayMin = Math.round((prevArrMs - prevArrSchedMs) / 60000);
-    if (Math.abs(delayMin) >= 5) delayStr = ` (${delayMin > 0 ? '+' : ''}${delayMin}m)`;
+// Previous flight (short)
+if (prevChain.length && snap.prevSummary) {
+  const [city, label, delayMinRaw] = String(snap.prevSummary).split('|');
+  const delayMin = Number(delayMinRaw || 0);
+  const delayStr = (Math.abs(delayMin) >= 5) ? ` (${delayMin > 0 ? '+' : ''}${delayMin}m)` : '';
+  const statusSuffix = label === 'ON TIME' ? '(on time)' : (label === 'DELAYED' ? `(delayed ${delayMin} mins)` : (label === 'CANCELLED' ? '(cancelled)' : `(${String(label||'').toLowerCase()})`));
+
+  if (snap.prevPath) {
+    lines.push(`↩️ ${snap.prevPath} ${statusSuffix}`);
+  } else {
+    lines.push(`↩️ ${city} • ${label}${delayStr}`);
   }
-  const city = p.depCity || p.route[0];
-  const st = (p.statusPublic || p.publishedStatus || '').toUpperCase();
-  const label = st.includes('DELAY') ? 'DELAYED' : (st.includes('CANCEL') ? 'CANCELLED' : (st.includes('ON_TIME') || st.includes('ONTIME') ? 'ON TIME' : st || ''));
-  snap.prevSummary = `${city}|${label}|${delayMin}`;
-  lines.push(`↩️ Previous flight: ${city} • ${label}${delayStr}`);
 }
-console.log(JSON.stringify({ shouldNotify: true, message: lines.join('\n') }));
+console.log(lines.join('\n'));

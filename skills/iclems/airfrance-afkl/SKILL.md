@@ -43,7 +43,7 @@ Polling strategy (default):
 - 3h→departure: every **5–10 min** (stay under daily quota)
 - After departure: every **30 min** until arrival
 
-Implementation detail: run cron every 5–15 min, but the script self-throttles using a state file so it won’t hit the API when it’s not time.
+Implementation detail: run cron every 5–15 min, but the script self-throttles using a state file so it won’t hit the API when it’s not time. The watcher prints **no output** when nothing changed (so cron jobs can send only when stdout is non-empty).
 
 ## Input shorthand
 

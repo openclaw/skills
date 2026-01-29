@@ -4,8 +4,18 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export function getStateDir() {
-  // Prefer explicit env, fallback to a local ./state folder.
-  return process.env.CLAWDBOT_STATE_DIR || process.env.AFKL_STATE_DIR || path.resolve(process.cwd(), 'state');
+  // Prefer explicit env.
+  if (process.env.CLAWDBOT_STATE_DIR) return process.env.CLAWDBOT_STATE_DIR;
+  if (process.env.AFKL_STATE_DIR) return process.env.AFKL_STATE_DIR;
+
+  // Clawdbot default workspace state dir (when running on the Snowi host).
+  const defaultDir = '/home/cwehrung/clawd/state';
+  try {
+    if (fs.existsSync(defaultDir)) return defaultDir;
+  } catch {}
+
+  // Fallback for community usage.
+  return path.resolve(process.cwd(), 'state');
 }
 
 export function loadCreds() {

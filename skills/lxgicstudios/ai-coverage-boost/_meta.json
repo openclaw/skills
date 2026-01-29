@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-coverage-boost",
-  "displayName": "Ai Coverage Boost",
+  "displayName": "Test Coverage Booster",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769657802350,
-    "commit": "https://github.com/clawdbot/skills/commit/de2485caa4d9b00945103dcaa4624e291b119d71"
+    "version": "1.0.1",
+    "publishedAt": 1769665763778,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769657802350,
+      "commit": "https://github.com/clawdbot/skills/commit/de2485caa4d9b00945103dcaa4624e291b119d71"
+    }
+  ]
 }

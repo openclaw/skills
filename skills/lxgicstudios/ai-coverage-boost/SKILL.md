@@ -47,3 +47,10 @@ Node.js 18+. OPENAI_API_KEY required. Existing coverage report helps.
 ## License
 
 MIT. Free forever.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-coverage-boost](https://github.com/lxgicstudios/ai-coverage-boost)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

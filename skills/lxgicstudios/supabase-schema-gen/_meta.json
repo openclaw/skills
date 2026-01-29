@@ -1,0 +1,11 @@
+{
+  "owner": "lxgicstudios",
+  "slug": "supabase-schema-gen",
+  "displayName": "Supabase Schema Generator",
+  "latest": {
+    "version": "1.0.1",
+    "publishedAt": 1769632930278,
+    "commit": null
+  },
+  "history": []
+}

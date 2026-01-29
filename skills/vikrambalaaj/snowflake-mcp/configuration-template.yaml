@@ -1,0 +1,89 @@
+# Snowflake MCP Server Configuration Template (Local Server)
+# For use with snowflake-labs-mcp package
+# Copy this file to ~/.mcp/snowflake_config.yaml and customize
+
+# =============================================================================
+# CORTEX SERVICES (Optional)
+# =============================================================================
+# Add your Cortex Agent, Search, and Analyst services here.
+# Leave sections empty if not using those services.
+
+# Cortex Agent services - for agentic orchestration
+agent_services: []
+  # - service_name: my_agent
+  #   description: >
+  #     Describe what this agent does and when to use it.
+  #     Be specific so the AI knows when to invoke it.
+  #   database_name: MY_DATABASE
+  #   schema_name: MY_SCHEMA
+
+# Cortex Search services - for RAG over unstructured data
+search_services: []
+  # - service_name: docs_search
+  #   description: >
+  #     Search company documentation and knowledge base articles.
+  #     Use for finding policies, procedures, and technical docs.
+  #   database_name: DOCS_DB
+  #   schema_name: PUBLIC
+
+# Cortex Analyst services - for natural language queries over semantic models
+analyst_services: []
+  # - service_name: sales_analyst
+  #   semantic_model: ANALYTICS_DB.MODELS.SALES_SEMANTIC_VIEW
+  #   description: >
+  #     Query sales data including revenue, orders, and customer metrics.
+  #     Use for sales reporting and business intelligence.
+
+# =============================================================================
+# OTHER SERVICES
+# =============================================================================
+# Enable or disable tool groups
+
+other_services:
+  # Object management - create, drop, alter Snowflake objects
+  object_manager: True
+  
+  # Query execution - run SQL statements
+  query_manager: True
+  
+  # Semantic view discovery and querying
+  semantic_manager: True
+
+# =============================================================================
+# SQL STATEMENT PERMISSIONS
+# =============================================================================
+# Control which SQL statement types are allowed.
+# Set to True to allow, False to block.
+
+sql_statement_permissions:
+  # Uncomment to allow all statements (not recommended for production)
+  # - All: True
+
+  # Data Query Language (DQL)
+  - Select: True
+  - Describe: True
+  
+  # Session/Context
+  - Use: True
+  
+  # Transaction Control
+  - Commit: False
+  - Rollback: False
+  - Transaction: False
+  
+  # Data Definition Language (DDL) - CAUTION
+  - Alter: False
+  - Create: False
+  - Drop: False
+  - Comment: False
+  
+  # Data Manipulation Language (DML) - CAUTION
+  - Delete: False
+  - Insert: False
+  - Update: False
+  - Merge: False
+  - TruncateTable: False
+  
+  # Other
+  - Command: False      # Includes CALL, GRANT, SHOW, etc.
+  - Unknown: False      # Block unrecognized statement types

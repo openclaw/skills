@@ -74,3 +74,10 @@ Scans your package.json and build output, identifies heavy dependencies, and sen
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-bundle-check](https://github.com/lxgicstudios/ai-bundle-check)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

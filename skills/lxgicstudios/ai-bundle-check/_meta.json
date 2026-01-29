@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-bundle-check",
-  "displayName": "Ai Bundle Check",
+  "displayName": "Bundle Size Analyzer",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769658140685,
-    "commit": "https://github.com/clawdbot/skills/commit/c99a7855bd5d38acbbb8fb0140f5a56139ce28f2"
+    "version": "1.0.2",
+    "publishedAt": 1769665072579,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769658140685,
+      "commit": "https://github.com/clawdbot/skills/commit/c99a7855bd5d38acbbb8fb0140f5a56139ce28f2"
+    }
+  ]
 }

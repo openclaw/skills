@@ -78,3 +78,10 @@ Parses your route files to extract HTTP methods, paths, and handler code. Then u
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-api-docs](https://github.com/lxgicstudios/ai-api-docs)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

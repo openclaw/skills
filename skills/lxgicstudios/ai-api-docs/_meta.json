@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-api-docs",
-  "displayName": "Ai Api Docs",
+  "displayName": "API Documentation Generator",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769658107760,
-    "commit": "https://github.com/clawdbot/skills/commit/563d145d9b5913b3d497d593f826b12584267a63"
+    "version": "1.0.2",
+    "publishedAt": 1769664794573,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769658107760,
+      "commit": "https://github.com/clawdbot/skills/commit/563d145d9b5913b3d497d593f826b12584267a63"
+    }
+  ]
 }

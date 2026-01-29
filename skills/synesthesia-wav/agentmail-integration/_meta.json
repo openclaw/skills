@@ -1,0 +1,11 @@
+{
+  "owner": "synesthesia-wav",
+  "slug": "agentmail-integration",
+  "displayName": "AgentMail Integration",
+  "latest": {
+    "version": "1.1.0",
+    "publishedAt": 1769644603750,
+    "commit": null
+  },
+  "history": []
+}

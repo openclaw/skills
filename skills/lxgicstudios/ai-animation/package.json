@@ -1,0 +1,14 @@
+{
+  "name": "ai-animation",
+  "version": "1.0.0",
+  "description": "Generate CSS and Framer Motion animations from descriptions",
+  "main": "dist/index.js",
+  "bin": { "ai-animation": "dist/cli.js" },
+  "scripts": { "build": "tsc" },
+  "keywords": ["css", "animation", "framer-motion", "ai", "generator"],
+  "license": "MIT",
+  "dependencies": { "commander": "^12.1.0", "openai": "^4.73.0", "ora": "^5.4.1" },
+  "devDependencies": { "typescript": "^5.6.0", "@types/node": "^22.0.0" },
+  "author": "LXGIC Studios",
+  "repository": { "type": "git", "url": "https://github.com/lxgicstudios/ai-animation" }
+}

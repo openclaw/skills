@@ -1,0 +1,26 @@
+{
+  "name": "wecom",
+  "description": "Send messages to WeCom (企业微信) via webhooks",
+  "entry": "src/index.ts",
+  "commands": {
+    "install": "npm install",
+    "build": "npm run build",
+    "start": "npm start"
+  },
+  "env": {
+    "WECOM_WEBHOOK_URL": {
+      "description": "WeCom incoming webhook URL",
+      "required": true
+    },
+    "WECOM_TIMEOUT_MS": {
+      "description": "Request timeout in milliseconds",
+      "default": "10000"
+    }
+  },
+  "mcp": {
+    "command": "npx ts-node src/index.ts",
+    "env": {
+      "WECOM_WEBHOOK_URL": "$WECOM_WEBHOOK_URL"
+    }
+  }
+}

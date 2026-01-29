@@ -63,3 +63,10 @@ Node.js 18+. OPENAI_API_KEY required.
 ## License
 
 MIT. Free forever.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-mock-data](https://github.com/lxgicstudios/ai-mock-data)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

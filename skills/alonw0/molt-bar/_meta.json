@@ -3,11 +3,16 @@
   "slug": "molt-bar",
   "displayName": "Molt Virtual Bar",
   "latest": {
-    "version": "1.0.1",
-    "publishedAt": 1769592532764,
-    "commit": "https://github.com/clawdbot/skills/commit/eeb87df663c99e860b9afb9c2e9a4362ca84283d"
+    "version": "1.0.2",
+    "publishedAt": 1769676506278,
+    "commit": null
   },
   "history": [
+    {
+      "version": "1.0.1",
+      "publishedAt": 1769592532764,
+      "commit": "https://github.com/clawdbot/skills/commit/eeb87df663c99e860b9afb9c2e9a4362ca84283d"
+    },
     {
       "version": "1.0.0",
       "publishedAt": 1769536059956,

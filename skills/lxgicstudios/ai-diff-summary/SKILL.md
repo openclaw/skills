@@ -59,3 +59,10 @@ Node.js 18+. OPENAI_API_KEY required. Must be in a git repo.
 ## License
 
 MIT. Free forever.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-diff-summary](https://github.com/lxgicstudios/ai-diff-summary)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

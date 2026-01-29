@@ -1,0 +1,11 @@
+{
+  "owner": "lxgicstudios",
+  "slug": "k8s-config-gen",
+  "displayName": "Kubernetes Config Generator",
+  "latest": {
+    "version": "1.0.1",
+    "publishedAt": 1769632556449,
+    "commit": null
+  },
+  "history": []
+}

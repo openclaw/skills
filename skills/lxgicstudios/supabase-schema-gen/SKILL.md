@@ -68,3 +68,10 @@ Parses your Prisma schema to understand data models and relationships. Then gene
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/supabase-schema-gen](https://github.com/lxgicstudios/supabase-schema-gen)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

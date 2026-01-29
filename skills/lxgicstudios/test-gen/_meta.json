@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "test-gen",
-  "displayName": "Test Generator",
+  "displayName": "Unit Test Generator",
   "latest": {
-    "version": "1.0.1",
-    "publishedAt": 1769632967664,
-    "commit": "https://github.com/clawdbot/skills/commit/27cf7d2b1d81f404af712b34f3f74118a83bf5c0"
+    "version": "1.0.2",
+    "publishedAt": 1769667282970,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.1",
+      "publishedAt": 1769632967664,
+      "commit": "https://github.com/clawdbot/skills/commit/27cf7d2b1d81f404af712b34f3f74118a83bf5c0"
+    }
+  ]
 }

@@ -78,3 +78,10 @@ The tool parses your source file, identifies testable units (functions, classes,
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/test-gen](https://github.com/lxgicstudios/test-gen)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

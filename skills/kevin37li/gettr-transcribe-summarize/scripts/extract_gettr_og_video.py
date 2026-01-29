@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
-"""Extract a GETTR post's media URL from HTML og:video meta tags.
+"""Extract a GETTR post's og:video URL from HTML meta tags.
 
 Usage:
   python3 extract_gettr_og_video.py <gettr_post_url>
 
 Prints:
-  Line 1: the best candidate video URL
-  Line 2: the post slug (extracted from the URL path)
+  The best candidate video URL (one line to stdout).
 
 Exit codes:
   0: success
@@ -28,7 +27,6 @@ import sys
 import time
 import urllib.request
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlparse
 
 META_RE = re.compile(
     r"<meta\s+[^>]*?(?:property|name)\s*=\s*['\"](?P<key>og:video(?::secure_url|:url)?)['\"][^>]*?>",
@@ -87,22 +85,6 @@ def extract(html_text: str) -> dict[str, str]:
     return found
 
 
-def extract_slug(url: str) -> str:
-    """Extract the post slug from a GETTR URL.
-
-    Examples:
-      https://gettr.com/post/p1abc2def -> p1abc2def
-      https://gettr.com/post/xyz123 -> xyz123
-    """
-    parsed = urlparse(url)
-    path = parsed.path.rstrip("/")
-    # Expected format: /post/<slug>
-    if "/post/" in path:
-        return path.split("/post/")[-1]
-    # Fallback: use the last path segment
-    return path.split("/")[-1] if "/" in path else "unknown"
-
-
 def detect_post_type(html_text: str) -> str:
     """Detect the type of GETTR post from og:type or content hints."""
     # Check og:type
@@ -132,13 +114,10 @@ def main(argv: list[str]) -> int:
         print("URL must start with http:// or https://", file=sys.stderr)
         return 2
 
-    slug = extract_slug(url)
-
     try:
         html_text = fetch(url)
     except (HTTPError, URLError, TimeoutError) as e:
         print(f"[error] Failed to fetch URL after {MAX_RETRIES} attempts: {e}", file=sys.stderr)
-        print(f"slug={slug}", file=sys.stderr)
         return 3
 
     found = extract(html_text)
@@ -147,13 +126,11 @@ def main(argv: list[str]) -> int:
         v = found.get(key)
         if v:
             print(v)
-            print(slug)
             return 0
 
     # No video found - provide helpful diagnostics
     post_type = detect_post_type(html_text)
     print("[error] No og:video meta tag found.", file=sys.stderr)
-    print(f"slug={slug}", file=sys.stderr)
 
     if post_type == "image":
         print("[hint] This appears to be an image post, not a video.", file=sys.stderr)

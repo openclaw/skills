@@ -1,13 +1,18 @@
 {
   "owner": "kevin37li",
   "slug": "gettr-transcribe-summarize",
-  "displayName": "gettr-transcribe-summarize",
+  "displayName": "GETTR Transcribe + Summarize",
   "latest": {
-    "version": "1.0.3",
-    "publishedAt": 1769373796250,
-    "commit": "https://github.com/clawdbot/skills/commit/f7b821aa23d6d74dea8a3e6d14f251f17557e05c"
+    "version": "1.0.4",
+    "publishedAt": 1769650680437,
+    "commit": null
   },
   "history": [
+    {
+      "version": "1.0.3",
+      "publishedAt": 1769373796250,
+      "commit": "https://github.com/clawdbot/skills/commit/f7b821aa23d6d74dea8a3e6d14f251f17557e05c"
+    },
     {
       "version": "1.0.2",
       "publishedAt": 1769322442142,

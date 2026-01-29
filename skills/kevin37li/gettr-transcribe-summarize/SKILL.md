@@ -7,16 +7,27 @@ metadata: {"clawdbot":{"emoji":"📺","requires":{"bins":["mlx_whisper","ffmpeg"
 
 # Gettr Transcribe + Summarize (MLX Whisper)
 
-## Quick start (single command)
+## Quick start
 
-Run the full pipeline (Steps 1–3) with one command:
 ```bash
-bash scripts/run_pipeline.sh "<GETTR_POST_URL>"
+# 1. Parse the slug from the URL (just read it — no script needed)
+#    https://gettr.com/post/p1abc2def  → slug = p1abc2def
+#    https://gettr.com/streaming/p3xyz → slug = p3xyz
+
+# 2. Get the video URL
+#    For /post/ URLs: use the extraction script
+python3 scripts/extract_gettr_og_video.py "<GETTR_POST_URL>"
+
+#    For /streaming/ URLs: use browser automation directly (extraction script is unreliable)
+#    See Step 1 below for browser automation instructions
+
+# 3. Run download + transcription pipeline
+bash scripts/run_pipeline.sh "<VIDEO_URL>" "<SLUG>"
 ```
 
 To explicitly set the transcription language (recommended for non-English content):
 ```bash
-bash scripts/run_pipeline.sh --language zh "<GETTR_POST_URL>"
+bash scripts/run_pipeline.sh --language zh "<VIDEO_URL>" "<SLUG>"
 ```
 
 Common language codes: `zh` (Chinese), `en` (English), `ja` (Japanese), `ko` (Korean), `es` (Spanish), `fr` (French), `de` (German), `ru` (Russian).
@@ -25,7 +36,7 @@ This outputs:
 - `./out/gettr-transcribe-summarize/<slug>/audio.wav`
 - `./out/gettr-transcribe-summarize/<slug>/audio.vtt`
 
-Then proceed to Step 4 (Summarize) to generate the final deliverable.
+Then proceed to Step 3 (Summarize) to generate the final deliverable.
 
 ---
 
@@ -47,86 +58,79 @@ Notes:
 - `mlx_whisper` installed and on PATH
 - `ffmpeg` installed (recommended: `brew install ffmpeg`)
 
-### Step 0 — Pick an output directory
-Recommended convention: `./out/gettr-transcribe-summarize/<slug>/`
+### Step 0 — Parse the slug and pick an output directory
 
-Extract the slug from the GETTR post URL (e.g., `https://gettr.com/post/p1abc2def` → slug = `p1abc2def`).
+Parse the slug directly from the GETTR URL — just read the last path segment, no script needed:
+- `https://gettr.com/post/p1abc2def` → slug = `p1abc2def`
+- `https://gettr.com/streaming/p3xyz789` → slug = `p3xyz789`
+
+Output directory: `./out/gettr-transcribe-summarize/<slug>/`
 
 Directory structure:
 - `./out/gettr-transcribe-summarize/<slug>/audio.wav`
 - `./out/gettr-transcribe-summarize/<slug>/audio.vtt`
 - `./out/gettr-transcribe-summarize/<slug>/summary.md`
 
-### Step 1 — Extract the media URL and slug
-Preferred: fetch the post HTML and read `og:video*`.
+### Step 1 — Get the video URL
+
+The approach depends on the URL type:
+
+#### For `/post/` URLs — Use the extraction script
+
+Run the extraction script to get the video URL from the post HTML:
 
 ```bash
 python3 scripts/extract_gettr_og_video.py "<GETTR_POST_URL>"
 ```
-This prints the best candidate video URL (often an HLS `.m3u8`) and the post slug.
 
-Extract the slug from the URL path (e.g., `/post/p1abc2def` → `p1abc2def`) to create the output directory.
+This prints the best candidate video URL (often an HLS `.m3u8`) to stdout.
 
-**Important: Streaming URLs require browser extraction**
+If extraction fails, ask the user to provide the `.m3u8`/MP4 URL directly (common if the post is private/gated or the HTML is dynamic).
 
-For streaming URLs (`gettr.com/streaming/<slug>`), the Python script may return a stale/invalid `og:video` URL that fails with HTTP 412. This is because GETTR dynamically generates signed stream URLs via JavaScript.
+#### For `/streaming/` URLs — Use browser automation directly
 
-If the URL is a streaming link OR if download fails with HTTP 412:
-1. Open the streaming URL in a browser and wait for the page to fully load (JavaScript must execute)
+**Do not use the extraction script for streaming URLs.** The `og:video` URL from static HTML extraction is unreliable for streaming content — it either fails outright or the download stalls and fails near the end.
+
+Instead, use browser automation to get a fresh, dynamically-signed URL:
+1. Open the GETTR streaming URL and wait for the page to fully load (JavaScript must execute)
 2. Extract the `og:video` meta tag content from the rendered DOM:
    ```javascript
    document.querySelector('meta[property="og:video"]').getAttribute('content')
    ```
-3. Use that fresh URL for the download step
+3. Use that fresh URL for the pipeline in Step 2
 
-The browser-extracted URL will have a valid signature and work with ffmpeg.
+If browser automation is not available or fails, see `references/troubleshooting.md` for how to guide the user to manually extract the fresh URL from their browser.
 
-If extraction fails, ask the user to provide the `.m3u8`/MP4 URL directly (common if the post is private/gated or the HTML is dynamic).
+### Step 2 — Run the pipeline (download + transcribe)
 
-### Step 2 — Download audio with ffmpeg
-Extract audio-only (16kHz mono WAV) for faster and more stable transcription:
+Feed the extracted video URL and slug into the pipeline:
+
 ```bash
-bash scripts/download_audio.sh "<M3U8_OR_MP4_URL>" "./out/gettr-transcribe-summarize/<slug>/audio.wav"
-```
-
-This directly extracts audio without intermediate video, reducing disk I/O and processing time.
-
-### Step 3 — Transcribe with MLX Whisper
-Generate VTT output with timestamps:
-```bash
-mlx_whisper "./out/gettr-transcribe-summarize/<slug>/audio.wav" \
-  -f vtt \
-  -o "./out/gettr-transcribe-summarize/<slug>" \
-  --model mlx-community/whisper-large-v3-turbo \
-  --condition-on-previous-text False \
-  --word-timestamps True
+bash scripts/run_pipeline.sh "<VIDEO_URL>" "<SLUG>"
 ```
 
 To explicitly set the language (recommended when auto-detection fails):
 ```bash
-mlx_whisper "./out/gettr-transcribe-summarize/<slug>/audio.wav" \
-  -f vtt \
-  -o "./out/gettr-transcribe-summarize/<slug>" \
-  --model mlx-community/whisper-large-v3-turbo \
-  --condition-on-previous-text False \
-  --word-timestamps True \
-  --language zh
+bash scripts/run_pipeline.sh --language zh "<VIDEO_URL>" "<SLUG>"
 ```
 
-Flags explained:
-- `-f vtt`: VTT format provides timestamps for building the outline.
-- `--condition-on-previous-text False`: prevents hallucination errors from propagating across segments.
-- `--word-timestamps True`: more precise timing for section boundaries.
-- `--language <code>`: explicit language code (e.g., `zh`, `en`, `ja`, `ko`). Use when auto-detection fails.
+The pipeline does two things:
+1. Downloads audio as 16kHz mono WAV via ffmpeg
+2. Transcribes with MLX Whisper, outputting VTT with timestamps
+
+#### If the pipeline fails with HTTP 412 (stale signed URL)
+
+This error occurs with `/streaming/` URLs when the signed URL has expired. If browser automation returned a stale URL, retry by re-running browser automation to get a fresh URL, then retry the pipeline.
+
+If browser automation is not available or fails, see `references/troubleshooting.md` for how to guide the user to manually extract the fresh URL from their browser.
 
 Notes:
 - By default, language is auto-detected. For non-English content where detection fails, use `--language`.
-- Common language codes: `zh` (Chinese), `en` (English), `ja` (Japanese), `ko` (Korean), `es` (Spanish), `fr` (French), `de` (German), `ru` (Russian).
 - If too slow or memory-heavy, try smaller models: `mlx-community/whisper-medium` or `mlx-community/whisper-small`.
 - If quality is poor, try the full model: `mlx-community/whisper-large-v3` (slower but more accurate).
-- If `--word-timestamps` causes issues, omit it (the pipeline script handles this automatically).
+- If `--word-timestamps` causes issues, the pipeline retries automatically without it.
 
-### Step 4 — Summarize
+### Step 3 — Summarize
 Write the final deliverable to `./out/gettr-transcribe-summarize/<slug>/summary.md`.
 
 Pick a **summary size** (user-selectable):
@@ -149,15 +153,15 @@ When building the outline from VTT cues:
 - Use the start time of the first cue and end time of the last cue in the section.
 
 ## Bundled scripts
-- `scripts/run_pipeline.sh`: full pipeline wrapper (Steps 1–3 in one command)
-- `scripts/extract_gettr_og_video.py`: fetch GETTR HTML and extract `og:video*` URL + post slug (with retry/backoff)
+- `scripts/run_pipeline.sh`: download + transcription pipeline (takes a video URL and slug)
+- `scripts/extract_gettr_og_video.py`: fetch GETTR HTML and extract the `og:video` URL (with retry/backoff)
 - `scripts/download_audio.sh`: download/extract audio from HLS or MP4 URL to 16kHz mono WAV
 
 ### Error handling
 - **Non-video posts**: The extraction script detects image/text posts and provides a helpful error message.
 - **Network errors**: Automatic retry with exponential backoff (up to 3 attempts).
 - **No audio track**: The download script validates output and reports if the source has no audio.
-- **HTTP 412 errors**: The extracted `og:video` URL has an expired/invalid signature. Use browser extraction to get a fresh URL (see Step 1 and `references/troubleshooting.md`).
+- **HTTP 412 errors**: Occurs with `/streaming/` URLs when the signed URL has expired. Re-run browser automation to get a fresh URL (see Step 1); if that fails, see `references/troubleshooting.md`.
 
 ## Troubleshooting
 See `references/troubleshooting.md` for detailed solutions to common issues including:

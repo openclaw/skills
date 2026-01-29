@@ -10,7 +10,14 @@ Download audio from a GETTR post, transcribe it locally with MLX Whisper on Appl
 
 ## Quick start
 ```bash
-bash scripts/run_pipeline.sh "<GETTR_POST_URL>"
+# For /post/ URLs: extract the og:video URL via script
+python3 scripts/extract_gettr_og_video.py "<GETTR_POST_URL>"
+
+# For /streaming/ URLs: use browser automation directly (see SKILL.md Step 1)
+# The extraction script is unreliable for streaming URLs
+
+# Run download + transcription (slug is the last path segment of the URL)
+bash scripts/run_pipeline.sh "<VIDEO_URL>" "<SLUG>"
 ```
 
 Outputs to `./out/gettr-transcribe-summarize/<slug>/`:

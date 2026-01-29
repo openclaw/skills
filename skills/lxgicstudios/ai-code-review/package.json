@@ -1,0 +1,47 @@
+{
+  "name": "ai-code-review",
+  "version": "1.0.0",
+  "description": "AI-powered code review for staged git changes",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-code-review": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/cli.ts"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^12.1.0",
+    "openai": "^4.52.0",
+    "ora": "^5.4.1",
+    "simple-git": "^3.25.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.14.0"
+  },
+  "license": "MIT",
+  "author": "LXGIC Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxgicstudios/ai-code-review"
+  },
+  "keywords": [
+    "ai",
+    "openai",
+    "gpt",
+    "code-review",
+    "code-analysis",
+    "linting",
+    "static-analysis",
+    "developer-tools",
+    "cli",
+    "automation",
+    "git",
+    "pull-request",
+    "dx",
+    "typescript",
+    "nodejs"
+  ]
+}

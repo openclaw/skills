@@ -1,0 +1,11 @@
+{
+  "owner": "officialpm",
+  "slug": "my-tesla",
+  "displayName": "My Tesla",
+  "latest": {
+    "version": "0.1.8",
+    "publishedAt": 1769649566214,
+    "commit": null
+  },
+  "history": []
+}

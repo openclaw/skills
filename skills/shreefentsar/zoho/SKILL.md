@@ -1,9 +1,14 @@
 ---
 name: zoho
 description: Interact with Zoho CRM, Projects, and Meeting APIs. Use when managing deals, contacts, leads, tasks, projects, milestones, meeting recordings, or any Zoho workspace data. Triggers on mentions of Zoho, CRM, deals, pipeline, projects, tasks, milestones, meetings, recordings, standups.
+author: Zone 99 team
+homepage: https://99.zone
+repository: https://github.com/shreefentsar/clawdbot-zoho
 ---
 
 # Zoho Integration (CRM + Projects + Meeting)
+
+Made by [Zone 99](https://99.zone) · [GitHub](https://github.com/shreefentsar/clawdbot-zoho) · [Contribute](https://github.com/shreefentsar/clawdbot-zoho/issues)
 
 ## Quick Start
 

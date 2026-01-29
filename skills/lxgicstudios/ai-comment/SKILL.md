@@ -77,3 +77,10 @@ Reads your code file, sends it to GPT-4o-mini, and receives the same code with m
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-comment](https://github.com/lxgicstudios/ai-comment)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

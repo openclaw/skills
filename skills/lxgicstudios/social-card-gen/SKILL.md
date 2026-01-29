@@ -74,3 +74,10 @@ Reads your content, understands the key message, and rewrites it for each platfo
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/social-card-gen](https://github.com/lxgicstudios/social-card-gen)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

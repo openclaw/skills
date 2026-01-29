@@ -3,9 +3,15 @@
   "slug": "social-card-gen",
   "displayName": "Social Card Generator",
   "latest": {
-    "version": "1.0.1",
-    "publishedAt": 1769632883534,
-    "commit": "https://github.com/clawdbot/skills/commit/22db70be7b68c8b7424892e985571c490d3c11d8"
+    "version": "1.0.2",
+    "publishedAt": 1769666951468,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.1",
+      "publishedAt": 1769632883534,
+      "commit": "https://github.com/clawdbot/skills/commit/22db70be7b68c8b7424892e985571c490d3c11d8"
+    }
+  ]
 }

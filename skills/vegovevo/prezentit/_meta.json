@@ -3,9 +3,15 @@
   "slug": "prezentit",
   "displayName": "Prezentit",
   "latest": {
-    "version": "1.0.6",
-    "publishedAt": 1769640293151,
-    "commit": "https://github.com/clawdbot/skills/commit/9f446710a55ce26d2ff98438e61cca2e2d49c625"
+    "version": "1.0.8",
+    "publishedAt": 1769657491539,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.6",
+      "publishedAt": 1769640293151,
+      "commit": "https://github.com/clawdbot/skills/commit/9f446710a55ce26d2ff98438e61cca2e2d49c625"
+    }
+  ]
 }

@@ -2,10 +2,10 @@
 name: prezentit
 description: Generate beautiful AI-powered presentations instantly. Create professional slides with custom themes, visual designs, and speaker notes—all through natural language commands. Connect your Prezentit account to generate presentations directly from chat.
 homepage: https://prezentit.net
-emoji: "🎯"
+emoji: "👽"
 metadata:
   clawdbot:
-    emoji: "🎯"
+    emoji: "👽"
     skillKey: prezentit
     homepage: https://prezentit.net
     requires:
@@ -22,81 +22,20 @@ metadata:
 
 # Prezentit - AI Presentation Generator
 
-Generate stunning, professional presentations instantly using AI. Just describe your topic and get a complete slide deck with custom designs.
+Generate stunning presentations instantly with AI. Describe your topic and get a complete slide deck with custom designs.
+
+## Quick Start
+
+1. **Get API Key**: Sign in at [prezentit.net](https://prezentit.net) → Profile → API → Create Key
+2. **Configure**: `/config set PREZENTIT_API_KEY pk_your_key_here`
+3. **Generate**: "Create a presentation about sustainable energy"
 
 ## Features
 
-- **Instant Generation**: Create full presentations from a single prompt
-- **Beautiful Themes**: Choose from 40+ professional themes (Minimalist, Corporate, Creative, etc.)
-- **AI-Designed Slides**: Each slide is uniquely designed by AI to match your content
-- **Credit System**: Pay only for what you generate
+- **40+ Themes**: Minimalist, Corporate, Creative, Nature, Tech, Education
+- **AI-Designed Slides**: Each slide uniquely designed to match content  
+- **External Outlines**: Provide your own outline to save credits (33% savings)
 - **Direct Download**: Get your presentation link immediately
-
-## Setup
-
-1. **Create a Prezentit Account**
-   - Go to [prezentit.net](https://prezentit.net)
-   - Sign in with Google
-
-2. **Generate an API Key**
-   - Go to your profile → API
-   - Click "Create Key"
-   - Copy the key (it's only shown once!)
-
-3. **Configure Clawdbot**
-   ```
-   /config set PREZENTIT_API_KEY pk_your_api_key_here
-   ```
-
-## Usage
-
-### Quick Generation
-```
-Create a presentation about sustainable energy
-```
-
-### With Details
-```
-Create a 10-slide presentation about machine learning for beginners. 
-Include real-world examples and keep it simple for non-technical audiences.
-```
-
-### With Theme
-```
-Create a presentation about startup funding using the "venture" theme
-```
-
-## Commands Reference
-
-### Generate Presentation
-Tell Clawdbot what you want to present about:
-- "Make a presentation about [topic]"
-- "Create slides for [topic]"
-- "Generate a deck about [topic]"
-
-### Options
-- **Slide count**: "Create a 7-slide presentation..."
-- **Theme**: "...using the minimalist theme"
-- **Details**: Add context after your topic
-
-### Check Credits
-"Check my Prezentit credits" or "How many Prezentit credits do I have?"
-
-### List Themes
-"Show me available Prezentit themes" or "What themes can I use?"
-
-## Available Themes
-
-Themes are organized by category:
-
-- **Minimalist**: Clean, modern designs with lots of white space
-- **Corporate**: Professional themes for business presentations
-- **Creative**: Bold, artistic styles for creative projects
-- **Nature**: Earth tones and natural imagery
-- **Technology**: Futuristic, tech-inspired designs
-- **Education**: Clear, readable layouts for teaching
-
-To see all themes: "List Prezentit themes"
 
 ## Pricing
 
@@ -105,229 +44,145 @@ To see all themes: "List Prezentit themes"
 | Outline (per slide) | 5 credits |
 | Design (per slide) | 10 credits |
 | **Total per slide** | **15 credits** |
+| **With your outline** | **10 credits** (design only) |
 
-New accounts start with 100 free credits. Purchase more at [prezentit.net/buy-credits](https://prezentit.net/buy-credits)
+New accounts: 100 free credits. Purchase more at [prezentit.net/buy-credits](https://prezentit.net/buy-credits)
 
-## Example Workflow
+## API Quick Reference
 
-1. **User**: "Create a 5-slide presentation about remote work best practices"
+**Base URL**: `https://prezentit.net/api/v1`  
+**Auth**: `Authorization: Bearer pk_your_api_key_here`
 
-2. **Clawdbot**: 
-   - Checks your credits (75 needed for 5 slides)
-   - Generates outline with titles and talking points
-   - Designs each slide with AI
-   - Returns presentation link
+### Essential Endpoints
 
-3. **Result**: A complete presentation ready to present or download
-
-## Troubleshooting
-
-### "Invalid API key"
-- Make sure you copied the full API key including the `pk_` prefix
-- Check that the key hasn't expired
-- Generate a new key if needed
-
-### "Insufficient credits"
-- Check your credit balance
-- Purchase more credits at prezentit.net/buy-credits
-
-### "Rate limit exceeded"
-- Wait a minute and try again
-- Default: 30 requests/minute, 500 requests/day
-
-## API Reference
-
-**Base URL**: `https://prezentit.net/api/v1`
-
-**Authentication**: All requests require the `Authorization` header:
-```
-Authorization: Bearer pk_your_api_key_here
-```
-
-### Check Credits
-```bash
-GET /api/v1/me/credits
-
-# Example:
-curl -X GET "https://prezentit.net/api/v1/me/credits" \
-  -H "Authorization: Bearer pk_your_api_key_here"
-
-# Response:
-{
-  "credits": 100,
-  "userId": "user_123"
-}
-```
-
-### List Themes
-```bash
-GET /api/v1/themes
-
-# Example - List all themes:
-curl -X GET "https://prezentit.net/api/v1/themes" \
-  -H "Authorization: Bearer pk_your_api_key_here"
-
-# Response:
-{
-  "themes": [
-    { "id": "minimalist", "name": "Minimalist", "category": "minimal" },
-    { "id": "atlantis", "name": "Atlantis", "category": "fantasy" },
-    ...
-  ],
-  "categories": ["cartoon", "minimal", "corporate", ...],
-  "usage": "Use the exact 'id' value when generating presentations."
-}
-```
-
-### Search/Match Themes
-```bash
-GET /api/v1/themes?search=atlantis
-
-# Use this to find the correct theme ID when user requests a theme by name.
-# Returns best match and confidence level.
-
-# Response:
-{
-  "searchQuery": "atlantis",
-  "bestMatch": {
-    "id": "atlantis",           // <-- Use this exact ID in generate request
-    "name": "Atlantis",
-    "category": "fantasy",
-    "confidence": "exact"      // exact | partial | low
-  },
-  "matches": [...],
-  "hint": "Best match: 'atlantis'. Use this exact ID in your request."
-}
-```
-
-**IMPORTANT - Theme is REQUIRED:**
-A theme or custom design prompt is required for every presentation. Follow this flow:
-
-1. When user requests a theme (e.g., "atlantis theme"), search: `GET /api/v1/themes?search=atlantis`
-2. If `bestMatch.confidence` is "exact" or "partial", use the `bestMatch.id` as the `theme` parameter
-3. If NO match found, either:
-   - Generate a `customDesignPrompt` based on what the user wanted, OR
-   - Ask the user to pick from available themes, OR
-   - Select a theme that best fits the topic (e.g., "candyland" for creative/fun topics)
-
-**If user doesn't specify a theme:**
-- Pick an appropriate theme from the list based on the topic
-- For business topics → pick from Basic & Minimalistic
-- For creative/fun topics → pick from cartoon or creative categories
-- For tech topics → pick from Tech
-- Or ask the user: "Which theme would you like? Here are some options that fit your topic: ..."
-
-**Example - User wants "cyberpunk neon" style (not in our themes):**
-```json
-{
-  "topic": "Future of AI",
-  "slideCount": 5,
-  "customDesignPrompt": "Cyberpunk aesthetic with neon pink and blue colors, dark backgrounds, glowing circuit patterns, futuristic holographic elements, sharp angular shapes"
-}
-```
+| Endpoint | Description |
+|----------|-------------|
+| `GET /me/credits` | Check your credit balance |
+| `GET /themes` | List available themes |
+| `GET /themes?search=NAME` | Find theme by name |
+| `POST /presentations/generate` | Generate presentation |
+| `GET /docs/outline-format` | **Get outline validation rules** |
 
 ### Generate Presentation
-```bash
-POST /api/v1/presentations/generate
-Content-Type: application/json
 
-# Example with existing theme:
-curl -X POST "https://prezentit.net/api/v1/presentations/generate" \
-  -H "Authorization: Bearer pk_your_api_key_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "topic": "Create a presentation about sustainable energy",
-    "slideCount": 5,
-    "theme": "minimalist"
-  }'
+```json
+POST /presentations/generate
 
-# Example with custom design prompt (when no matching theme exists):
-curl -X POST "https://prezentit.net/api/v1/presentations/generate" \
-  -H "Authorization: Bearer pk_your_api_key_here" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "topic": "Future of Gaming",
-    "slideCount": 5,
-    "customDesignPrompt": "Retro arcade aesthetic with pixel art elements, neon glow effects, dark purple and electric blue colors, 80s gaming nostalgia"
-  }'
-
-# Request Body:
 {
-  "topic": "Your presentation topic",                // Required (or use "prompt")
-  "details": "Additional context for the AI",        // Optional
-  "slideCount": 5,                                   // Optional, default: 5, range: 3-50
-  "theme": "minimalist",                             // Required* - theme ID from /themes
-  "customDesignPrompt": "Design style description"   // Required* - use when theme doesn't exist
+  "topic": "Your topic (required)",
+  "details": "Additional context (optional)",
+  "slideCount": 5,           // 3-50, default: 5
+  "theme": "minimalist",     // Theme ID from /themes
+  "outline": { ... },        // Optional: provide your own outline
+  "stream": false            // IMPORTANT: Set to false for AI agents
 }
+```
 
-# *NOTE: You MUST provide either "theme" OR "customDesignPrompt"
-# - If theme ID exists in our library → use "theme"  
-# - If user wants a custom style → use "customDesignPrompt" with a descriptive prompt
-# - If user doesn't specify → pick an appropriate theme based on the topic
+**CRITICAL for AI Agents**: Always set `"stream": false` to receive a single JSON response instead of Server-Sent Events (SSE). This prevents polling issues and rate limits.
 
-# Response:
+**Response with `stream: false`**:
+```json
 {
   "success": true,
-  "presentation": {
-    "id": "pres_abc123",
-    "title": "Sustainable Energy",
+  "data": {
+    "presentationId": "uuid",
+    "title": "Your Presentation Title",
+    "viewUrl": "https://prezentit.net/view/abc123...",
     "slideCount": 5,
     "creditsUsed": 75,
-    "viewUrl": "https://prezentit.net/view/abc123",
-    "slides": [...]
+    "remainingCredits": 25
   }
 }
 ```
 
-### Get Presentation
-```bash
-GET /api/v1/presentations/:id
+**Theme Selection**: Either provide `theme` (from /themes) OR `customDesignPrompt` for custom styles.
 
-# Example:
-curl -X GET "https://prezentit.net/api/v1/presentations/pres_abc123" \
-  -H "Authorization: Bearer pk_your_api_key_here"
+### External Outlines (Save 33% Credits)
+
+You can provide your own outline to skip AI outline generation. This is useful when:
+- You have specific content requirements
+- You want to save credits
+- An external AI (like Clawdbot) generates the outline
+
+**Get the exact format requirements**:
+```bash
+GET /api/v1/docs/outline-format
 ```
 
-### List My Presentations
-```bash
-GET /api/v1/me/presentations
+This endpoint returns:
+- All validation constraints (min/max words, characters, slide counts)
+- Required fields for each slide
+- Example outline structure
+- Error fix suggestions
 
-# Example:
-curl -X GET "https://prezentit.net/api/v1/me/presentations" \
-  -H "Authorization: Bearer pk_your_api_key_here"
+**Important**: Presentations with external outlines cannot be shared to the community feed (but can have public view links).
 
-# Response:
+### Example with External Outline
+
+```json
 {
-  "presentations": [
-    {
-      "id": "pres_abc123",
-      "title": "Sustainable Energy",
-      "slideCount": 5,
-      "createdAt": "2026-01-28T10:00:00Z",
-      "viewUrl": "https://prezentit.net/view/abc123"
-    }
-  ]
+  "topic": "Machine Learning Basics",
+  "theme": "minimalist",
+  "stream": false,
+  "outline": {
+    "slides": [
+      {
+        "title": "Introduction to Machine Learning",
+        "mainIdea": "Machine learning enables computers to learn from data...",
+        "talkingPoints": [
+          "Definition and core principles",
+          "How ML differs from traditional programming",
+          "Key applications in everyday life"
+        ],
+        "visualGuide": "Split-screen comparison of traditional programming vs ML..."
+      }
+      // ... more slides
+    ]
+  }
 }
 ```
 
-### Error Responses
+### Error Handling
+
+When outline validation fails, you'll receive detailed errors:
+
 ```json
-// 401 Unauthorized - Invalid or missing API key
-{ "error": "Invalid API key" }
-
-// 402 Payment Required - Insufficient credits
-{ "error": "Insufficient credits", "required": 75, "available": 50 }
-
-// 429 Too Many Requests - Rate limited
-{ "error": "Rate limit exceeded", "retryAfter": 60 }
+{
+  "error": "Invalid outline format",
+  "code": "INVALID_OUTLINE",
+  "validationErrors": [
+    {
+      "slide": 1,
+      "field": "title",
+      "error": "Title must be between 3-100 characters",
+      "value": "ML",
+      "fix": "Expand the title to at least 3 characters"
+    }
+  ],
+  "constraints": { ... },
+  "documentation": "https://prezentit.net/api/v1/docs/outline-format"
+}
 ```
+
+### Common Errors
+
+| Code | Meaning |
+|------|---------|
+| 401 | Invalid/missing API key |
+| 402 | Insufficient credits |
+| 429 | Rate limited (retry after 60s) |
+
+## Best Practices for Clawdbot
+
+1. **ALWAYS use `stream: false`** - This is critical! Without it, you'll get SSE streaming which causes polling issues and rate limits
+2. **Always check credits first** before generating
+3. **Search themes** when user requests a specific style
+4. **Use outline format endpoint** to get current validation rules before generating outlines
+5. **Handle validation errors** - they include fix suggestions
+6. **Inform user** about external outline restrictions (no community feed sharing)
+7. **Don't poll** - With `stream: false`, the API returns a single JSON response when generation is complete
 
 ## Support
 
 - **Website**: [prezentit.net](https://prezentit.net)
-
-## Privacy
-
-- Your API key is stored securely in your Clawdbot config
-- Presentations are saved to your Prezentit account
-- See full privacy policy at prezentit.net/privacy
+- **API Docs**: Call `GET /api/v1/docs/outline-format` for live documentation

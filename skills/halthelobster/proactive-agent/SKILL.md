@@ -124,22 +124,39 @@ workspace/
 
 **Memory Search:** Use semantic search (memory_search) before answering questions about prior work, decisions, or preferences. Don't guess — search.
 
-**Memory Flush:** Before context compacts (long sessions), explicitly save:
+**Memory Flush:** Context windows fill up. When they do, older messages get compacted or lost. Don't wait for this to happen — monitor and act.
 
+**How to monitor:** Run `session_status` periodically during longer conversations. Look for:
+```
+📚 Context: 36k/200k (18%) · 🧹 Compactions: 0
+```
+
+**Threshold-based flush protocol:**
+
+| Context % | Action |
+|-----------|--------|
+| **< 50%** | Normal operation. Write decisions as they happen. |
+| **50-70%** | Increase vigilance. Write key points after each substantial exchange. |
+| **70-85%** | Active flushing. Write everything important to daily notes NOW. |
+| **> 85%** | Emergency flush. Stop and write full context summary before next response. |
+| **After compaction** | Immediately note what context may have been lost. Check continuity. |
+
+**What to flush:**
+- Decisions made and their reasoning
+- Action items and who owns them  
+- Open questions or threads
+- Anything you'd need to continue the conversation
+
+**Memory Flush Checklist:**
 ```markdown
-## Memory Flush Checklist
 - [ ] Key decisions documented in daily notes?
 - [ ] Action items captured?
 - [ ] New learnings written to appropriate files?
 - [ ] Open loops noted for follow-up?
+- [ ] Could future-me continue this conversation from notes alone?
 ```
 
-**Signs compaction is coming:**
-- Long back-and-forth conversation
-- Multiple complex tasks in one session
-- You've made important decisions together
-
-**The Rule:** If it's important enough to remember, write it down NOW — not later. Don't assume future-you will have this conversation in context.
+**The Rule:** If it's important enough to remember, write it down NOW — not later. Don't assume future-you will have this conversation in context. Check your context usage. Act on thresholds, not vibes.
 
 ### 2. Security Hardening
 

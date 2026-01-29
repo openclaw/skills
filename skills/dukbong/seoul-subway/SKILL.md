@@ -1,7 +1,7 @@
 ---
 name: seoul-subway
-description: Seoul Metro real-time arrival, route search, service alerts
-metadata: {"moltbot":{"emoji":"🚇","requires":{"bins":["curl","jq"]},"config":{"requiredEnv":["SEOUL_OPENAPI_KEY","DATA_GO_KR_KEY"]}}}
+description: Seoul Metro assistant for real-time arrivals, route planning, and service alerts (Korean/English)
+metadata: {"moltbot":{"emoji":"🚇","requires":{"bins":["curl","jq"],"env":["SEOUL_OPENAPI_KEY","DATA_GO_KR_KEY"]},"primaryEnv":"SEOUL_OPENAPI_KEY"}}
 homepage: https://github.com/dukbong/seoul-subway
 user-invocable: true
 ---
@@ -25,6 +25,10 @@ Query real-time Seoul Metro information.
 |----------|-------|----------|
 | `SEOUL_OPENAPI_KEY` | Arrival info, station search | data.seoul.go.kr |
 | `DATA_GO_KR_KEY` | Route search, alerts | data.go.kr |
+
+**How to get API keys:**
+1. **SEOUL_OPENAPI_KEY**: Sign up at [data.seoul.go.kr](https://data.seoul.go.kr), go to "My Page" > "API Key Management"
+2. **DATA_GO_KR_KEY**: Sign up at [data.go.kr](https://www.data.go.kr), search for the API service, and request access
 
 ---
 
@@ -410,4 +414,38 @@ Time: 38 min | Distance: 22.1 km | Fare: 1,650 KRW | Transfers: 1
 ```
 Error: Station not found.
 Try searching with "Gangnam" (station name only).
+```
+
+### API Key Errors
+
+**Korean:**
+```
+오류: API 인증키가 설정되지 않았습니다.
+환경 변수를 설정해주세요: SEOUL_OPENAPI_KEY
+
+발급 안내:
+- 서울열린데이터광장: https://data.seoul.go.kr
+- 공공데이터포털: https://www.data.go.kr
+```
+
+**English:**
+```
+Error: API key is not configured.
+Please set environment variable: SEOUL_OPENAPI_KEY
+
+Get your API key:
+- Seoul Open Data Plaza: https://data.seoul.go.kr
+- Korea Public Data Portal: https://www.data.go.kr
+```
+
+**Korean:**
+```
+오류: API 인증키가 유효하지 않습니다.
+인증키를 확인해주세요.
+```
+
+**English:**
+```
+Error: Invalid API key.
+Please verify your API key.
 ```

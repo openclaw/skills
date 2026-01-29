@@ -3,9 +3,15 @@
   "slug": "seoul-subway",
   "displayName": "Seoul Subway",
   "latest": {
-    "version": "0.1.2",
-    "publishedAt": 1769623591891,
-    "commit": "https://github.com/clawdbot/skills/commit/2f3be9b57d7cc99483a31baea5e7bb31bd1ce716"
+    "version": "0.1.3",
+    "publishedAt": 1769647766244,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "0.1.2",
+      "publishedAt": 1769623591891,
+      "commit": "https://github.com/clawdbot/skills/commit/2f3be9b57d7cc99483a31baea5e7bb31bd1ce716"
+    }
+  ]
 }

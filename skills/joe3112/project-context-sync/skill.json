@@ -1,0 +1,12 @@
+{
+  "name": "project-context-sync",
+  "version": "0.1.0",
+  "description": "Auto-update project context documentation after each commit for agent continuity",
+  "author": "Joe & George",
+  "keywords": ["git", "context", "documentation", "memory", "commits"],
+  "scripts": {
+    "install": "scripts/install.sh",
+    "uninstall": "scripts/uninstall.sh",
+    "update": "scripts/update-context.sh"
+  }
+}

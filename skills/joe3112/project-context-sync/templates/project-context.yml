@@ -1,0 +1,21 @@
+# project-context-sync configuration
+# See: https://github.com/clawdbot/skills/project-context-sync
+
+project_context:
+  # Use AI to generate smart summaries
+  # true: Rich context with inferred focus and suggestions (uses tokens)
+  # false: Raw git info only (fast, free)
+  ai_summary: true
+  
+  # How many recent commits to show
+  recent_commits: 5
+  
+  # Include file change stats in output
+  include_diff_stats: true
+  
+  # Sections to include in PROJECT_STATE.md
+  sections:
+    - last_commit       # Always included
+    - recent_changes    # Recent commit list
+    - current_focus     # AI-generated (requires ai_summary: true)
+    - suggested_next    # AI-generated (requires ai_summary: true)

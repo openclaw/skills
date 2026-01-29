@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-auth-check",
-  "displayName": "Ai Auth Check",
+  "displayName": "Auth Security Scanner",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769657776790,
-    "commit": "https://github.com/clawdbot/skills/commit/5f6b8a0b399eab80e69691cbf5971a826c08bfef"
+    "version": "1.0.2",
+    "publishedAt": 1769664905420,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769657776790,
+      "commit": "https://github.com/clawdbot/skills/commit/5f6b8a0b399eab80e69691cbf5971a826c08bfef"
+    }
+  ]
 }

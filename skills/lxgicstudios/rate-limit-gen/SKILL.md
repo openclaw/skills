@@ -74,3 +74,10 @@ Takes your plain English rate limit rules and generates configuration for rate l
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/rate-limit-gen](https://github.com/lxgicstudios/rate-limit-gen)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

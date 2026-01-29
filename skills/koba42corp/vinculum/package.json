@@ -1,0 +1,47 @@
+{
+  "name": "clawdbot-vinculum",
+  "version": "1.0.0",
+  "description": "Shared consciousness between Clawdbot instances using Gun.js P2P sync",
+  "main": "scripts/index.js",
+  "bin": {
+    "vinculum": "./scripts/cli.js",
+    "vinculum-relay": "./scripts/relay-simple.js"
+  },
+  "scripts": {
+    "test": "node tests/run.js",
+    "cli": "node scripts/cli.js",
+    "postinstall": "echo '✅ Vinculum installed. Use /link relay start to begin.'",
+    "relay:start": "node scripts/cli.js relay start",
+    "relay:stop": "node scripts/cli.js relay stop",
+    "relay:status": "node scripts/cli.js relay status"
+  },
+  "keywords": [
+    "clawdbot",
+    "vinculum",
+    "gun",
+    "p2p",
+    "sync",
+    "collective",
+    "shared-consciousness",
+    "multi-agent",
+    "real-time"
+  ],
+  "author": "Koba42 Corp",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koba42/clawdbot-vinculum"
+  },
+  "bugs": {
+    "url": "https://github.com/koba42/clawdbot-vinculum/issues"
+  },
+  "homepage": "https://github.com/koba42/clawdbot-vinculum#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "gun": "^0.2020.1240",
+    "ws": "^8.18.0",
+    "yaml": "^2.8.2"
+  }
+}

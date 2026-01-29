@@ -1,0 +1,35 @@
+# Vinculum Default Configuration
+# Shared consciousness for Clawdbot instances
+# Override in ~/.config/clawdbot/vinculum.yaml
+
+# Whether the link is enabled
+enabled: false
+
+# This drone's designation
+drone_name: "Clawdbot"
+
+# Collective settings
+collective: null
+peers: []
+
+# What to share with the collective
+share:
+  activity: true
+  memory: true
+  decisions: true
+
+# Link behavior
+sync_interval: 30  # seconds
+auto_sync: true
+
+# Vinculum relay daemon
+relay:
+  auto_start: true   # Auto-start relay on init
+  port: 8765         # Subspace relay port
+  multicast: true    # Enable local network discovery
+
+# Storage
+data_dir: "~/.local/share/clawdbot/vinculum"
+
+# Logging
+log_level: "info"

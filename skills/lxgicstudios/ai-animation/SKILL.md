@@ -77,3 +77,10 @@ Takes your natural language description and translates it into animation primiti
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-animation](https://github.com/lxgicstudios/ai-animation)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

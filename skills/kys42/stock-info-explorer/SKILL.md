@@ -12,19 +12,19 @@ A comprehensive financial data exploration tool powered by Yahoo Finance.
 ### 1. Real-time Quotes (`price`)
 Get instant price updates and market status.
 ```bash
-uv run --script scripts/yf price [TICKER]
+uv run --script scripts/yf.py price [TICKER]
 ```
 
 ### 2. Professional Charts (`pro`)
 Generate high-resolution PNG charts with Volume and Moving Averages.
-- **Candlestick**: `uv run --script scripts/yf pro [TICKER] [PERIOD]`
-- **Line Chart**: `uv run --script scripts/yf pro [TICKER] [PERIOD] line`
+- **Candlestick**: `uv run --script scripts/yf.py pro [TICKER] [PERIOD]`
+- **Line Chart**: `uv run --script scripts/yf.py pro [TICKER] [PERIOD] line`
 - **Periods**: `1mo`, `3mo`, `6mo`, `1y`, `5y`, `max`, etc.
 
 ### 3. Fundamental Analysis (`fundamentals`)
 Deep dive into valuation: Market Cap, PE, EPS, ROE, and Profit Margins.
 ```bash
-uv run --script scripts/yf fundamentals [TICKER]
+uv run --script scripts/yf.py fundamentals [TICKER]
 ```
 
 ### 4. Earnings & Estimates (`earnings`)

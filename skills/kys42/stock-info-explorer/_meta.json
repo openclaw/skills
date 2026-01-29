@@ -3,9 +3,15 @@
   "slug": "stock-info-explorer",
   "displayName": "Stock Information Explorer",
   "latest": {
-    "version": "1.2.2",
-    "publishedAt": 1769671960284,
-    "commit": "https://github.com/clawdbot/skills/commit/e9863d16633c8eccc82e18a6b1ff0ec939f2222e"
+    "version": "1.2.8",
+    "publishedAt": 1769672361195,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.2.2",
+      "publishedAt": 1769671960284,
+      "commit": "https://github.com/clawdbot/skills/commit/e9863d16633c8eccc82e18a6b1ff0ec939f2222e"
+    }
+  ]
 }

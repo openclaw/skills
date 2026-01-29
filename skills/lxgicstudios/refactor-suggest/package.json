@@ -1,0 +1,47 @@
+{
+  "name": "ai-refactor",
+  "version": "1.0.0",
+  "description": "Analyze code and get refactoring suggestions with before/after diffs",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-refactor": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "ai",
+    "openai",
+    "gpt",
+    "refactor",
+    "refactoring",
+    "code-review",
+    "code-quality",
+    "clean-code",
+    "diff",
+    "developer-tools",
+    "cli",
+    "automation",
+    "typescript",
+    "nodejs"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "openai": "^4.73.0",
+    "ora": "^5.4.1",
+    "glob": "^11.0.0",
+    "diff": "^7.0.0",
+    "chalk": "^4.1.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0",
+    "@types/diff": "^6.0.0"
+  },
+  "author": "LXGIC Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxgicstudios/ai-refactor"
+  }
+}

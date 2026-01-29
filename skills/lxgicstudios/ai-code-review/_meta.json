@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-code-review",
-  "displayName": "Ai Code Review",
+  "displayName": "Code Review Assistant",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769658227598,
-    "commit": "https://github.com/clawdbot/skills/commit/88264a2be9d13b1c39faf548f8f792425acc4900"
+    "version": "1.0.1",
+    "publishedAt": 1769665387329,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769658227598,
+      "commit": "https://github.com/clawdbot/skills/commit/88264a2be9d13b1c39faf548f8f792425acc4900"
+    }
+  ]
 }

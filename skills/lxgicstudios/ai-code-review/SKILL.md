@@ -46,3 +46,10 @@ One of 110+ free developer tools from LXGIC Studios. No paywalls, no sign-ups.
 ## License
 
 MIT. Free forever.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-code-review](https://github.com/lxgicstudios/ai-code-review)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

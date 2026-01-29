@@ -74,3 +74,10 @@ Takes your experience description and generates a professionally formatted resum
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/resume-gen](https://github.com/lxgicstudios/resume-gen)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

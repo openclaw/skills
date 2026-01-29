@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "resume-gen",
-  "displayName": "Resume Generator",
+  "displayName": "Developer Resume Builder",
   "latest": {
-    "version": "1.0.1",
-    "publishedAt": 1769632831792,
-    "commit": "https://github.com/clawdbot/skills/commit/8a16c0383d5cf7649279da7429ed35fd3f23ee99"
+    "version": "1.0.2",
+    "publishedAt": 1769666774812,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.1",
+      "publishedAt": 1769632831792,
+      "commit": "https://github.com/clawdbot/skills/commit/8a16c0383d5cf7649279da7429ed35fd3f23ee99"
+    }
+  ]
 }

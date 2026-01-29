@@ -1,0 +1,28 @@
+{
+  "name": "ai-css-to-tailwind",
+  "version": "1.0.0",
+  "description": "Convert CSS files to Tailwind utility classes using AI",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-css-to-tailwind": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": ["css", "tailwind", "convert", "ai", "cli", "utility-classes"],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "openai": "^4.73.0",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  },
+  "author": "LXGIC Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxgicstudios/ai-css-to-tailwind"
+  }
+}

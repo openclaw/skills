@@ -12,12 +12,26 @@ This skill integrates Swiggy's MCP servers into Clawdbot:
 
 ## Installation
 
+**Via ClawdHub:**
+```bash
+clawdhub install swiggy
+cd skills/swiggy
+npm link
+```
+
+**Manual:**
 ```bash
 cd ~/clawd/skills/swiggy
 npm link
 ```
 
 This makes the `swiggy` command available globally.
+
+**Verify installation:**
+```bash
+which swiggy
+swiggy  # Should show usage help
+```
 
 ## Quick Start
 

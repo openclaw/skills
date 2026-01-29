@@ -7,6 +7,16 @@ description: "Order food, groceries, and book restaurants in India via Swiggy's 
 
 Order food, groceries, and book restaurants in India via Swiggy's MCP servers.
 
+## Installation
+
+The skill includes a `swiggy` CLI binary. After installing the skill:
+```bash
+cd skills/swiggy
+npm link
+```
+
+This creates a global `swiggy` command. Verify with: `which swiggy`
+
 ## When to Use
 
 - Food delivery: "Order biryani", "What's open late?", "Team lunch for 8"

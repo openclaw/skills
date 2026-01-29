@@ -1,11 +1,18 @@
 {
   "name": "clawdbot-skill-swiggy",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "Swiggy integration for Clawdbot - order food, groceries, and book restaurants in India",
   "main": "bin/swiggy",
   "bin": {
-    "swiggy": "./bin/swiggy"
+    "swiggy": "./swiggy-cli.js"
   },
+  "files": [
+    "bin",
+    "lib",
+    "SKILL.md",
+    "README.md",
+    "swiggy-cli.js"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

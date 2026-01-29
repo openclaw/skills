@@ -3,9 +3,15 @@
   "slug": "swiggy",
   "displayName": "Swiggy",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769615562738,
-    "commit": "https://github.com/clawdbot/skills/commit/c32ae614e2f98845036b18c04321351d6e25b470"
+    "version": "1.0.5",
+    "publishedAt": 1769664601572,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769615562738,
+      "commit": "https://github.com/clawdbot/skills/commit/c32ae614e2f98845036b18c04321351d6e25b470"
+    }
+  ]
 }

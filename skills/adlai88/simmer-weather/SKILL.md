@@ -5,7 +5,7 @@ metadata: {"clawdbot":{"emoji":"🌡️","requires":{"env":["SIMMER_API_KEY"]},"
 authors:
   - Simmer (@simmer_markets)
 attribution: "Strategy inspired by gopfan2"
-version: "1.1.0"
+version: "1.3.0"
 ---
 
 # Simmer Weather Trading
@@ -21,8 +21,15 @@ Use this skill when the user wants to:
 - Check their weather trading positions
 - Configure trading thresholds or locations
 
-## What's New in v1.1.0
+## What's New in v1.2.0
 
+- **Max Trades Per Run**: New `SIMMER_WEATHER_MAX_TRADES` config to limit trades per scan cycle (default: 5)
+
+### v1.1.1
+- **Status Script**: New `scripts/status.py` for quick balance and position checks
+- **API Reference**: Added Quick Commands section with API endpoints
+
+### v1.1.0
 - **Source Tagging**: All trades tagged with `sdk:weather` for portfolio tracking
 - **Smart Sizing**: Position sizing based on available balance (`--smart-sizing`)
 - **Context Safeguards**: Checks for flip-flop warnings, slippage, time decay
@@ -53,10 +60,27 @@ When user asks to install or configure this skill:
 | Entry threshold | `SIMMER_WEATHER_ENTRY` | 0.15 | Buy when price below this |
 | Exit threshold | `SIMMER_WEATHER_EXIT` | 0.45 | Sell when price above this |
 | Max position | `SIMMER_WEATHER_MAX_POSITION` | 2.00 | Maximum USD per trade |
+| Max trades/run | `SIMMER_WEATHER_MAX_TRADES` | 5 | Maximum trades per scan cycle |
 | Locations | `SIMMER_WEATHER_LOCATIONS` | NYC | Comma-separated cities |
 | Smart sizing % | `SIMMER_WEATHER_SIZING_PCT` | 0.05 | % of balance per trade |
 
 **Supported locations:** NYC, Chicago, Seattle, Atlanta, Dallas, Miami
+
+## Quick Commands
+
+```bash
+# Check account balance and positions
+python scripts/status.py
+
+# Detailed position list
+python scripts/status.py --positions
+```
+
+**API Reference:**
+- Base URL: `https://api.simmer.markets`
+- Auth: `Authorization: Bearer $SIMMER_API_KEY`
+- Portfolio: `GET /api/sdk/portfolio`
+- Positions: `GET /api/sdk/positions`
 
 ## Running the Skill
 

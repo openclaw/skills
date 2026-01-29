@@ -528,28 +528,67 @@ function decodeInvoiceLocal(bolt11) {
   return { amountSats: Math.round(amountSats), invoice: bolt11 };
 }
 
-async function decodeInvoice(node, bolt11) {
+async function decodeInvoice(node, destination) {
   try {
-    // Use regex to extract basic info if decode not available
-    const amountMatch = bolt11.match(/lnbc(\d+)([munp]?)/i);
-    let amount = 0;
-    if (amountMatch) {
-      const num = parseInt(amountMatch[1]);
-      const unit = amountMatch[2] || '';
-      switch (unit) {
-        case 'm': amount = num * 100000; break;
-        case 'u': amount = num * 100; break;
-        case 'n': amount = num / 10; break;
-        case 'p': amount = num / 10000; break;
-        default: amount = num;
-      }
+    // Detect type using LNI
+    let payType;
+    try {
+      payType = lni.detectPaymentType(destination);
+    } catch (e) {
+      payType = 'unknown';
     }
-    
-    console.log('⚡ Invoice Details');
-    console.log('='.repeat(40));
-    console.log(`Amount: ~${Math.round(amount)} sats`);
-    console.log(`Invoice: ${bolt11.substring(0, 40)}...`);
-    return { amountSat: amount, invoice: bolt11 };
+
+    // Try native node decode first (works for BOLT11, BOLT12, and more)
+    try {
+      const decoded = await node.node.decode(destination);
+      const result = typeof decoded === 'string' ? JSON.parse(decoded) : decoded;
+
+      console.log('⚡ Decoded Payment');
+      console.log('='.repeat(40));
+      console.log(`Type: ${result.type || payType}`);
+      console.log(`Valid: ${result.valid ? '✅' : '❌'}`);
+
+      if (result.offer_id) console.log(`Offer ID: ${result.offer_id}`);
+      if (result.offer_description) console.log(`Description: ${result.offer_description}`);
+      if (result.offer_node_id) console.log(`Node ID: ${result.offer_node_id}`);
+      if (result.offer_amount_msat) {
+        const sats = Math.floor(parseInt(result.offer_amount_msat) / 1000);
+        console.log(`Amount: ${sats.toLocaleString()} sats`);
+      }
+      if (result.invreq_amount_msat) {
+        const sats = Math.floor(parseInt(result.invreq_amount_msat) / 1000);
+        console.log(`Requested Amount: ${sats.toLocaleString()} sats`);
+      }
+      if (result.invoice_amount_msat) {
+        const sats = Math.floor(parseInt(result.invoice_amount_msat) / 1000);
+        console.log(`Invoice Amount: ${sats.toLocaleString()} sats`);
+      }
+      if (result.invoice_payment_hash) console.log(`Payment Hash: ${result.invoice_payment_hash}`);
+
+      // Blinded paths info
+      if (result.offer_paths && result.offer_paths.length > 0) {
+        console.log(`Blinded Paths: ${result.offer_paths.length}`);
+        for (let i = 0; i < result.offer_paths.length; i++) {
+          const p = result.offer_paths[i];
+          const hops = p.path ? p.path.length : 0;
+          console.log(`  Path ${i + 1}: ${hops} hop${hops !== 1 ? 's' : ''}, first node: ${(p.first_node_id || '').substring(0, 20)}...`);
+        }
+      }
+
+      return result;
+    } catch (e) {
+      // Fall back to local BOLT11 regex parsing
+      if (payType === 'bolt11') {
+        const decoded = decodeInvoiceLocal(destination);
+        console.log('⚡ Invoice Details');
+        console.log('='.repeat(40));
+        console.log(`Type: BOLT11`);
+        console.log(`Amount: ~${decoded.amountSats.toLocaleString()} sats`);
+        console.log(`Invoice: ${destination.substring(0, 40)}...`);
+        return decoded;
+      }
+      throw e;
+    }
   } catch (e) {
     console.error(`❌ Failed to decode: ${e.message}`);
     throw e;
@@ -565,6 +604,15 @@ async function listTransactions(node, limit = 10) {
     };
     
     const txns = await node.node.listTransactions(params);
+    
+    // Sort by settledAt descending (newest first), unsettled at the end
+    txns.sort((a, b) => {
+      if (a.settledAt && b.settledAt) return b.settledAt - a.settledAt;
+      if (a.settledAt && !b.settledAt) return -1;
+      if (!a.settledAt && b.settledAt) return 1;
+      return 0;
+    });
+    
     console.log(`⚡ Recent Transactions (${txns.length})`);
     console.log('='.repeat(40));
     
@@ -782,12 +830,18 @@ Example config:
         break;
       
       case 'decode':
-        const invoice = args[1];
-        if (!invoice) {
-          console.error('Usage: lightning.js decode <bolt11_invoice>');
+        let decodeDest = args[1];
+        if (!decodeDest) {
+          console.error('Usage: lightning.js decode <bolt11|bolt12|contact>');
           process.exit(1);
         }
-        await decodeInvoice(node, invoice);
+        // Resolve contact name
+        const decodeResolved = resolveContact(decodeDest);
+        if (decodeResolved.contact) {
+          console.log(`📇 Contact: ${decodeResolved.contact.name}`);
+          decodeDest = decodeResolved.destination;
+        }
+        await decodeInvoice(node, decodeDest);
         break;
       
       case 'history':

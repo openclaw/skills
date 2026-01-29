@@ -1,0 +1,21 @@
+{
+  "name": "canva-skill",
+  "version": "1.0.0",
+  "description": "Canva integration skill for Clawdbot/Moltbot. Create, export, and manage designs via the Connect API.",
+  "keywords": ["canva", "design", "moltbot", "clawdbot", "skill", "api", "instagram", "social-media"],
+  "author": "Meow_Cat (github.com/abgohel)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/abgohel/canva-skill"
+  },
+  "homepage": "https://github.com/abgohel/canva-skill#readme",
+  "bugs": {
+    "url": "https://github.com/abgohel/canva-skill/issues"
+  },
+  "clawdbot": {
+    "skillFile": "SKILL.md",
+    "category": "design",
+    "emoji": "🎨"
+  }
+}

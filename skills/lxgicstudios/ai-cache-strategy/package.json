@@ -1,0 +1,14 @@
+{
+  "name": "ai-cache-strategy",
+  "version": "1.0.0",
+  "description": "Get AI-powered caching strategy suggestions for your API",
+  "main": "dist/index.js",
+  "bin": { "ai-cache-strategy": "dist/cli.js" },
+  "scripts": { "build": "tsc" },
+  "keywords": ["caching","performance","ai","cli","api"],
+  "license": "MIT",
+  "dependencies": { "commander": "^12.1.0", "openai": "^4.73.0", "ora": "^5.4.1", "glob": "^10.3.0" },
+  "devDependencies": { "typescript": "^5.6.0", "@types/node": "^22.0.0" },
+  "author": "LXGIC Studios",
+  "repository": { "type": "git", "url": "https://github.com/LXGIC-Studios/ai-cache-strategy" }
+}

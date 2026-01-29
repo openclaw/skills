@@ -56,3 +56,10 @@ Node.js 18+. OPENAI_API_KEY required. Must have active merge conflicts.
 ## License
 
 MIT. Free forever.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-merge-resolve](https://github.com/lxgicstudios/ai-merge-resolve)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

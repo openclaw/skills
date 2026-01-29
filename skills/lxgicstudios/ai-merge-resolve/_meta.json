@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-merge-resolve",
-  "displayName": "Ai Merge Resolve",
+  "displayName": "Merge Conflict Resolver",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769657919158,
-    "commit": "https://github.com/clawdbot/skills/commit/e146b720c385f4e70ae0b268e9b24b3f4fd7e308"
+    "version": "1.0.1",
+    "publishedAt": 1769666144478,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769657919158,
+      "commit": "https://github.com/clawdbot/skills/commit/e146b720c385f4e70ae0b268e9b24b3f4fd7e308"
+    }
+  ]
 }

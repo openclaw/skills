@@ -87,8 +87,44 @@ def resolve_default_car_name():
     return name.strip() if isinstance(name, str) and name.strip() else None
 
 
+def _select_vehicle(vehicles, target_name: str):
+    """Select a vehicle from a list by name (exact/partial) or 1-based index.
+
+    - Exact match is case-insensitive.
+    - If no exact match, a case-insensitive *substring* match is attempted.
+    - If target_name is a digit (e.g., "1"), it's treated as a 1-based index.
+    """
+    if not vehicles:
+        return None
+
+    if not target_name:
+        return vehicles[0]
+
+    s = target_name.strip()
+    if s.isdigit():
+        idx = int(s) - 1
+        if 0 <= idx < len(vehicles):
+            return vehicles[idx]
+        return None
+
+    s_l = s.lower()
+
+    # 1) Exact match (case-insensitive)
+    for v in vehicles:
+        if v.get('display_name', '').lower() == s_l:
+            return v
+
+    # 2) Substring match (case-insensitive)
+    matches = [v for v in vehicles if s_l in v.get('display_name', '').lower()]
+    if len(matches) == 1:
+        return matches[0]
+
+    # Ambiguous / not found
+    return None
+
+
 def get_vehicle(tesla, name: str = None):
-    """Get vehicle by name, else default car, else first vehicle."""
+    """Get vehicle by name/index, else default car, else first vehicle."""
     vehicles = tesla.vehicle_list()
     if not vehicles:
         print("❌ No vehicles found on this account", file=sys.stderr)
@@ -97,11 +133,18 @@ def get_vehicle(tesla, name: str = None):
     target_name = name or resolve_default_car_name()
 
     if target_name:
-        for v in vehicles:
-            if v['display_name'].lower() == target_name.lower():
-                return v
+        selected = _select_vehicle(vehicles, target_name)
+        if selected:
+            return selected
+
+        # Give a more helpful error (and show numeric indices too).
+        options = "\n".join(
+            f"   {i+1}. {v.get('display_name')}" for i, v in enumerate(vehicles)
+        )
         print(
-            f"❌ Vehicle '{target_name}' not found. Available: {', '.join(v['display_name'] for v in vehicles)}",
+            f"❌ Vehicle '{target_name}' not found (or ambiguous).\n"
+            "   Tip: you can pass --car with a partial name (substring match) or a 1-based index.\n"
+            f"Available vehicles:\n{options}",
             file=sys.stderr,
         )
         sys.exit(1)
@@ -109,11 +152,30 @@ def get_vehicle(tesla, name: str = None):
     return vehicles[0]
 
 
-def wake_vehicle(vehicle):
-    """Wake vehicle if asleep."""
-    if vehicle['state'] != 'online':
+def wake_vehicle(vehicle, allow_wake: bool = True) -> bool:
+    """Wake vehicle if asleep.
+
+    Returns True if the vehicle is (or becomes) online.
+    If allow_wake is False and the vehicle is not online, returns False.
+    """
+    state = vehicle.get('state')
+    if state == 'online':
+        return True
+
+    if not allow_wake:
+        return False
+
+    try:
         print("⏳ Waking vehicle...", file=sys.stderr)
         vehicle.sync_wake_up()
+        return True
+    except Exception as e:
+        print(
+            f"❌ Failed to wake vehicle (state was: {state}). Try again, or run: python3 scripts/tesla.py wake\n"
+            f"   Details: {e}",
+            file=sys.stderr,
+        )
+        sys.exit(1)
 
 
 def cmd_auth(args):
@@ -204,6 +266,31 @@ def _fmt_temp_pair(c):
     return f"{c}°C ({f:.0f}°F)"
 
 
+def _bar_to_psi(bar):
+    """Convert bar to PSI.
+
+    Tesla APIs commonly return tire pressures in bar.
+    """
+    try:
+        return float(bar) * 14.5037738
+    except Exception:
+        return None
+
+
+def _fmt_tire_pressure(bar):
+    """Format tire pressure as "X.X bar (Y psi)"."""
+    if bar is None:
+        return None
+    try:
+        b = float(bar)
+    except Exception:
+        return None
+    psi = _bar_to_psi(b)
+    if psi is None:
+        return None
+    return f"{b:.2f} bar ({psi:.0f} psi)"
+
+
 def _fmt_minutes_hhmm(minutes):
     """Format minutes-from-midnight as HH:MM.
 
@@ -233,6 +320,10 @@ def _report(vehicle, data):
     locked = vs.get('locked')
     if locked is not None:
         lines.append(f"Locked: {_fmt_bool(locked, 'Yes', 'No')}")
+
+    sentry = vs.get('sentry_mode')
+    if sentry is not None:
+        lines.append(f"Sentry: {_fmt_bool(sentry, 'On', 'Off')}")
 
     batt = charge.get('battery_level')
     rng = charge.get('battery_range')
@@ -283,6 +374,17 @@ def _report(vehicle, data):
     if climate_on is not None:
         lines.append(f"Climate: {_fmt_bool(climate_on, 'On', 'Off')}")
 
+    # Tire pressures (TPMS) if available
+    fl = _fmt_tire_pressure(vs.get('tpms_pressure_fl'))
+    fr = _fmt_tire_pressure(vs.get('tpms_pressure_fr'))
+    rl = _fmt_tire_pressure(vs.get('tpms_pressure_rl'))
+    rr = _fmt_tire_pressure(vs.get('tpms_pressure_rr'))
+    if any([fl, fr, rl, rr]):
+        lines.append(
+            "Tires (TPMS): "
+            f"FL {fl or '(?)'} | FR {fr or '(?)'} | RL {rl or '(?)'} | RR {rr or '(?)'}"
+        )
+
     odo = vs.get('odometer')
     if odo is not None:
         lines.append(f"Odometer: {odo:.0f} mi")
@@ -290,11 +392,25 @@ def _report(vehicle, data):
     return "\n".join(lines)
 
 
+def _ensure_online_or_exit(vehicle, allow_wake: bool):
+    if wake_vehicle(vehicle, allow_wake=allow_wake):
+        return
+
+    state = vehicle.get('state')
+    name = vehicle.get('display_name', 'Vehicle')
+    print(
+        f"ℹ️ {name} is currently '{state}'. Skipping wake because --no-wake was set.\n"
+        "   Re-run without --no-wake, or run: python3 scripts/tesla.py wake",
+        file=sys.stderr,
+    )
+    sys.exit(3)
+
+
 def cmd_report(args):
     """One-screen status report."""
     tesla = get_tesla(require_email(args))
     vehicle = get_vehicle(tesla, args.car)
-    wake_vehicle(vehicle)
+    _ensure_online_or_exit(vehicle, allow_wake=not getattr(args, 'no_wake', False))
     data = vehicle.get_vehicle_data()
 
     if args.json:
@@ -309,7 +425,7 @@ def cmd_status(args):
     tesla = get_tesla(require_email(args))
     vehicle = get_vehicle(tesla, args.car)
 
-    wake_vehicle(vehicle)
+    _ensure_online_or_exit(vehicle, allow_wake=not getattr(args, 'no_wake', False))
     data = vehicle.get_vehicle_data()
 
     charge = data.get('charge_state', {})
@@ -414,8 +530,14 @@ def cmd_charge(args):
     """Control charging."""
     tesla = get_tesla(require_email(args))
     vehicle = get_vehicle(tesla, args.car)
-    wake_vehicle(vehicle)
-    
+
+    # Read-only action can skip waking the car.
+    allow_wake = True
+    if args.action == 'status':
+        allow_wake = not getattr(args, 'no_wake', False)
+
+    _ensure_online_or_exit(vehicle, allow_wake=allow_wake)
+
     if args.action == 'status':
         data = vehicle.get_vehicle_data()
         charge = data['charge_state']
@@ -463,7 +585,13 @@ def cmd_scheduled_charging(args):
     """Get/set scheduled charging (requires --yes to change)."""
     tesla = get_tesla(require_email(args))
     vehicle = get_vehicle(tesla, args.car)
-    wake_vehicle(vehicle)
+
+    # Read-only action can skip waking the car.
+    allow_wake = True
+    if args.action == 'status':
+        allow_wake = not getattr(args, 'no_wake', False)
+
+    _ensure_online_or_exit(vehicle, allow_wake=allow_wake)
 
     if args.action == 'status':
         data = vehicle.get_vehicle_data()
@@ -526,7 +654,7 @@ def cmd_location(args):
     """
     tesla = get_tesla(require_email(args))
     vehicle = get_vehicle(tesla, args.car)
-    wake_vehicle(vehicle)
+    _ensure_online_or_exit(vehicle, allow_wake=not getattr(args, 'no_wake', False))
 
     data = vehicle.get_vehicle_data()
     drive = data['drive_state']
@@ -546,6 +674,40 @@ def cmd_location(args):
     print(f"📍 {vehicle['display_name']} Location (approx): {lat_r}, {lon_r}")
     print(f"   https://www.google.com/maps?q={lat_r},{lon_r}")
     print("   (Use --yes for precise coordinates)")
+
+
+def cmd_tires(args):
+    """Show tire pressures (TPMS) (read-only)."""
+    tesla = get_tesla(require_email(args))
+    vehicle = get_vehicle(tesla, args.car)
+
+    # Read-only action can skip waking the car.
+    allow_wake = not getattr(args, 'no_wake', False)
+    _ensure_online_or_exit(vehicle, allow_wake=allow_wake)
+
+    data = vehicle.get_vehicle_data()
+    vs = data.get('vehicle_state', {})
+
+    fl = _fmt_tire_pressure(vs.get('tpms_pressure_fl'))
+    fr = _fmt_tire_pressure(vs.get('tpms_pressure_fr'))
+    rl = _fmt_tire_pressure(vs.get('tpms_pressure_rl'))
+    rr = _fmt_tire_pressure(vs.get('tpms_pressure_rr'))
+
+    if args.json:
+        print(json.dumps({
+            'tpms_pressure_fl': vs.get('tpms_pressure_fl'),
+            'tpms_pressure_fr': vs.get('tpms_pressure_fr'),
+            'tpms_pressure_rl': vs.get('tpms_pressure_rl'),
+            'tpms_pressure_rr': vs.get('tpms_pressure_rr'),
+        }, indent=2))
+        return
+
+    print(f"🚗 {vehicle['display_name']}")
+    print("Tire pressures (TPMS):")
+    print(f"  FL: {fl or '(unknown)'}")
+    print(f"  FR: {fr or '(unknown)'}")
+    print(f"  RL: {rl or '(unknown)'}")
+    print(f"  RR: {rr or '(unknown)'}")
 
 
 def cmd_trunk(args):
@@ -575,6 +737,47 @@ def cmd_windows(args):
     elif args.action == 'close':
         vehicle.command('WINDOW_CONTROL', command='close', lat=0, lon=0)
         print(f"🪟 {vehicle['display_name']} windows closed")
+
+
+def cmd_sentry(args):
+    """Get/set Sentry Mode (on/off requires --yes)."""
+    tesla = get_tesla(require_email(args))
+    vehicle = get_vehicle(tesla, args.car)
+
+    # Read-only action can skip waking the car.
+    allow_wake = True
+    if args.action == 'status':
+        allow_wake = not getattr(args, 'no_wake', False)
+
+    _ensure_online_or_exit(vehicle, allow_wake=allow_wake)
+
+    if args.action == 'status':
+        data = vehicle.get_vehicle_data()
+        sentry = data.get('vehicle_state', {}).get('sentry_mode')
+        if args.json:
+            print(json.dumps({'sentry_mode': sentry}, indent=2))
+            return
+        if sentry is None:
+            print(f"🚗 {vehicle['display_name']}\nSentry: (unknown)")
+        else:
+            print(f"🚗 {vehicle['display_name']}\nSentry: {_fmt_bool(sentry, 'On', 'Off')}")
+        return
+
+    # Mutating actions
+    require_yes(args, 'sentry')
+    wake_vehicle(vehicle)
+
+    if args.action == 'on':
+        vehicle.command('SET_SENTRY_MODE', on=True)
+        print(f"🛡️ {vehicle['display_name']} Sentry turned on")
+        return
+
+    if args.action == 'off':
+        vehicle.command('SET_SENTRY_MODE', on=False)
+        print(f"🛡️ {vehicle['display_name']} Sentry turned off")
+        return
+
+    raise ValueError(f"Unknown action: {args.action}")
 
 
 def cmd_honk(args):
@@ -663,7 +866,7 @@ def main():
         help=(
             "Safety confirmation for sensitive/disruptive actions "
             "(unlock/charge start|stop/trunk/windows/honk/flash/charge-port open|close/"
-            "scheduled-charging set|off/location precise)"
+            "scheduled-charging set|off/sentry on|off/location precise)"
         ),
     )
     
@@ -678,12 +881,15 @@ def main():
     # Status
     status_parser = subparsers.add_parser("status", help="Get vehicle status")
     status_parser.add_argument("--summary", action="store_true", help="Also print a one-line summary")
+    status_parser.add_argument("--no-wake", action="store_true", help="Do not wake the car (fails if asleep)")
 
     # Summary (alias)
-    subparsers.add_parser("summary", help="One-line status summary")
+    summary_parser = subparsers.add_parser("summary", help="One-line status summary")
+    summary_parser.add_argument("--no-wake", action="store_true", help="Do not wake the car (fails if asleep)")
 
     # Report (one-screen)
-    subparsers.add_parser("report", help="One-screen status report")
+    report_parser = subparsers.add_parser("report", help="One-screen status report")
+    report_parser.add_argument("--no-wake", action="store_true", help="Do not wake the car (fails if asleep)")
 
     # Default car
     default_parser = subparsers.add_parser("default-car", help="Set/show default vehicle name")
@@ -705,14 +911,21 @@ def main():
     charge_parser = subparsers.add_parser("charge", help="Charging control")
     charge_parser.add_argument("action", choices=["status", "start", "stop", "limit"])
     charge_parser.add_argument("value", nargs="?", help="Charge limit percent for 'limit' (e.g., 80)")
+    charge_parser.add_argument("--no-wake", action="store_true", help="(status only) Do not wake the car")
 
     # Scheduled charging
     sched_parser = subparsers.add_parser("scheduled-charging", help="Get/set scheduled charging (set/off requires --yes)")
     sched_parser.add_argument("action", choices=["status", "set", "off"], help="status|set|off")
     sched_parser.add_argument("time", nargs="?", help="Start time for 'set' as HH:MM (24-hour)")
+    sched_parser.add_argument("--no-wake", action="store_true", help="(status only) Do not wake the car")
 
     # Location
-    subparsers.add_parser("location", help="Get vehicle location (approx by default; use --yes for precise)")
+    location_parser = subparsers.add_parser("location", help="Get vehicle location (approx by default; use --yes for precise)")
+    location_parser.add_argument("--no-wake", action="store_true", help="Do not wake the car (fails if asleep)")
+
+    # Tire pressures (TPMS)
+    tires_parser = subparsers.add_parser("tires", help="Show tire pressures (TPMS)")
+    tires_parser.add_argument("--no-wake", action="store_true", help="Do not wake the car (fails if asleep)")
 
     # Trunk / frunk
     trunk_parser = subparsers.add_parser("trunk", help="Toggle trunk/frunk (requires --yes)")
@@ -721,6 +934,11 @@ def main():
     # Windows
     windows_parser = subparsers.add_parser("windows", help="Vent/close windows (requires --yes)")
     windows_parser.add_argument("action", choices=["vent", "close"], help="Action to perform")
+
+    # Sentry
+    sentry_parser = subparsers.add_parser("sentry", help="Get/set Sentry Mode (on/off requires --yes)")
+    sentry_parser.add_argument("action", choices=["status", "on", "off"], help="status|on|off")
+    sentry_parser.add_argument("--no-wake", action="store_true", help="(status only) Do not wake the car")
 
     # Honk/flash
     subparsers.add_parser("honk", help="Honk the horn")
@@ -747,8 +965,10 @@ def main():
         "charge": cmd_charge,
         "scheduled-charging": cmd_scheduled_charging,
         "location": cmd_location,
+        "tires": cmd_tires,
         "trunk": cmd_trunk,
         "windows": cmd_windows,
+        "sentry": cmd_sentry,
         "honk": cmd_honk,
         "flash": cmd_flash,
         "charge-port": cmd_charge_port,

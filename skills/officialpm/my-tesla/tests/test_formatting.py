@@ -18,6 +18,14 @@ class FormattingTests(unittest.TestCase):
         self.assertIsNone(tesla._fmt_temp_pair(None))
         self.assertEqual(tesla._fmt_temp_pair(20), "20°C (68°F)")
 
+    def test_tire_pressure_formatting(self):
+        # 2.90 bar is ~42 psi (common on Model 3)
+        psi = tesla._bar_to_psi(2.90)
+        self.assertIsNotNone(psi)
+        self.assertTrue(40 <= psi <= 45)
+        self.assertEqual(tesla._fmt_tire_pressure(2.9), "2.90 bar (42 psi)")
+        self.assertIsNone(tesla._fmt_tire_pressure(None))
+
     def test_short_status_contains_expected_bits(self):
         vehicle = {"display_name": "Test Car"}
         data = {
@@ -71,7 +79,15 @@ class FormattingTests(unittest.TestCase):
                 "scheduled_charging_pending": True,
             },
             "climate_state": {"inside_temp": 21, "outside_temp": 10, "is_climate_on": True},
-            "vehicle_state": {"locked": False, "odometer": 12345.6},
+            "vehicle_state": {
+                "locked": False,
+                "sentry_mode": True,
+                "odometer": 12345.6,
+                "tpms_pressure_fl": 2.9,
+                "tpms_pressure_fr": 2.9,
+                "tpms_pressure_rl": 2.8,
+                "tpms_pressure_rr": 2.8,
+            },
         }
 
         out = tesla._report(vehicle, data)
@@ -79,12 +95,16 @@ class FormattingTests(unittest.TestCase):
         self.assertTrue(out.startswith("🚗 Test Car"))
         self.assertIn("State: online", out)
         self.assertIn("Locked: No", out)
+        self.assertIn("Sentry: On", out)
         self.assertIn("Battery: 80% (250 mi)", out)
         self.assertIn("Charging: Charging", out)
         self.assertIn("Scheduled charging:", out)
         self.assertIn("02:00", out)
         self.assertIn("Inside:", out)
         self.assertIn("Outside:", out)
+        self.assertIn("Tires (TPMS):", out)
+        self.assertIn("FL 2.90 bar (42 psi)", out)
+        self.assertIn("RL 2.80 bar (41 psi)", out)
         self.assertIn("Odometer: 12346 mi", out)
 
     def test_round_coord(self):

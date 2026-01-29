@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.1.22 — 2026-01-28
+- UX: include TPMS tire pressures in `report` output when available.
+- Docs/privacy: remove personal default-car example from README/SKILL.
+
+## 0.1.21 — 2026-01-28
+- Reliability/privacy: remove accidentally committed Python bytecode (`__pycache__`) and sanitize unit test fixtures.
+
+## 0.1.20 — 2026-01-28
+- Improve UX: `--car` now accepts partial name (substring match) or a 1-based index from `list`.
+- Add unit tests for vehicle selection.
+
+## 0.1.19 — 2026-01-28
+- Add `tires` command to show TPMS tire pressures (read-only; supports `--no-wake`).
+
+## 0.1.18 — 2026-01-28
+- Add `sentry` command (status/on/off) with `--yes` safety gate for toggles.
+- Show Sentry state in `report` output + add a unit test for it.
+
+## 0.1.17 — 2026-01-28
+- Add unit tests for `--no-wake` behavior (wake gating + exit code).
+
+## 0.1.16 — 2026-01-28
+- Add `--no-wake` to read-only commands to avoid waking the vehicle (fails if asleep/offline).
+
 ## 0.1.15 — 2026-01-28
 - Add `charge-port` command (open/close) with `--yes` safety gate.
 

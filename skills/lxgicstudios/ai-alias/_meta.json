@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-alias",
-  "displayName": "Ai Alias",
+  "displayName": "Shell Alias Generator",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769658091602,
-    "commit": "https://github.com/clawdbot/skills/commit/16c3cc1d5dd278aab93cec56eda556cf5782ced6"
+    "version": "1.0.2",
+    "publishedAt": 1769664696480,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769658091602,
+      "commit": "https://github.com/clawdbot/skills/commit/16c3cc1d5dd278aab93cec56eda556cf5782ced6"
+    }
+  ]
 }

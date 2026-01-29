@@ -75,3 +75,10 @@ The tool parses your shell history file, counts command frequency, filters out c
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-alias](https://github.com/lxgicstudios/ai-alias)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

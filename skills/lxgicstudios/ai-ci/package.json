@@ -1,0 +1,45 @@
+{
+  "name": "ai-ci",
+  "version": "1.0.0",
+  "description": "Generates GitHub Actions CI/CD workflows from project analysis",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-ci": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": [
+    "ai",
+    "openai",
+    "gpt",
+    "ci",
+    "cd",
+    "github-actions",
+    "continuous-integration",
+    "devops",
+    "workflow",
+    "automation",
+    "developer-tools",
+    "cli",
+    "typescript",
+    "nodejs",
+    "yaml"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "glob": "^10.3.10",
+    "openai": "^4.52.0",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "@types/node": "^20.14.0"
+  },
+  "author": "LXGIC Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxgicstudios/ai-ci"
+  }
+}

@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-permission",
-  "displayName": "Ai Permission",
+  "displayName": "Permission System Generator",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769657948482,
-    "commit": "https://github.com/clawdbot/skills/commit/cef225204551412717a22eafdbc7533b5282fa93"
+    "version": "1.0.1",
+    "publishedAt": 1769666233859,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769657948482,
+      "commit": "https://github.com/clawdbot/skills/commit/cef225204551412717a22eafdbc7533b5282fa93"
+    }
+  ]
 }

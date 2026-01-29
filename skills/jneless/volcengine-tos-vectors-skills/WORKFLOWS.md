@@ -96,13 +96,23 @@ def index_documents(client, bucket_name, account_id, index_name, documents):
 
         # Batch insert every 500 vectors
         if len(vectors) >= 500:
-            client.put_vectors(bucket_name, account_id, index_name, vectors)
+            client.put_vectors(
+                vector_bucket_name=bucket_name,
+                account_id=account_id,
+                index_name=index_name,
+                vectors=vectors
+            )
             print(f"Indexed {len(vectors)} documents")
             vectors = []
 
     # Insert remaining vectors
     if vectors:
-        client.put_vectors(bucket_name, account_id, index_name, vectors)
+        client.put_vectors(
+            vector_bucket_name=bucket_name,
+            account_id=account_id,
+            index_name=index_name,
+            vectors=vectors
+        )
         print(f"Indexed {len(vectors)} documents")
 
 # Step 2: Search documents
@@ -291,9 +301,14 @@ def update_vectors(client, bucket_name, account_id, index_name, updates):
     """
     # Step 1: Delete old vectors
     keys_to_delete = [update['key'] for update in updates]
-    client.delete_vectors(bucket_name, account_id, index_name, keys_to_delete)
+    client.delete_vectors(
+        vector_bucket_name=bucket_name,
+        account_id=account_id,
+        index_name=index_name,
+        keys=keys_to_delete
+    )
     print(f"Deleted {len(keys_to_delete)} vectors")
-    
+
     # Step 2: Insert new vectors
     new_vectors = []
     for update in updates:
@@ -303,8 +318,13 @@ def update_vectors(client, bucket_name, account_id, index_name, updates):
             metadata=update.get('metadata', {})
         )
         new_vectors.append(vector)
-    
-    client.put_vectors(bucket_name, account_id, index_name, new_vectors)
+
+    client.put_vectors(
+        vector_bucket_name=bucket_name,
+        account_id=account_id,
+        index_name=index_name,
+        vectors=new_vectors
+    )
     print(f"Updated {len(new_vectors)} vectors")
 
 # Usage
@@ -336,8 +356,8 @@ def process_all_vectors(client, bucket_name, account_id, index_name,
         # List vectors
         result = client.list_vectors(
             vector_bucket_name=bucket_name,
-            account_id=account_id,
             index_name=index_name,
+            account_id=account_id,
             max_results=batch_size,
             next_token=next_token,
             return_metadata=True

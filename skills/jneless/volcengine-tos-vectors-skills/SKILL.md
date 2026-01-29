@@ -52,7 +52,12 @@ vectors = [
         metadata={'title': 'Document 1', 'category': 'tech'}
     )
 ]
-client.put_vectors('my-vectors', account_id, 'embeddings-768d', vectors)
+client.put_vectors(
+    vector_bucket_name='my-vectors',
+    account_id=account_id,
+    index_name='embeddings-768d',
+    vectors=vectors
+)
 
 # 4. Search similar vectors
 query_vector = tos.models2.VectorData(float32=[0.1] * 768)
@@ -122,7 +127,12 @@ for i in range(100):
     )
     vectors.append(vector)
 
-client.put_vectors(bucket_name, account_id, index_name, vectors)
+client.put_vectors(
+    vector_bucket_name=bucket_name,
+    account_id=account_id,
+    index_name=index_name,
+    vectors=vectors
+)
 ```
 
 **Query Similar Vectors** (KNN search)
@@ -180,7 +190,12 @@ for doc in documents:
     )
     vectors.append(vector)
 
-client.put_vectors(bucket_name, account_id, index_name, vectors)
+client.put_vectors(
+    vector_bucket_name=bucket_name,
+    account_id=account_id,
+    index_name=index_name,
+    vectors=vectors
+)
 
 # Search
 query_embedding = get_embedding(user_query)
@@ -268,7 +283,7 @@ except tos.exceptions.TosServerError as e:
 - **Vector dimensions**: 1-4096
 - **Batch insert**: 1-500 vectors per call
 - **Batch get/delete**: 1-100 vectors per call
-- **Query TopK**: 1-1000 results
+- **Query TopK**: 1-30 results
 
 ## Additional Resources
 

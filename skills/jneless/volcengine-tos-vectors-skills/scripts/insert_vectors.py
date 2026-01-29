@@ -58,7 +58,12 @@ def main():
     # Insert vectors
     print(f"Inserting {len(vectors)} vectors...")
     try:
-        client.put_vectors(bucket_name, account_id, index_name, vectors)
+        client.put_vectors(
+            vector_bucket_name=bucket_name,
+            account_id=account_id,
+            index_name=index_name,
+            vectors=vectors
+        )
         print(f"✓ Successfully inserted {len(vectors)} vectors")
         for doc in documents:
             print(f"  - {doc['id']}: {doc['title']}")

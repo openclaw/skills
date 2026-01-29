@@ -101,7 +101,7 @@ pip install tos
 - Vector dimensions: 1-4096
 - Batch insert: 1-500 vectors
 - Batch get/delete: 1-100 vectors
-- Query TopK: 1-1000 results
+- Query TopK: 1-30 results
 
 ## Support
 

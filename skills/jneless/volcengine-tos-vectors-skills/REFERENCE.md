@@ -282,7 +282,12 @@ client.list_indexes(
 Batch insert vectors into an index.
 
 ```python
-client.put_vectors(vector_bucket_name, account_id, index_name, vectors)
+client.put_vectors(
+    vector_bucket_name=vector_bucket_name,
+    account_id=account_id,
+    index_name=index_name,
+    vectors=vectors
+)
 ```
 
 **Parameters:**
@@ -313,7 +318,12 @@ vectors = [
         metadata={'title': 'Document 1'}
     )
 ]
-result = client.put_vectors('my-bucket', account_id, 'my-index', vectors)
+result = client.put_vectors(
+    vector_bucket_name='my-bucket',
+    account_id=account_id,
+    index_name='my-index',
+    vectors=vectors
+)
 ```
 
 ---
@@ -340,7 +350,7 @@ client.query_vectors(
 - `account_id` (str): Account ID
 - `index_name` (str): Index name
 - `query_vector` (VectorData): Query vector
-- `top_k` (int): Number of results (1-1000)
+- `top_k` (int): Number of results (1-30)
 - `return_distance` (bool): Include distance scores
 - `return_metadata` (bool): Include metadata
 - `filter` (dict): Metadata filter (e.g., `{"$and": [{"category": "tech"}]}`)
@@ -446,8 +456,8 @@ List vectors in an index with pagination.
 ```python
 client.list_vectors(
     vector_bucket_name,
-    account_id,
     index_name,
+    account_id,
     max_results=500,
     next_token=None,
     return_data=False,
@@ -457,8 +467,8 @@ client.list_vectors(
 
 **Parameters:**
 - `vector_bucket_name` (str): Bucket name
-- `account_id` (str): Account ID
 - `index_name` (str): Index name
+- `account_id` (str): Account ID
 - `max_results` (int): Max items (1-1000, default: 500)
 - `next_token` (str): Pagination token
 - `return_data` (bool): Include vector data
@@ -472,8 +482,8 @@ client.list_vectors(
 ```python
 result = client.list_vectors(
     vector_bucket_name='my-bucket',
-    account_id=account_id,
     index_name='my-index',
+    account_id=account_id,
     max_results=100,
     return_metadata=True
 )

@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-core-vitals",
-  "displayName": "Ai Core Vitals",
+  "displayName": "Core Web Vitals Optimizer",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769658289094,
-    "commit": "https://github.com/clawdbot/skills/commit/165c2e0d2850f919de36e9f8704332fdbdf3014f"
+    "version": "1.0.1",
+    "publishedAt": 1769665724330,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769658289094,
+      "commit": "https://github.com/clawdbot/skills/commit/165c2e0d2850f919de36e9f8704332fdbdf3014f"
+    }
+  ]
 }

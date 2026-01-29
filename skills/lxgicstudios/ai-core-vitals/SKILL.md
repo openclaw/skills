@@ -74,3 +74,10 @@ Scans your code files for common performance antipatterns, then sends them to GP
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-core-vitals](https://github.com/lxgicstudios/ai-core-vitals)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

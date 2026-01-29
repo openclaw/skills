@@ -3,9 +3,15 @@
   "slug": "stash-name-gen",
   "displayName": "Git Stash Name Generator",
   "latest": {
-    "version": "1.0.1",
-    "publishedAt": 1769632905564,
-    "commit": "https://github.com/clawdbot/skills/commit/8f699413c83bd3cc3ab28d3e99f639b6dcc1fe23"
+    "version": "1.0.2",
+    "publishedAt": 1769667047160,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.1",
+      "publishedAt": 1769632905564,
+      "commit": "https://github.com/clawdbot/skills/commit/8f699413c83bd3cc3ab28d3e99f639b6dcc1fe23"
+    }
+  ]
 }

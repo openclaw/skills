@@ -71,3 +71,10 @@ Runs git diff to see your changes, sends the diff summary to GPT-4o-mini to gene
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/stash-name-gen](https://github.com/lxgicstudios/stash-name-gen)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

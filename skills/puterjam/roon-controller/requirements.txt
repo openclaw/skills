@@ -1,0 +1,2 @@
+# Roon Control Skill Dependencies
+roonapi>=0.1.6

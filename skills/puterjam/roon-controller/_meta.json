@@ -1,0 +1,11 @@
+{
+  "owner": "puterjam",
+  "slug": "roon-controller",
+  "displayName": "Roon Controller",
+  "latest": {
+    "version": "1.0.3",
+    "publishedAt": 1769680355120,
+    "commit": null
+  },
+  "history": []
+}

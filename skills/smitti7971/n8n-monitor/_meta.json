@@ -3,9 +3,15 @@
   "slug": "n8n-monitor",
   "displayName": "N8n Monitor",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769631790658,
-    "commit": "https://github.com/clawdbot/skills/commit/346dbafe9c0a5d0cd72b9e2de1bb237b48d69169"
+    "version": "1.0.1",
+    "publishedAt": 1769632206443,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769631790658,
+      "commit": "https://github.com/clawdbot/skills/commit/346dbafe9c0a5d0cd72b9e2de1bb237b48d69169"
+    }
+  ]
 }

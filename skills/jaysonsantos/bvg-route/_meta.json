@@ -1,0 +1,11 @@
+{
+  "owner": "jaysonsantos",
+  "slug": "bvg-route",
+  "displayName": "BVG (Berliner Verkehrsbetriebe) Route Planner",
+  "latest": {
+    "version": "0.0.2",
+    "publishedAt": 1769694351279,
+    "commit": null
+  },
+  "history": []
+}

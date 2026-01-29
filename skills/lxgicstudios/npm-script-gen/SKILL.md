@@ -74,3 +74,10 @@ Takes your workflow description and generates proper npm scripts with correct sy
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/npm-script-gen](https://github.com/lxgicstudios/npm-script-gen)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

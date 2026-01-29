@@ -3,9 +3,15 @@
   "slug": "npm-script-gen",
   "displayName": "NPM Script Generator",
   "latest": {
-    "version": "1.0.1",
-    "publishedAt": 1769632848801,
-    "commit": "https://github.com/clawdbot/skills/commit/26fb4242f50527ed86d66ad45bb01693b257ef53"
+    "version": "1.0.2",
+    "publishedAt": 1769666505403,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.1",
+      "publishedAt": 1769632848801,
+      "commit": "https://github.com/clawdbot/skills/commit/26fb4242f50527ed86d66ad45bb01693b257ef53"
+    }
+  ]
 }

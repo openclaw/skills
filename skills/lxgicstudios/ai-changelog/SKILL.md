@@ -77,3 +77,10 @@ Runs git log between your specified refs, collects all commit messages, and send
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-changelog](https://github.com/lxgicstudios/ai-changelog)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

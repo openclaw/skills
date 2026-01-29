@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-changelog",
-  "displayName": "Ai Changelog",
+  "displayName": "Git Changelog Generator",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769658164117,
-    "commit": "https://github.com/clawdbot/skills/commit/705df27a8f0110fbceef649c3d8c2afa6d852678"
+    "version": "1.0.2",
+    "publishedAt": 1769665193223,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769658164117,
+      "commit": "https://github.com/clawdbot/skills/commit/705df27a8f0110fbceef649c3d8c2afa6d852678"
+    }
+  ]
 }

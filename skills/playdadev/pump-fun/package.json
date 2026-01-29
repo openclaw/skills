@@ -1,0 +1,41 @@
+{
+  "name": "pump-fun-skill",
+  "version": "1.0.0",
+  "description": "MoltBot skill for trading and launching tokens on Pump.fun",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "buy": "node dist/cli.js buy",
+    "sell": "node dist/cli.js sell",
+    "launch": "node dist/cli.js launch"
+  },
+  "keywords": [
+    "solana",
+    "pump.fun",
+    "pumpportal",
+    "moltbot",
+    "trading",
+    "defi"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0",
+    "bs58": "^6.0.0",
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PlaydaDev/pumpmolt"
+  }
+}

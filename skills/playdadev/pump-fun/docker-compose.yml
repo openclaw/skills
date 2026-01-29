@@ -1,0 +1,34 @@
+services:
+  moltbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: moltbot:local
+    container_name: moltbot
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    ports:
+      - "3000:18789"
+    volumes:
+      # Persist config so session survives container restarts
+      - moltbot-config:/home/moltuser/.moltbot
+      - moltbot-workspace:/home/moltuser/clawd
+      # Mount pump-fun-skill into moltbot skills directory
+      - .:/home/moltuser/.moltbot/skills/pump-fun-skill:ro
+    environment:
+      - NODE_ENV=production
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - CLAWDBOT_GATEWAY_TOKEN=${GATEWAY_TOKEN:-default-token}
+      - SOLANA_PRIVATE_KEY=${SOLANA_PRIVATE_KEY:-}
+      - MOLTBOT_STATE_DIR=/home/moltuser/.moltbot
+    networks:
+      - moltbot-network
+
+volumes:
+  moltbot-config:
+  moltbot-workspace:
+
+networks:
+  moltbot-network:
+    driver: bridge

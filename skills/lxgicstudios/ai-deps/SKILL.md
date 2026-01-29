@@ -74,3 +74,10 @@ Runs depcheck to find unused dependencies and npm outdated to find stale ones. S
 ## License
 
 MIT. Free forever. Use it however you want.
+
+---
+
+**Built by LXGIC Studios**
+
+- GitHub: [github.com/lxgicstudios/ai-deps](https://github.com/lxgicstudios/ai-deps)
+- Twitter: [@lxgicstudios](https://x.com/lxgicstudios)

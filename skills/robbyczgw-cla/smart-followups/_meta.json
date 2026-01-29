@@ -3,11 +3,16 @@
   "slug": "smart-followups",
   "displayName": "Smart Followups",
   "latest": {
-    "version": "1.0.4",
-    "publishedAt": 1768948563641,
-    "commit": "https://github.com/clawdbot/skills/commit/a06665dbc359ffdf16f4a0fffc8d9f9cf5490c17"
+    "version": "1.0.6",
+    "publishedAt": 1769661829644,
+    "commit": null
   },
   "history": [
+    {
+      "version": "1.0.4",
+      "publishedAt": 1768948563641,
+      "commit": "https://github.com/clawdbot/skills/commit/a06665dbc359ffdf16f4a0fffc8d9f9cf5490c17"
+    },
     {
       "version": "1.0.3",
       "publishedAt": 1768925569854,

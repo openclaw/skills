@@ -1,11 +1,17 @@
 {
   "owner": "lxgicstudios",
   "slug": "ai-sql",
-  "displayName": "Ai Sql",
+  "displayName": "SQL Query Generator",
   "latest": {
-    "version": "1.0.0",
-    "publishedAt": 1769658010528,
-    "commit": "https://github.com/clawdbot/skills/commit/85b03ee4c7583272a4165da8c0fc15a78a1881ab"
+    "version": "1.0.2",
+    "publishedAt": 1769664283230,
+    "commit": null
   },
-  "history": []
+  "history": [
+    {
+      "version": "1.0.0",
+      "publishedAt": 1769658010528,
+      "commit": "https://github.com/clawdbot/skills/commit/85b03ee4c7583272a4165da8c0fc15a78a1881ab"
+    }
+  ]
 }

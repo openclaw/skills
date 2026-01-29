@@ -1,0 +1,22 @@
+{
+    "name": "transcribee",
+    "version": "1.0.0",
+    "description": "Transcribe audio from YouTube videos",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.10.0",
+    "dependencies": {
+        "@anthropic-ai/sdk": "^0.67.0",
+        "dotenv": "^16.5.0",
+        "elevenlabs": "^1.57.0",
+        "tsx": "^4.19.4"
+    },
+    "devDependencies": {
+        "@types/node": "^22.15.12"
+    }
+}

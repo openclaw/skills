@@ -1,0 +1,28 @@
+{
+  "name": "@lxgicstudios/ai-index",
+  "version": "1.0.0",
+  "description": "Suggest database indexes from query patterns using AI",
+  "main": "dist/index.js",
+  "bin": {
+    "ai-index": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc"
+  },
+  "keywords": ["database", "index", "performance", "sql", "ai", "cli", "optimization"],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^12.1.0",
+    "openai": "^4.73.0",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.0.0"
+  },
+  "author": "LXGIC Studios",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lxgicstudios/ai-index"
+  }
+}

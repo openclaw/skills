@@ -38,6 +38,66 @@ Edit these values in `scripts/project-tree.js`:
 - `EXCLUDE_DIRS`: Directories to skip (node_modules, .git, etc.)
 - `ROOT_DIR`: Base directory to scan (default: ~/projects)
 
+## Automation (Hook)
+
+You can automate project tree updates to run on every session `/reset`.
+
+### 1. Enable Internal Hooks
+
+Add to your `clawdbot.json`:
+
+```json
+{
+  "hooks": {
+    "internal": {
+      "enabled": true
+    }
+  }
+}
+```
+
+### 2. Create the Hook
+
+Create `~/.clawdbot/hooks/reset-project-tree/HOOK.md`:
+
+```markdown
+---
+name: reset-project-tree
+description: "Generate project tree on session reset"
+metadata: {"clawdbot":{"emoji":"🌳","events":["command:reset"],"requires":{"bins":["node"]}}}
+---
+
+Generates project tree when /reset is issued.
+```
+
+Create `~/.clawdbot/hooks/reset-project-tree/handler.ts`:
+
+```typescript
+import { execSync } from 'child_process';
+import type { HookHandler } from '../../../src/hooks/hooks.js';
+
+const handler: HookHandler = async (event) => {
+  if (event.type !== 'command' || event.action !== 'reset') return;
+
+  try {
+    const scriptPath = `${event.context.workspaceDir}/skills/project-tree/scripts/project-tree.js`;
+    execSync(`node ${scriptPath}`, { cwd: event.context.workspaceDir, stdio: 'pipe' });
+    console.log('[reset-project-tree] Updated');
+  } catch (err) {
+    console.error('[reset-project-tree] Failed:', err instanceof Error ? err.message : String(err));
+  }
+};
+
+export default handler;
+```
+
+### 3. Enable and Restart
+
+```bash
+clawdbot hooks enable reset-project-tree
+clawdbot gateway restart
+```
+
 ## Resources
 
 ### scripts/

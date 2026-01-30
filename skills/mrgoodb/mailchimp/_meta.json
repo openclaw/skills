@@ -1,0 +1,11 @@
+{
+  "owner": "mrgoodb",
+  "slug": "mailchimp",
+  "displayName": "Mailchimp",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769780107628,
+    "commit": null
+  },
+  "history": []
+}

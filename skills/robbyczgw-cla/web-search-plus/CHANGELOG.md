@@ -4,9 +4,9 @@
 
 ### 📝 Documentation
 
-- Added warning about NOT using Tavily/Serper/Exa in core Moltbot config
-- Core Moltbot only supports `brave` as the built-in provider
-- This skill's providers must be used via environment variables and scripts, not `moltbot.json`
+- Added warning about NOT using Tavily/Serper/Exa in core OpenClaw config
+- Core OpenClaw only supports `brave` as the built-in provider
+- This skill's providers must be used via environment variables and scripts, not `openclaw.json`
 
 ## [2.1.0] - 2026-01-23
 

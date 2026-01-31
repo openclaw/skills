@@ -120,9 +120,58 @@ Create `~/.lightning-config.json`:
   "backend": "spark",
   "apiKey": "your-breez-api-key",
   "mnemonic": "your 12 word seed",
-  "storageDir": "/path/to/wallet/data",
+  "storageDir": "/home/clawd/lightning-data",
   "network": "mainnet"
 }
+```
+
+#### Provisioning a New Spark Wallet
+
+If the user doesn't have a Spark wallet yet, walk them through these steps:
+
+**Step 1: Generate a 12-word mnemonic seed**
+
+Use the built-in LNI helper:
+```js
+const lni = require('./lib/lni_js.node');
+const mnemonic = lni.generateMnemonic();
+console.log(mnemonic);
+```
+⚠️ Tell the user to **back up their seed phrase securely** — it controls their funds.
+
+**Step 2: Request a Breez API key**
+
+The user must request an API key from Breez for the nodeless (Spark) SDK implementation:
+
+1. Go to: https://breez.technology/request-api-key/#contact-us-form-sdk
+2. Fill in their **email** and select the **Nodeless (Greenlight)** implementation
+3. Submit the form — Breez will email the API key
+
+**Step 3: Retrieve the API key**
+
+After submitting the form, ask the user:
+> "Do you have an email skill configured (e.g., ProtonMail)? I can check your inbox for the Breez API key if you'd like."
+
+If they approve, use the email skill to search for the Breez API key email and extract it.
+
+**Step 4: Create the config**
+
+Once you have the mnemonic and API key, write `~/.lightning-config.json`:
+```json
+{
+  "backend": "spark",
+  "apiKey": "<breez-api-key>",
+  "mnemonic": "<12-word-seed>",
+  "storageDir": "/home/clawd/lightning-data",
+  "network": "mainnet"
+}
+```
+
+**Step 5: Connect and verify**
+```js
+const node = new lni.SparkNode(config);
+await node.connect();
+const info = await node.getInfo();
 ```
 
 **Strike/Blink/Speed (Custodial):**

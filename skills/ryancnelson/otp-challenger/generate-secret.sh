@@ -8,13 +8,19 @@ ISSUER="${2:-OpenClaw}"
 
 # Check if oathtool is available
 if ! command -v oathtool &> /dev/null; then
-  echo "ERROR: oathtool not found. Install with: sudo apt-get install oathtool" >&2
+  echo "ERROR: oathtool not found. Install with:" >&2
+  echo "  macOS:  brew install oath-toolkit" >&2
+  echo "  Fedora: sudo dnf install oathtool" >&2
+  echo "  Ubuntu: sudo apt-get install oathtool" >&2
   exit 1
 fi
 
 # Check if qrencode is available for QR codes
 if ! command -v qrencode &> /dev/null; then
-  echo "WARNING: qrencode not found. Install for QR codes: sudo apt-get install qrencode" >&2
+  echo "WARNING: qrencode not found. Install for QR codes:" >&2
+  echo "  macOS:  brew install qrencode" >&2
+  echo "  Fedora: sudo dnf install qrencode" >&2
+  echo "  Ubuntu: sudo apt-get install qrencode" >&2
 fi
 
 # Generate a random base32 secret (160 bits = 32 base32 chars)

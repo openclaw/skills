@@ -53,6 +53,11 @@ See **[SKILL.md](./SKILL.md)** for complete documentation:
 
 Only challenge when the action has real consequences. Think of it like `sudo` for your AI agent—use it before commands that matter.
 
+## Full Source & Tests
+
+For the complete repository with git history, test suite, and development files:
+**https://github.com/ryancnelson/otp-challenger**
+
 ## License
 
 MIT

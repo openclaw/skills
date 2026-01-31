@@ -119,7 +119,10 @@ fi
 
 # Check if oathtool is available
 if ! command -v oathtool &> /dev/null; then
-  echo "ERROR: oathtool not found. Install with: sudo apt-get install oathtool" >&2
+  echo "ERROR: oathtool not found. Install with:" >&2
+  echo "  macOS:  brew install oath-toolkit" >&2
+  echo "  Fedora: sudo dnf install oathtool" >&2
+  echo "  Ubuntu: sudo apt-get install oathtool" >&2
   exit 2
 fi
 

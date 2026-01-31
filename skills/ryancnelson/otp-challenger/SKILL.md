@@ -1,7 +1,8 @@
 ---
-name: otp
+name: otp-challenger
+version: 1.1.0
 description: Enable agents and skills to challenge users for fresh two-factor authentication proof before executing sensitive actions. Use this for identity verification in approval workflows - deploy commands, financial operations, data access, admin operations, and change control.
-metadata: {"openclaw": {"emoji": "🔐", "homepage": "https://github.com/ryancnelson/otp-skill", "requires": {"bins": ["jq", "python3"], "anyBins": ["oathtool", "node"]}, "install": [{"id": "jq", "kind": "brew", "formula": "jq", "bins": ["jq"], "label": "Install jq via Homebrew", "os": ["darwin", "linux"]}, {"id": "python3", "kind": "brew", "formula": "python3", "bins": ["python3"], "label": "Install Python 3 via Homebrew", "os": ["darwin", "linux"]}, {"id": "oathtool", "kind": "brew", "formula": "oath-toolkit", "bins": ["oathtool"], "label": "Install OATH Toolkit via Homebrew", "os": ["darwin", "linux"]}]}}
+metadata: {"openclaw": {"emoji": "🔐", "homepage": "https://github.com/ryancnelson/otp-challenger", "requires": {"bins": ["jq", "python3"], "anyBins": ["oathtool", "node"]}, "install": [{"id": "jq", "kind": "brew", "formula": "jq", "bins": ["jq"], "label": "Install jq via Homebrew", "os": ["darwin", "linux"]}, {"id": "python3", "kind": "brew", "formula": "python3", "bins": ["python3"], "label": "Install Python 3 via Homebrew", "os": ["darwin", "linux"]}, {"id": "oathtool", "kind": "brew", "formula": "oath-toolkit", "bins": ["oathtool"], "label": "Install OATH Toolkit via Homebrew", "os": ["darwin", "linux"]}]}}
 ---
 
 # OTP Identity Challenge Skill
@@ -123,11 +124,8 @@ After configuring the secret, test that everything works:
 ```
 
 ### 5. Optional: Run Test Suite
-```bash
-# If you have bats installed, run the full test suite
-bats tests/verify.bats
-bats tests/check-status.bats
-```
+
+Full test suite available at: https://github.com/ryancnelson/otp-challenger
 
 ## Usage
 
@@ -253,7 +251,7 @@ No secrets are stored in state—only timestamps.
 **Optional:**
 - **oathtool** - provides additional TOTP validation (skill has built-in generator)
 - **Node.js** - only needed for `totp.mjs` standalone CLI
-- **bats** - for running test suite
+- **bats** - for running test suite (see [full repo](https://github.com/ryancnelson/otp-challenger))
 
 ## Examples
 
@@ -335,7 +333,7 @@ MIT
 
 ## Contributing
 
-Issues and PRs welcome at: https://github.com/ryancnelson/otp-skill
+Issues and PRs welcome at: https://github.com/ryancnelson/otp-challenger
 
 ## See Also
 

@@ -217,9 +217,9 @@ Covers:
 # Get all open tasks grouped by assignee
 ./scripts/clickup-query.sh assignees
 
-# Get specific team member's tasks
-./scripts/clickup-query.sh tasks | \
-  jq '.tasks[] | select(.assignees[0].username == "user@example.com")'
+# Get specific team member's tasks (use user ID, not username!)
+curl "https://api.clickup.com/api/v2/team/{team_id}/task?subtasks=true&assignees[]={user_id}" \
+  -H "Authorization: {api_key}"
 ```
 
 ### Task Audit
@@ -249,6 +249,7 @@ Covers:
 - **Always read api-guide.md:** Contains full endpoint reference and troubleshooting
 - **Check TOOLS.md:** For workspace-specific IDs and configuration
 - **Test with small queries:** When unsure, test with `| head -n 5` first
+- **Filter by user ID:** Use `assignees[]={user_id}` parameter, not jq username matching
 
 ## Troubleshooting
 
@@ -257,3 +258,4 @@ Covers:
 - **401 Unauthorized?** → Check `CLICKUP_API_KEY` is set correctly
 - **Rate limit error?** → Wait 1 minute (100 requests/min limit)
 - **Empty assignees array?** → Task is unassigned (not an error)
+- **Assignee filter returns fewer tasks than expected?** → Use user ID in `assignees[]` param, not jq text matching

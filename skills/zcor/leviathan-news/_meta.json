@@ -1,0 +1,11 @@
+{
+  "owner": "zcor",
+  "slug": "leviathan-news",
+  "displayName": "Leviathan News",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769901480015,
+    "commit": null
+  },
+  "history": []
+}

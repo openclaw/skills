@@ -1,0 +1,11 @@
+{
+  "owner": "rdosec",
+  "slug": "tmux-2",
+  "displayName": "Tmux1",
+  "latest": {
+    "version": "0.1.2",
+    "publishedAt": 1769874944978,
+    "commit": null
+  },
+  "history": []
+}

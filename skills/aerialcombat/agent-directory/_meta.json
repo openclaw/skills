@@ -1,0 +1,11 @@
+{
+  "owner": "aerialcombat",
+  "slug": "agent-directory",
+  "displayName": "Agent Directory",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769895387151,
+    "commit": null
+  },
+  "history": []
+}

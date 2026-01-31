@@ -1,0 +1,15 @@
+{
+  "name": "isgd-shortener",
+  "version": "1.0.1",
+  "description": "Shorten URLs using is.gd (no auth required)",
+  "scripts": {
+    "shorten": "./shorten.sh"
+  },
+  "keywords": [
+    "url-shortener",
+    "is.gd",
+    "utility"
+  ],
+  "author": "Martin Kessler",
+  "license": "Apache-2.0"
+}

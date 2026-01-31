@@ -1,0 +1,11 @@
+{
+  "owner": "kesslerio",
+  "slug": "url-shortener",
+  "displayName": "URL Shortener",
+  "latest": {
+    "version": "1.0.0",
+    "publishedAt": 1769838065256,
+    "commit": null
+  },
+  "history": []
+}
